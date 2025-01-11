@@ -6,7 +6,7 @@
 }:
 {
   options.modules = {
-    syncthing.enable = lib.mkEnableOption "enables syncthing";
+    syncthing.enable = lib.mkEnableOption "Enables Syncthing";
   };
 
   config = lib.mkIf config.modules.syncthing.enable {

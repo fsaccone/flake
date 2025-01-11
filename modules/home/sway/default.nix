@@ -12,7 +12,7 @@
   ];
 
   options.modules.sway = {
-    enable = lib.mkEnableOption "enables sway configuration";
+    enable = lib.mkEnableOption "Enables the configuration for Sway";
   };
 
   config = lib.mkIf config.modules.sway.enable {

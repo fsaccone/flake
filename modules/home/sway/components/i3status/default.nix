@@ -7,7 +7,7 @@
 }:
 {
   options.modules.sway.components = {
-    i3status.enable = lib.mkEnableOption "enables i3status";
+    i3status.enable = lib.mkEnableOption "Enables i3status";
   };
 
   config = lib.mkIf config.modules.sway.components.i3status.enable {

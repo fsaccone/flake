@@ -8,7 +8,7 @@
 }:
 {
   options.modules = {
-    firefox.enable = lib.mkEnableOption "enables firefox";
+    firefox.enable = lib.mkEnableOption "Enables Firefox";
   };
 
   config = lib.mkIf config.modules.firefox.enable {

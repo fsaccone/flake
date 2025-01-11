@@ -7,7 +7,7 @@
 }:
 {
   options.modules.mediaViewers = {
-    mpv.enable = lib.mkEnableOption "enables mpv";
+    mpv.enable = lib.mkEnableOption "Enables mpv";
   };
 
   config = lib.mkIf config.modules.mediaViewers.mpv.enable {

@@ -7,7 +7,7 @@
 }:
 {
   options.modules = {
-    gpg.enable = lib.mkEnableOption "enables gpg";
+    gpg.enable = lib.mkEnableOption "Enables GnuPG";
   };
 
   config = lib.mkIf config.modules.gpg.enable {

@@ -10,7 +10,7 @@ let
 in
 {
   options.modules = {
-    neovim.enable = lib.mkEnableOption "enables neovim";
+    neovim.enable = lib.mkEnableOption "Enables Neovim";
   };
 
   config = lib.mkIf config.modules.neovim.enable {

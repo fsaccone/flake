@@ -7,7 +7,7 @@
 }:
 {
   options.modules.sway.components = {
-    alacritty.enable = lib.mkEnableOption "enables alacritty";
+    alacritty.enable = lib.mkEnableOption "Enables Alacritty";
   };
 
   config = lib.mkIf config.modules.sway.components.alacritty.enable {

@@ -11,7 +11,7 @@
   ];
 
   options.modules = {
-    mediaViewers.enable = lib.mkEnableOption "enables media viewers";
+    mediaViewers.enable = lib.mkEnableOption "Enables media viewers";
   };
 
   config.modules.mediaViewers = lib.mkIf config.modules.mediaViewers.enable {

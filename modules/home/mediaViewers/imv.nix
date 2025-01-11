@@ -7,7 +7,7 @@
 }:
 {
   options.modules.mediaViewers = {
-    imv.enable = lib.mkEnableOption "enables imv";
+    imv.enable = lib.mkEnableOption "Enables imv";
   };
 
   config = lib.mkIf config.modules.mediaViewers.imv.enable {

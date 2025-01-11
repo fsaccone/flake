@@ -7,7 +7,7 @@
 }:
 {
   options.modules = {
-    moneroWallet.enable = lib.mkEnableOption "enables monero wallet";
+    moneroWallet.enable = lib.mkEnableOption "Enables Monero wallet";
   };
 
   config = lib.mkIf config.modules.moneroWallet.enable {
