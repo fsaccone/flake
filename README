@@ -1,0 +1,9 @@
+flake
+=====
+
+Francesco Saccone's Nix flake.
+
+Required environment variables for #laptop
+------------------------------------------
+
+- SEARX_SECRET_KEY <./modules/nixos/searx/default.nix>
