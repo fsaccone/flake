@@ -11,6 +11,7 @@
     ./gpg
     ./mediaViewers
     ./moneroWallet
+    ./neomutt
     ./neovim
     ./sway
     ./syncthing
@@ -22,6 +23,7 @@
     gpg.enable = lib.mkDefault false;
     mediaViewers.enable = lib.mkDefault false;
     moneroWallet.enable = lib.mkDefault false;
+    neomutt.enable = lib.mkDefault false;
     neovim.enable = lib.mkDefault false;
     sway.enable = lib.mkDefault false;
     syncthing.enable = lib.mkDefault false;
