@@ -24,6 +24,10 @@
       enable = true;
       enableSshSupport = true;
       pinentryPackage = pkgs.pinentry-tty;
+      extraConfig = ''
+        allow-loopback-pinentry
+        no-grab
+      '';
     };
   };
 }
