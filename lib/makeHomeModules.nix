@@ -12,7 +12,10 @@ user: [
       useUserPackages = true;
       backupFileExtension = "bkp";
 
-      extraSpecialArgs = { inherit inputs; };
+      extraSpecialArgs = {
+        inherit inputs;
+        getSecretFile = import ./getSecretFile.nix;
+      };
 
       users.${user} =
         { ... }:
