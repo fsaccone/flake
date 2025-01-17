@@ -6,7 +6,7 @@ host:
 nixpkgs.lib.nixosSystem {
   specialArgs = {
     inherit inputs;
-    getSecretFile = import ./getSecretFile.nix;
+    getSecretFile = secret: ../hosts + "/${host}/secrets/${secret}.asc";
   };
   modules = [
     (../hosts + "/${host}")

@@ -14,7 +14,7 @@ user: [
 
       extraSpecialArgs = {
         inherit inputs;
-        getSecretFile = import ./getSecretFile.nix;
+        getSecretFile = secret: ../homes + "/${user}/secrets/${secret}.asc";
       };
 
       users.${user} =
