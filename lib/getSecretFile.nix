@@ -1,2 +1,1 @@
-secret : ../secrets + "/${secret}.asc"
-
+secret: ../secrets + "/${secret}.asc"

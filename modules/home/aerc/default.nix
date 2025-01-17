@@ -51,9 +51,13 @@
           };
         };
         msmtp.enable = true;
-        passwordCommand = if config.modules.gpg.enable then ''
-          ${pkgs.coreutils}/bin/cat ${getSecretFile "email"} | ${pkgs.gnupg}/bin/gpg --decrypt --recipient ${config.modules.gpg.primaryKey.fingerprint}
-        '' else lib.warn "GnuPG module not enabled: aerc won't be able to login." "";
+        passwordCommand =
+          if config.modules.gpg.enable then
+            ''
+              ${pkgs.coreutils}/bin/cat ${getSecretFile "email"} | ${pkgs.gnupg}/bin/gpg --decrypt --recipient ${config.modules.gpg.primaryKey.fingerprint}
+            ''
+          else
+            lib.warn "GnuPG module not enabled: aerc won't be able to login." "";
         primary = true;
         realName = "Francesco Saccone";
         signature = {
