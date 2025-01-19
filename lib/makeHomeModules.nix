@@ -14,7 +14,6 @@ user: [
 
       extraSpecialArgs = {
         inherit inputs;
-        getSecretFile = secret: ../homes + "/${user}/secrets/${secret}.asc";
       };
 
       users.${user} =
