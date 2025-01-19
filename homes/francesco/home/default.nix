@@ -1,14 +1,13 @@
 {
   config,
   pkgs,
-  getSecretFile,
   ...
 }:
 {
   modules = rec {
     aerc = {
       enable = true;
-      email =  rec {
+      email =  {
         address = "francesco@francescosaccone.com";
         folders = {
           drafts = "Drafts";
@@ -16,17 +15,13 @@
           sent = "Sent";
           trash = "Trash";
         };
-        imapHost = "mail.gandi.net";
-        imapTlsPort = null;
+        imapHost = "glacier.mxrouting.net";
+        imapTlsPort = 993;
         passwordCommand = ''
-          ${pkgs.coreutils}/bin/cat ${getSecretFile "email"} | ${pkgs.gnupg}/bin/gpg --decrypt --recipient ${gpg.primaryKey.fingerprint}
+          ${pkgs.coreutils}/bin/cat ${./emailPassword.asc} | ${pkgs.gnupg}/bin/gpg --decrypt --recipient ${gpg.primaryKey.fingerprint}
         '';
         realName = "Francesco Saccone";
-        signature = ''
-          ${realName}
-          francescosaccone.com
-        '';
-        smtpHost = imapHost;
+        smtpHost = "glacier.mxrouting.net";
         smtpTlsPort = 465;
         username = "francesco%40francescosaccone.com";
       };

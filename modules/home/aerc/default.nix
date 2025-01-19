@@ -63,13 +63,7 @@
         realName = lib.mkOption {
           type = lib.types.uniq lib.types.str;
           description = ''
-            The name given to the email account and used as recipient.
-          '';
-        };
-        signature = lib.mkOption {
-          type = lib.types.uniq lib.types.str;
-          description = ''
-            The signature appended by default to the end of sent emails, after a "---" line.
+            The name used as recipient.
           '';
         };
         smtpHost = lib.mkOption {
@@ -103,14 +97,19 @@
         general = {
           unsafe-accounts-conf = true;
         };
+        viewer.pager = "${pkgs.less}/bin/less --clear-screen";
+        compose.editor = "${pkgs.nano}/bin/nano";
+        filters = {
+          "text/plain" = "${pkgs.coreutils}/bin/fold -s -w 80 | ${pkgs.ccze}/bin/ccze --mode=ansi --raw-ansi";
+          "text/html" = "${pkgs.pandoc}/bin/pandoc -f html -t plain";
+        };
       };
     };
 
+
     accounts.email = {
-      accounts.${config.modules.aerc.email.realName} = {
-        aerc = {
-          enable = true;
-        };
+      accounts.${config.modules.aerc.email.address} = {
+        aerc.enable = true;
 
         inherit (config.modules.aerc.email) address folders passwordCommand realName;
 
@@ -127,15 +126,7 @@
             useStartTls = false;
           };
         };
-        msmtp.enable = true;
         primary = true;
-        signature = {
-          delimiter = ''
-            --
-          '';
-          showSignature = "append";
-          text = config.modules.aerc.email.signature;
-        };
         smtp = {
           host = config.modules.aerc.email.smtpHost;
           port = config.modules.aerc.email.smtpTlsPort;
