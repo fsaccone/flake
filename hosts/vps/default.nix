@@ -9,18 +9,23 @@
   ];
 
   modules = {
-    sudo.enable = true;
-    openssh = {
-      enable = true;
-      listen = {
+    networking = {
+      openssh = {
         enable = true;
-        port = 22;
-        authorizedKeyFiles = {
-          "admin" = [
-            ./sshKeys/francescoSaccone
-          ];
+        listen = {
+          enable = true;
+          port = 22;
+          authorizedKeyFiles = {
+            "admin" = [
+              ./sshKeys/francescoSaccone
+            ];
+          };
         };
       };
+    };
+
+    system = {
+      sudo.enable = true;
     };
   };
 
