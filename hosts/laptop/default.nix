@@ -6,36 +6,50 @@
 }:
 {
   modules = {
-    monero = {
-      enable = true;
-      mining = {
+    crypto = {
+      monero = {
         enable = true;
-        address =
-          "44UAWDBRoxtXodXboy6LKEjokehoSiHwmNhgSYEvqzbiTmUnvMcNccFNsaAp7GCbDKhu62oeiEuj9HsPtwJi1p9V26ShoDh"
-          |> lib.strings.trimWith {
-            start = true;
-            end = true;
-          };
+        mining = {
+          enable = true;
+          address =
+            "44UAWDBRoxtXodXboy6LKEjokehoSiHwmNhgSYEvqzbiTmUnvMcNccFNsaAp7GCbDKhu62oeiEuj9HsPtwJi1p9V26ShoDh"
+            |> lib.strings.trimWith {
+              start = true;
+              end = true;
+            };
+        };
       };
     };
-    networkmanager.enable = true;
-    openssh = {
-      enable = true;
-      agent.enable = true;
+
+    desktop = {
+      wayland.enable = true;
     };
-    pipewire.enable = true;
-    searx = {
-      enable = true;
-      port = 8888;
-      secretKey = builtins.getEnv "SEARX_SECRET_KEY";
+
+    multimedia = {
+      pipewire.enable = true;
     };
-    sudo.enable = true;
-    tlp.enable = true;
-    tor = {
-      enable = true;
-      socksProxyPort = 9050;
+
+    networking = {
+      networkmanager.enable = true;
+      openssh = {
+        enable = true;
+        agent.enable = true;
+      };
+      searx = {
+        enable = true;
+        port = 8888;
+        secretKey = builtins.getEnv "SEARX_SECRET_KEY";
+      };
+      tor = {
+        enable = true;
+        socksProxyPort = 9050;
+      };
     };
-    wayland.enable = true;
+
+    system = {
+      sudo.enable = true;
+      tlp.enable = true;
+    };
   };
 
   i18n.defaultLocale = "en_GB.UTF-8";

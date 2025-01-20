@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.openssh = {
+  options.modules.networking.openssh = {
     enable = lib.mkEnableOption "Enables OpenSSH";
     agent.enable = lib.mkEnableOption "Enables OpenSSH agent";
     listen = {
@@ -22,13 +22,13 @@
     };
   };
 
-  config = lib.mkIf config.modules.openssh.enable {
+  config = lib.mkIf config.modules.networking.openssh.enable {
     services.openssh =
-      if config.modules.openssh.listen.enable then
+      if config.modules.networking.openssh.listen.enable then
         {
           enable = true;
           ports = [
-            config.modules.openssh.listen.port
+            config.modules.networking.openssh.listen.port
           ];
           settings = {
             PasswordAuthentication = false;
@@ -41,16 +41,16 @@
         };
 
     networking.firewall.allowedTCPPorts =
-      if config.modules.openssh.listen.enable then
+      if config.modules.networking.openssh.listen.enable then
         [
-          config.modules.openssh.listen.port
+          config.modules.networking.openssh.listen.port
         ]
       else
         [ ];
 
     users.users =
-      if config.modules.openssh.listen.enable then
-        config.modules.openssh.listen.authorizedKeyFiles
+      if config.modules.networking.openssh.listen.enable then
+        config.modules.networking.openssh.listen.authorizedKeyFiles
         |> builtins.mapAttrs (
           user: files: {
             openssh.authorizedKeys.keyFiles = files;
@@ -60,7 +60,7 @@
         { };
 
     programs.ssh =
-      if config.modules.openssh.agent.enable then
+      if config.modules.networking.openssh.agent.enable then
         {
           startAgent = true;
           package = pkgs.openssh;

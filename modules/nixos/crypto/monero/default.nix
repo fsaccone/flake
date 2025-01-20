@@ -5,7 +5,7 @@
   ...
 }:
 {
-  options.modules.monero = {
+  options.modules.crypto.monero = {
     enable = lib.mkEnableOption "Enables Monero daemon";
     mining = {
       enable = lib.mkEnableOption "Enables Monero mining";
@@ -16,15 +16,15 @@
     };
   };
 
-  config = lib.mkIf config.modules.monero.enable {
+  config = lib.mkIf config.modules.crypto.monero.enable {
     services.monero = {
       enable = true;
 
       mining =
-        if config.modules.monero.mining.enable then
+        if config.modules.crypto.monero.mining.enable then
           {
             enable = true;
-            inherit (config.modules.monero.mining) address;
+            inherit (config.modules.crypto.monero.mining) address;
             threads = 0;
           }
         else

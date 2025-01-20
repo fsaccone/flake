@@ -6,11 +6,11 @@
   ...
 }:
 {
-  options.modules.sudo = {
+  options.modules.system.sudo = {
     enable = lib.mkEnableOption "Enables sudo";
   };
 
-  config = lib.mkIf config.modules.sudo.enable {
+  config = lib.mkIf config.modules.system.sudo.enable {
     security.sudo = {
       enable = true;
       package = pkgs.sudo;
