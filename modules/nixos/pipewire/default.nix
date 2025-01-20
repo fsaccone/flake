@@ -5,8 +5,8 @@
   ...
 }:
 {
-  options.modules = {
-    pipewire.enable = lib.mkEnableOption "Enables PipeWire";
+  options.modules.pipewire = {
+    enable = lib.mkEnableOption "Enables PipeWire";
   };
 
   config = lib.mkIf config.modules.pipewire.enable {

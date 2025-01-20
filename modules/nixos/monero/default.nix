@@ -5,8 +5,8 @@
   ...
 }:
 {
-  options.modules = {
-    monero.enable = lib.mkEnableOption "Enables Monero daemon";
+  options.modules.monero = {
+    enable = lib.mkEnableOption "Enables Monero daemon";
   };
 
   config = lib.mkIf config.modules.monero.enable {

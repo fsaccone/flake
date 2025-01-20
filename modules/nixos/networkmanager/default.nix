@@ -5,8 +5,8 @@
   ...
 }:
 {
-  options.modules = {
-    networkmanager.enable = lib.mkEnableOption "Enables NetworkManager";
+  options.modules.networkmanager = {
+    enable = lib.mkEnableOption "Enables NetworkManager";
   };
 
   config = lib.mkIf config.modules.networkmanager.enable {

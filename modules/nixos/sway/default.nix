@@ -6,8 +6,8 @@
   ...
 }:
 {
-  options.modules = {
-    sway.enable = lib.mkEnableOption "Enables Ly and Sway";
+  options.modules.sway = {
+    enable = lib.mkEnableOption "Enables Ly and Sway";
   };
 
   config = lib.mkIf config.modules.sway.enable {

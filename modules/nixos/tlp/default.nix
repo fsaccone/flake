@@ -5,8 +5,8 @@
   ...
 }:
 {
-  options.modules = {
-    tlp.enable = lib.mkEnableOption "Enable TLP";
+  options.modules.tlp = {
+    enable = lib.mkEnableOption "Enables TLP";
   };
 
   config = lib.mkIf config.modules.tlp.enable {

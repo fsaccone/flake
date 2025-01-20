@@ -6,8 +6,8 @@
   ...
 }:
 {
-  options.modules = {
-    tor.enable = lib.mkEnableOption "Enables Tor daemon";
+  options.modules.tor = {
+    enable = lib.mkEnableOption "Enables Tor daemon";
   };
 
   config = lib.mkIf config.modules.tor.enable {

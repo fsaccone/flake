@@ -5,8 +5,8 @@
   ...
 }:
 {
-  options.modules = {
-    searx.enable = lib.mkEnableOption "Enables Searx";
+  options.modules.searx = {
+    enable = lib.mkEnableOption "Enables Searx";
   };
 
   config = lib.mkIf config.modules.searx.enable {
