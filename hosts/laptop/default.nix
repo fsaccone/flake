@@ -30,6 +30,7 @@
       secretKey = builtins.getEnv "SEARX_SECRET_KEY";
     };
     sudo.enable = true;
+    tlp.enable = true;
     tor.enable = true;
     wayland.enable = true;
   };
