@@ -12,21 +12,15 @@
       primaryKey = {
         fingerprint = lib.mkOption {
           type = lib.types.uniq lib.types.str;
-          description = ''
-            The fingerprint of the primary key.
-          '';
+          description = "The fingerprint of the primary key.";
         };
         url = lib.mkOption {
           type = lib.types.uniq lib.types.str;
-          description = ''
-            The URL to the primary key file.
-          '';
+          description = "The URL to the primary key file.";
         };
         sha256 = lib.mkOption {
           type = lib.types.uniq lib.types.str;
-          description = ''
-            The SHA256 of the primary key file.
-          '';
+          description = "The SHA256 of the primary key file.";
         };
       };
     };
