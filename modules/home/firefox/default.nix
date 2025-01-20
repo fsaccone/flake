@@ -74,18 +74,6 @@
               };
             };
           };
-          bookmarks = [
-            {
-              name = "Self-hosted";
-              toolbar = true;
-              bookmarks = [
-                {
-                  name = "Syncthing";
-                  url = "http://localhost:8384";
-                }
-              ];
-            }
-          ];
           extensions = with pkgs.nur.repos.rycee.firefox-addons; [
             ublock-origin
           ];
