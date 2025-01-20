@@ -1,5 +1,6 @@
-{ nixpkgs, system }:
+{ nixpkgs }:
 {
+  system,
   overlays ? [ ],
 }:
 import nixpkgs {

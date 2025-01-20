@@ -11,7 +11,7 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    treefmt = {
+    treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -28,43 +28,48 @@
   outputs =
     inputs:
     let
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "i686-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
+      lib =
+        let
+          systems = [
+            "aarch64-linux"
+            "x86_64-linux"
+          ];
+        in
+        {
+          forEachSystem = import ./lib/forEachSystem.nix {
+            inherit (inputs) nixpkgs;
+            inherit systems;
+          };
+          forEachSystemPkgs = import ./lib/forEachSystemPkgs.nix {
+            inherit (inputs) nixpkgs;
+            inherit systems;
+          };
+          makeHost = import ./lib/makeHost.nix {
+            inherit (inputs) nixpkgs;
+            inherit inputs;
+          };
+          makeHomeModules = import ./lib/makeHomeModules.nix {
+            inherit (inputs) home-manager;
+            inherit inputs;
+          };
+          getPkgs = import ./lib/getPkgs.nix {
+            inherit (inputs) nixpkgs;
+          };
+        };
 
-      forEachSystemPkgs = import ./lib/forEachSystemPkgs.nix {
-        inherit (inputs) nixpkgs;
-        inherit systems;
-      };
-      makeHost = import ./lib/makeHost.nix {
-        inherit (inputs) nixpkgs;
-        inherit inputs;
-      };
-      makeHomeModules = import ./lib/makeHomeModules.nix {
-        inherit (inputs) home-manager;
-        inherit inputs;
-      };
-
-      treefmtEval = forEachSystemPkgs (
-        { system, pkgs }: inputs.treefmt.lib.evalModule pkgs ./treefmt.nix
+      treefmtEval = lib.forEachSystemPkgs (
+        { system, pkgs }: inputs.treefmt-nix.lib.evalModule pkgs ./treefmt.nix
       );
     in
     {
-      formatter = forEachSystemPkgs ({ system, pkgs }: treefmtEval.${system}.config.build.wrapper);
-      checks = forEachSystemPkgs (
-        { system, pkgs }:
-        {
-          formatting = treefmtEval.${system}.config.build.check inputs.self;
-        }
+      formatter = lib.forEachSystem ({ system }: treefmtEval.${system}.config.build.wrapper);
+      checks.formatting = lib.forEachSystem (
+        { system }: treefmtEval.${system}.config.build.check inputs.self
       );
 
       nixosConfigurations = {
-        "laptop" = makeHost "laptop" {
-          additionalModules = makeHomeModules "francesco" ++ [
+        "laptop" = lib.makeHost "laptop" {
+          additionalModules = lib.makeHomeModules "francesco" ++ [
             inputs.nur.modules.nixos.default
           ];
         };
