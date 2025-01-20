@@ -31,7 +31,10 @@
     };
     sudo.enable = true;
     tlp.enable = true;
-    tor.enable = true;
+    tor = {
+      enable = true;
+      socksProxyPort = 9050;
+    };
     wayland.enable = true;
   };
 

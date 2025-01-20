@@ -7,7 +7,11 @@
 }:
 {
   options.modules.tor = {
-    enable = lib.mkEnableOption "Enables Tor daemon";
+    enable = lib.mkEnableOption "Enables Tor daemon as a relay";
+    socksProxyPort = lib.mkOption {
+      type = lib.types.uniq lib.types.int;
+      description = "The local port which the SOCKS proxy listens to.";
+    };
   };
 
   config = lib.mkIf config.modules.tor.enable {
@@ -22,7 +26,7 @@
         socksListenAddress = {
           IsolateDestAddr = true;
           addr = "localhost";
-          port = 9050;
+          port = config.modules.tor.socksProxyPort;
         };
       };
       relay = {
