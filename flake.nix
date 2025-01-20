@@ -23,6 +23,10 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -71,6 +75,11 @@
         "laptop" = lib.makeHost "laptop" {
           additionalModules = lib.makeHomeModules "francesco" ++ [
             inputs.nur.modules.nixos.default
+          ];
+        };
+        "vps" = lib.makeHost "vps" {
+          additionalModules = [
+            inputs.disko.nixosModules.disko
           ];
         };
       };
