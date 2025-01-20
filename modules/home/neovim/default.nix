@@ -9,8 +9,8 @@ let
   luaFileToVim = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
 in
 {
-  options.modules = {
-    neovim.enable = lib.mkEnableOption "Enables Neovim";
+  options.modules.neovim = {
+    enable = lib.mkEnableOption "Enables Neovim";
   };
 
   config = lib.mkIf config.modules.neovim.enable {

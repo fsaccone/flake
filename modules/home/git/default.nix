@@ -6,17 +6,15 @@
   ...
 }:
 {
-  options.modules = {
-    git = {
-      enable = lib.mkEnableOption "Enables Git";
-      name = lib.mkOption {
-        type = lib.types.uniq lib.types.str;
-        description = "The name used in commits.";
-      };
-      email = lib.mkOption {
-        type = lib.types.uniq lib.types.str;
-        description = "The email used in commits.";
-      };
+  options.modules.git = {
+    enable = lib.mkEnableOption "Enables Git";
+    name = lib.mkOption {
+      type = lib.types.uniq lib.types.str;
+      description = "The name used in commits.";
+    };
+    email = lib.mkOption {
+      type = lib.types.uniq lib.types.str;
+      description = "The email used in commits.";
     };
   };
 
