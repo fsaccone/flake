@@ -4,10 +4,6 @@
   ...
 }:
 {
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
   modules = {
     fonts.enable = true;
     monero.enable = true;

@@ -9,6 +9,7 @@ nixpkgs.lib.nixosSystem {
   };
   modules = [
     (../hosts + "/${host}")
+    (../hardware + "/${host}")
     ../hosts/common
     ../modules/nixos
   ] ++ additionalModules;
