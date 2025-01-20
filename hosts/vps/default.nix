@@ -25,13 +25,9 @@
     };
 
     system = {
+      grub.enable = true;
       sudo.enable = true;
     };
-  };
-
-  boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
   };
 
   users.users.admin = {

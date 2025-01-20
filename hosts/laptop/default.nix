@@ -42,6 +42,7 @@
     };
 
     system = {
+      grub.enable = true;
       sudo.enable = true;
       tlp.enable = true;
     };
@@ -49,14 +50,6 @@
 
   i18n.defaultLocale = "en_GB.UTF-8";
   time.timeZone = "Europe/Rome";
-
-  boot.loader = {
-    timeout = 1;
-    systemd-boot = {
-      enable = true;
-      editor = false;
-    };
-  };
 
   security.pam.loginLimits = [
     {
