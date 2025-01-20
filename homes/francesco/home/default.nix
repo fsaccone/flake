@@ -42,7 +42,12 @@
     };
     mediaViewers.enable = true;
     neovim.enable = true;
-    sway.enable = true;
+    sway = {
+      enable = true;
+      fonts = {
+        monospace = "IBM Plex Mono";
+      };
+    };
   };
 
   home.packages = with pkgs; [

@@ -6,7 +6,6 @@
 }:
 {
   imports = [
-    ./fonts
     ./monero
     ./networkmanager
     ./openssh
@@ -19,7 +18,6 @@
   ];
 
   config.modules = {
-    fonts.enable = lib.mkDefault false;
     monero.enable = lib.mkDefault false;
     networkmanager.enable = lib.mkDefault false;
     openssh = {

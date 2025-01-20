@@ -13,6 +13,12 @@
 
   options.modules.sway = {
     enable = lib.mkEnableOption "Enables the configuration for Sway";
+    fonts = {
+      monospace = lib.mkOption {
+        type = lib.types.uniq lib.types.str;
+        description = "The monospace font to be used in Sway and its components.";
+      };
+    };
   };
 
   config = lib.mkIf config.modules.sway.enable {
@@ -28,7 +34,7 @@
       config = {
         fonts = {
           names = [
-            "IBM Plex Mono"
+            config.modules.sway.fonts.monospace
           ];
           style = "Regular";
           size = 12.0;
@@ -53,7 +59,7 @@
 
             fonts = {
               names = [
-                "IBM Plex Mono"
+                config.modules.sway.fonts.monospace
               ];
               style = "Regular";
               size = 12.0;
@@ -154,8 +160,8 @@
           "Mod4+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
           "Mod4+p" = ''
             exec ${pkgs.j4-dmenu-desktop}/bin/j4-dmenu-desktop --no-generic --term alacritty \
-            --dmenu='${pkgs.dmenu}/bin/dmenu -i -l 0 -p ">" -fn "IBM Plex Mono-14" -nb "#000000" -nf \
-            "#ffffff" -sb "#ffffff" -sf "#000000"'
+            --dmenu='${pkgs.dmenu}/bin/dmenu -i -l 0 -p ">" -fn "${config.modules.sway.fonts.monospace}-14" \
+            -nb "#000000" -nf "#ffffff" -sb "#ffffff" -sf "#000000"'
           '';
 
           "XF86AudioRaiseVolume" = "exec ${pkgs.alsa-utils}/bin/amixer set Master 10%+";

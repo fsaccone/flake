@@ -17,4 +17,8 @@
     createHome = true;
     home = "/home/francesco";
   };
+
+  fonts.packages = with pkgs; [
+    ibm-plex
+  ];
 }

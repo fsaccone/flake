@@ -5,7 +5,6 @@
 }:
 {
   modules = {
-    fonts.enable = true;
     monero.enable = true;
     networkmanager.enable = true;
     openssh = {

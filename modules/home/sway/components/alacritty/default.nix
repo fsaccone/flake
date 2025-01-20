@@ -22,7 +22,7 @@
         };
         font = {
           normal = {
-            family = "IBM Plex Mono";
+            family = config.modules.sway.fonts.monospace;
             style = "Regular";
           };
           size = 10;
