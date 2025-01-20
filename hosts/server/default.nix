@@ -30,6 +30,8 @@
     };
   };
 
+  networking.hostName = "francescosaccone.com";
+
   users.users.admin = {
     description = "Admin";
     hashedPassword = "$y$j9T$r6EXIhMdkO393N/WJwa6s.$05A9CJwt6PirGcPWSkDG53vTzrglRcJ8lHBO1IoO0PA";

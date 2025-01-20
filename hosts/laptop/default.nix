@@ -48,6 +48,8 @@
     };
   };
 
+  networking.hostName = "francescosaccone";
+
   i18n.defaultLocale = "en_GB.UTF-8";
   time.timeZone = "Europe/Rome";
 
