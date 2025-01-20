@@ -7,7 +7,17 @@
 }:
 {
   options.modules = {
-    git.enable = lib.mkEnableOption "Enables Git";
+    git = {
+      enable = lib.mkEnableOption "Enables Git";
+      name = lib.mkOption {
+        type = lib.types.uniq lib.types.str;
+        description = "The name used in commits.";
+      };
+      email = lib.mkOption {
+        type = lib.types.uniq lib.types.str;
+        description = "The email used in commits.";
+      };
+    };
   };
 
   config = lib.mkIf config.modules.git.enable {
@@ -15,12 +25,13 @@
       enable = true;
       package = pkgs.git;
 
-      userName = "Francesco Saccone";
-      userEmail = "francesco@francescosaccone.com";
-      signing = {
+      userName = config.modules.git.name;
+      userEmail = config.modules.git.email;
+      signing = lib.mkIf config.modules.gpg.enable {
+        key = config.modules.gpg.primaryKey.fingerprint;
         signByDefault = true;
-        key = "42616543258F1BD93E84F0DB63A0ED9A00042E8C";
       };
+
       extraConfig = {
         init.defaultBranch = "master";
       };

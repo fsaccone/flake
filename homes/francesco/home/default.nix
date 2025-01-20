@@ -27,7 +27,11 @@
       };
     };
     firefox.enable = true;
-    git.enable = true;
+    git = {
+      enable = true;
+      name = "Francesco Saccone";
+      email = "francesco@francescosaccone.com";
+    };
     gpg = {
       enable = true;
       primaryKey = {
