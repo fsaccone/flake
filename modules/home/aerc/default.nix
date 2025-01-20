@@ -12,77 +12,53 @@
       email = {
         address = lib.mkOption {
           type = lib.types.uniq lib.types.str;
-          description = ''
-            The email address.
-          '';
+          description = "The email address.";
         };
         folders = {
           drafts = lib.mkOption {
             type = lib.types.uniq lib.types.str;
-            description = ''
-              The drafts folder.
-            '';
+            description = "The drafts folder.";
           };
           inbox = lib.mkOption {
             type = lib.types.uniq lib.types.str;
-            description = ''
-              The inbox folder.
-            '';
+            description = "The inbox folder.";
           };
           sent = lib.mkOption {
             type = lib.types.uniq lib.types.str;
-            description = ''
-              The sent folder.
-            '';
+            description = "The sent folder.";
           };
           trash = lib.mkOption {
             type = lib.types.uniq lib.types.str;
-            description = ''
-              The spam folder.
-            '';
+            description = "The spam folder.";
           };
         };
         imapHost = lib.mkOption {
           type = lib.types.uniq lib.types.str;
-          description = ''
-            The IMAP server name.
-          '';
+          description = "The IMAP server name.";
         };
         imapTlsPort = lib.mkOption {
           type = lib.types.nullOr lib.types.int;
-          description = ''
-            The IMAP port. If null then the default port is used.
-          '';
+          description = "The IMAP port. If null then the default port is used.";
         };
         passwordCommand = lib.mkOption {
           type = lib.types.uniq lib.types.str;
-          description = ''
-            The command which returns the password to login to the email account.
-          '';
+          description = "The command which returns the password to login to the email account.";
         };
         realName = lib.mkOption {
           type = lib.types.uniq lib.types.str;
-          description = ''
-            The name used as recipient.
-          '';
+          description = "The name used as recipient.";
         };
         smtpHost = lib.mkOption {
           type = lib.types.uniq lib.types.str;
-          description = ''
-            The SMTP server name.
-          '';
+          description = "The SMTP server name.";
         };
         smtpTlsPort = lib.mkOption {
           type = lib.types.nullOr lib.types.int;
-          description = ''
-            The SMTP port. If null then the default port is used.
-          '';
+          description = "The SMTP port. If null then the default port is used.";
         };
         username = lib.mkOption {
           type = lib.types.uniq lib.types.str;
-          description = ''
-            The username used to login to the email account.
-          '';
+          description = "The username used to login to the email account.";
         };
       };
     };
