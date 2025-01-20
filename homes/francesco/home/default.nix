@@ -41,7 +41,6 @@
       };
     };
     mediaViewers.enable = true;
-    moneroWallet.enable = true;
     neovim.enable = true;
     sway.enable = true;
     syncthing.enable = true;
@@ -52,6 +51,7 @@
     helvum
     keepassxc
     libreoffice
+    monero-gui
     musescore
     qjackctl
     rsync
