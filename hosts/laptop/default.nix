@@ -50,6 +50,14 @@
 
   networking.hostName = "francescosaccone";
 
+  boot.loader = {
+    timeout = 1;
+    systemd-boot = {
+      enable = true;
+      editor = false;
+    };
+  };
+
   i18n.defaultLocale = "en_GB.UTF-8";
   time.timeZone = "Europe/Rome";
 
