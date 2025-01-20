@@ -43,7 +43,6 @@
     mediaViewers.enable = true;
     neovim.enable = true;
     sway.enable = true;
-    syncthing.enable = true;
   };
 
   home.packages = with pkgs; [
