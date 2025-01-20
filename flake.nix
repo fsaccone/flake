@@ -80,7 +80,7 @@
             inputs.nur.modules.nixos.default
           ];
         };
-        "vps" = lib.makeHost "vps" {
+        "server" = lib.makeHost "server" {
           additionalModules = [
             inputs.disko.nixosModules.disko
           ];
