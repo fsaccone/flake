@@ -6,11 +6,11 @@
   ...
 }:
 {
-  options.modules.sway = {
+  options.modules.wayland = {
     enable = lib.mkEnableOption "Enables Ly and Sway";
   };
 
-  config = lib.mkIf config.modules.sway.enable {
+  config = lib.mkIf config.modules.wayland.enable {
     services.displayManager = {
       defaultSession = "Sway";
       ly = {

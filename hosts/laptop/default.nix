@@ -30,8 +30,8 @@
       secretKey = builtins.getEnv "SEARX_SECRET_KEY";
     };
     sudo.enable = true;
-    sway.enable = true;
     tor.enable = true;
+    wayland.enable = true;
   };
 
   i18n.defaultLocale = "en_GB.UTF-8";

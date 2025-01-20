@@ -12,9 +12,9 @@
     ./pipewire
     ./searx
     ./sudo
-    ./sway
     ./tlp
     ./tor
+    ./wayland
   ];
 
   config.modules = {
@@ -28,8 +28,8 @@
     pipewire.enable = lib.mkDefault false;
     searx.enable = lib.mkDefault false;
     sudo.enable = lib.mkDefault false;
-    sway.enable = lib.mkDefault false;
     tlp.enable = lib.mkDefault false;
     tor.enable = lib.mkDefault false;
+    wayland.enable = lib.mkDefault false;
   };
 }
