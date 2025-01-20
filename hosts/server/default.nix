@@ -25,7 +25,6 @@
     };
 
     system = {
-      grub.enable = true;
       sudo.enable = true;
     };
   };

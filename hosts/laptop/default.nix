@@ -42,7 +42,6 @@
     };
 
     system = {
-      grub.enable = true;
       sudo.enable = true;
       tlp.enable = true;
     };
