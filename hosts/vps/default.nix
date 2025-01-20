@@ -17,7 +17,15 @@
     efiInstallAsRemovable = true;
   };
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    listenAddresses = [
+      {
+        addr = "localhost";
+        port = 22;
+      }
+    ];
+  };
 
   users.users.admin = {
     description = "Admin";
