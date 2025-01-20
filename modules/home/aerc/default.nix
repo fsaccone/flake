@@ -106,12 +106,16 @@
       };
     };
 
-
     accounts.email = {
       accounts.${config.modules.aerc.email.address} = {
         aerc.enable = true;
 
-        inherit (config.modules.aerc.email) address folders passwordCommand realName;
+        inherit (config.modules.aerc.email)
+          address
+          folders
+          passwordCommand
+          realName
+          ;
 
         flavor = "plain";
         gpg = lib.mkIf config.modules.gpg.enable {

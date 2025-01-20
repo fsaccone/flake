@@ -7,7 +7,7 @@
   modules = rec {
     aerc = {
       enable = true;
-      email =  {
+      email = {
         address = "francesco@francescosaccone.com";
         folders = {
           drafts = "Drafts";
