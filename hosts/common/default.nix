@@ -18,6 +18,10 @@
         "flakes"
         "pipe-operators"
       ];
+      trusted-users = [
+        "root"
+        "@wheel"
+      ];
     };
     gc = {
       automatic = true;
