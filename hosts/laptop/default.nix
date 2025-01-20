@@ -8,7 +8,10 @@
     fonts.enable = true;
     monero.enable = true;
     networkmanager.enable = true;
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      agent.enable = true;
+    };
     pipewire.enable = true;
     searx.enable = true;
     sudo.enable = true;

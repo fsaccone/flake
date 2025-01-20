@@ -10,21 +10,23 @@
 
   modules = {
     sudo.enable = true;
+    openssh = {
+      enable = true;
+      listen = {
+        enable = true;
+        port = 22;
+        authorizedKeyFiles = {
+          "admin" = [
+            ./sshKeys/francescoSaccone
+          ];
+        };
+      };
+    };
   };
 
   boot.loader.grub = {
     efiSupport = true;
     efiInstallAsRemovable = true;
-  };
-
-  services.openssh = {
-    enable = true;
-    listenAddresses = [
-      {
-        addr = "localhost";
-        port = 22;
-      }
-    ];
   };
 
   users.users.admin = {
@@ -36,8 +38,5 @@
     ];
     createHome = true;
     home = "/home/admin";
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK31ZgIE+tjzEVMfAhsImznrp1V3gGM2BJWtAaV6qLV6 Francesco Saccone"
-    ];
   };
 }
