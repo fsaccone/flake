@@ -1,11 +1,25 @@
 {
+  lib,
   config,
   pkgs,
   ...
 }:
 {
   modules = {
-    monero.enable = true;
+    monero = {
+      enable = true;
+      mining = {
+        enable = true;
+        address =
+          ''
+            44UAWDBRoxtXodXboy6LKEjokehoSiHwmNhgSYEvqzbiTmUnvMcNccFNsaAp7GCbDKhu62oeiEuj9HsPtwJi1p9V26ShoDh
+          ''
+          |> lib.strings.trimWith {
+            start = true;
+            end = true;
+          };
+      };
+    };
     networkmanager.enable = true;
     openssh = {
       enable = true;

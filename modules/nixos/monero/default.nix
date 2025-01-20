@@ -7,19 +7,28 @@
 {
   options.modules.monero = {
     enable = lib.mkEnableOption "Enables Monero daemon";
+    mining = {
+      enable = lib.mkEnableOption "Enables Monero mining";
+      address = lib.mkOption {
+        type = lib.types.uniq lib.types.str;
+        description = "The Monero address where to send rewards.";
+      };
+    };
   };
 
   config = lib.mkIf config.modules.monero.enable {
     services.monero = {
       enable = true;
 
-      mining = {
-        enable = true;
-        address = ''
-          44UAWDBRoxtXodXboy6LKEjokehoSiHwmNhgSYEvqzbiTmUnvMcNccFNsaAp7GCbDKhu62oeiEuj9HsPtwJi1p9V26ShoDh
-        '';
-        threads = 0;
-      };
+      mining =
+        if config.modules.monero.mining.enable then
+          {
+            enable = true;
+            inherit (config.modules.monero.mining) address;
+            threads = 0;
+          }
+        else
+          { };
     };
   };
 }
