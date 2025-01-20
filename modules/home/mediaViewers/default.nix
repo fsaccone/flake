@@ -2,20 +2,23 @@
   lib,
   options,
   config,
+  pkgs,
   ...
 }:
 {
-  imports = [
-    ./imv.nix
-    ./mpv.nix
-  ];
-
   options.modules = {
     mediaViewers.enable = lib.mkEnableOption "Enables media viewers";
   };
 
-  config.modules.mediaViewers = lib.mkIf config.modules.mediaViewers.enable {
-    imv.enable = lib.mkDefault true;
-    mpv.enable = lib.mkDefault true;
+  config = lib.mkIf config.modules.mediaViewers.enable {
+    programs.imv = {
+      enable = true;
+      package = pkgs.imv;
+    };
+
+    programs.mpv = {
+      enable = true;
+      package = pkgs.mpv-unwrapped;
+    };
   };
 }
