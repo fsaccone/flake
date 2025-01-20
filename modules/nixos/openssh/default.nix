@@ -7,17 +7,68 @@
 }:
 {
   options.modules = {
-    openssh.enable = lib.mkEnableOption "Enables OpenSSH";
+    openssh = {
+      enable = lib.mkEnableOption "Enables OpenSSH";
+      agent.enable = lib.mkEnableOption "Enables OpenSSH agent";
+      listen = {
+        enable = lib.mkEnableOption "Listens for SSH connection requests at the given port.";
+        port = lib.mkOption {
+          type = lib.types.uniq lib.types.int;
+          description = "The port which listens for the SSH connection requests.";
+          default = 22;
+        };
+        authorizedKeyFiles = lib.mkOption {
+          type = lib.types.listOf lib.types.path |> lib.types.attrsOf;
+          description = ''
+            For each user, a list of public SSH key files that are authorized to connect.
+          '';
+          default = { };
+        };
+      };
+    };
   };
 
   config = lib.mkIf config.modules.openssh.enable {
-    services.openssh = {
-      enable = true;
-    };
+    services.openssh =
+      if config.modules.openssh.listen.enable then
+        {
+          enable = true;
+          ports = [
+            config.modules.openssh.listen.port
+          ];
+          settings = {
+            PasswordAuthentication = false;
+            PermitRootLogin = "no";
+          };
+        }
+      else
+        {
+          enable = true;
+        };
 
-    programs.ssh = {
-      startAgent = true;
-      package = pkgs.openssh;
-    };
+    networking.firewall.allowedTCPPorts =
+      if config.modules.openssh.listen.enable then
+        [
+          config.modules.openssh.listen.port
+        ]
+      else
+        [ ];
+
+    users.users =
+      config.modules.openssh.listen.authorizedKeyFiles
+      |> builtins.mapAttrs (
+        user: files: {
+          openssh.authorizedKeys.keyFiles = files;
+        }
+      );
+
+    programs.ssh =
+      if config.modules.openssh.agent.enable then
+        {
+          startAgent = true;
+          package = pkgs.openssh;
+        }
+      else
+        { };
   };
 }
