@@ -15,14 +15,12 @@
         port = lib.mkOption {
           type = lib.types.uniq lib.types.int;
           description = "The port which listens for the SSH connection requests.";
-          default = 22;
         };
         authorizedKeyFiles = lib.mkOption {
           type = lib.types.listOf lib.types.path |> lib.types.attrsOf;
           description = ''
             For each user, a list of public SSH key files that are authorized to connect.
           '';
-          default = { };
         };
       };
     };
@@ -54,13 +52,16 @@
       else
         [ ];
 
-    users.users =
-      config.modules.openssh.listen.authorizedKeyFiles
-      |> builtins.mapAttrs (
-        user: files: {
-          openssh.authorizedKeys.keyFiles = files;
-        }
-      );
+    users.users = if config.modules.openssh.listen.enable
+      then
+        config.modules.openssh.listen.authorizedKeyFiles
+        |> builtins.mapAttrs (
+          user: files: {
+            openssh.authorizedKeys.keyFiles = files;
+          }
+        )
+      else
+      {};
 
     programs.ssh =
       if config.modules.openssh.agent.enable then
