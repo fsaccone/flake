@@ -24,7 +24,11 @@
       agent.enable = true;
     };
     pipewire.enable = true;
-    searx.enable = true;
+    searx = {
+      enable = true;
+      port = 8888;
+      secretKey = builtins.getEnv "SEARX_SECRET_KEY";
+    };
     sudo.enable = true;
     sway.enable = true;
     tor.enable = true;
