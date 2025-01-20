@@ -47,7 +47,7 @@
     };
   };
 
-  networking.hostName = "francescosaccone";
+  networking.hostName = "francescosaccone-laptop";
 
   boot.loader = {
     timeout = 1;

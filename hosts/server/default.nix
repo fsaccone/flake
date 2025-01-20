@@ -29,7 +29,7 @@
     };
   };
 
-  networking.hostName = "francescosaccone.com";
+  networking.hostName = "francescosaccone-server";
 
   boot.loader.grub = {
     efiSupport = true;
