@@ -67,8 +67,11 @@
     in
     {
       formatter = lib.forEachSystem ({ system }: treefmtEval.${system}.config.build.wrapper);
-      checks.formatting = lib.forEachSystem (
-        { system }: treefmtEval.${system}.config.build.check inputs.self
+      checks = lib.forEachSystem (
+        { system }:
+        {
+          formatting = treefmtEval.${system}.config.build.check inputs.self;
+        }
       );
 
       nixosConfigurations = {
