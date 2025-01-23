@@ -18,7 +18,7 @@
     services.syncthing = {
       enable = true;
       extraOptions = [
-        "--gui-address=localhost:${config.modules.syncthing.port}"
+        "--gui-address=localhost:${builtins.toString config.modules.syncthing.port}"
         "--home=${config.home.homeDirectory}"
       ];
     };
