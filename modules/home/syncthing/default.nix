@@ -20,6 +20,7 @@
       extraOptions = [
         "--gui-address=localhost:${builtins.toString config.modules.syncthing.port}"
         "--home=${config.home.homeDirectory}"
+        "--no-default-folder"
       ];
     };
   };
