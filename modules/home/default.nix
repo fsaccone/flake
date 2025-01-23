@@ -13,6 +13,7 @@
     ./mediaViewers
     ./neovim
     ./sway
+    ./syncthing
   ];
 
   config.modules = {
@@ -23,5 +24,6 @@
     mediaViewers.enable = lib.mkDefault false;
     neovim.enable = lib.mkDefault false;
     sway.enable = lib.mkDefault false;
+    syncthing.enable = lib.mkDefault false;
   };
 }
