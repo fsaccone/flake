@@ -7,14 +7,38 @@
   ...
 }:
 {
-  options.modules.firefox = {
-    enable = lib.mkEnableOption "Enables Firefox";
+  options.modules.librewolf = {
+    enable = lib.mkEnableOption "Enables Librewolf";
+    engine = {
+      name = lib.mkOption {
+        type = lib.types.uniq lib.types.str;
+        description = "The name of the default search engine.";
+      };
+      url = lib.mkOption {
+        type = lib.types.uniq lib.types.str;
+        description = "The URL to the default search engine.";
+      };
+    };
   };
 
-  config = lib.mkIf config.modules.firefox.enable {
-    programs.firefox = {
+  config = lib.mkIf config.modules.librewolf.enable {
+    programs.librewolf = {
       enable = true;
-      package = pkgs.firefox;
+      package = pkgs.librewolf;
+
+      settings = let
+        inherit (config.modules.librewolf) engine;
+      in
+      {
+        "privacy.resistFingerprinting.letterboxing" = true;
+        "browser.sessionstore.resume_from_crash" = false;
+        "middlemouse.paste" = false;
+        "general.autoScroll" = true;
+
+        "browser.search.defaultenginename" = engine.name;
+        "browser.search.order.1" = engine.name;
+        "browser.startup.homepage" = engine.url;
+      };
 
       profiles = {
         default = {
@@ -24,9 +48,6 @@
           extraConfig = builtins.readFile (inputs.arkenfox-userjs + "/user.js");
           settings = {
             "browser.bookmarks.addedImportButton" = "false";
-            "browser.search.defaultenginename" = "Searx";
-            "browser.search.order.1" = "Searx";
-            "browser.startup.homepage" = "http://localhost:8888";
             "browser.toolbars.bookmarks.visibility" = "always";
           };
           search = {
