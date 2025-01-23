@@ -19,7 +19,8 @@
       enable = true;
       extraOptions = [
         "--gui-address=localhost:${builtins.toString config.modules.syncthing.port}"
-        "--home=${config.home.homeDirectory}"
+        "--config=${config.home.homeDirectory}/.config/syncthing"
+        "--home=${config.home.homeDirectory}/Syncthing"
         "--no-default-folder"
       ];
     };
