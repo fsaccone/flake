@@ -34,6 +34,7 @@
         "browser.sessionstore.resume_from_crash" = false;
         "middlemouse.paste" = false;
         "general.autoScroll" = true;
+        "browser.toolbars.bookmarks.visibility" = "never";
 
         "browser.search.defaultenginename" = engine.name;
         "browser.search.order.1" = engine.name;
