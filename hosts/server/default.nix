@@ -57,24 +57,16 @@ rec {
         git = root;
       };
     };
-    pandoc = {
-      enable = true;
-      input = inputs.website;
-      components = {
-        head = "${inputs.website}/components/head.html";
-        header = "${inputs.website}/components/header.html";
-        footer = "${inputs.website}/components/footer.html";
-      };
-    };
     staticWebServer = rec {
       enable = true;
       symlinks = {
         "favicon.ico" = "${inputs.website}/favicon.ico";
         "robots.txt" = "${inputs.website}/robots.txt";
 
-        "index.html" = "${config.modules.pandoc.output}/index.html";
-
-        "notes" = "${config.modules.pandoc.output}/notes";
+        # The idea is to have a script running before static-web-server which
+        # generates the HTML files using md4c.
+        # "index.html" = "${inputs.website}/index.html";
+        # "notes" = "${inputs.website}/notes";
 
         "public" = "${inputs.website}/public";
 

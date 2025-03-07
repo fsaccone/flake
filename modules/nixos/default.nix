@@ -6,7 +6,6 @@
     ./monero
     ./networkmanager
     ./openssh
-    ./pandoc
     ./pipewire
     ./static-web-server
     ./sudo
