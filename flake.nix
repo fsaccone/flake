@@ -46,7 +46,7 @@
             inherit (inputs) nixpkgs;
             inherit systems;
           };
-          makeHost = import ./lib/makeHost.nix {
+          makeHost = import ./lib/make-host.nix {
             inherit (inputs) nixpkgs;
             inherit inputs;
           };
