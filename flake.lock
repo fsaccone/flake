@@ -1,0 +1,125 @@
+{
+  "nodes": {
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1740485968,
+        "narHash": "sha256-WK+PZHbfDjLyveXAxpnrfagiFgZWaTJglewBWniTn2Y=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "19c1140419c4f1cdf88ad4c1cfb6605597628940",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1739757849,
+        "narHash": "sha256-Gs076ot1YuAAsYVcyidLKUMIc4ooOaRGO0PqTY7sBzA=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "9d3d080aec2a35e05a15cedd281c2384767c2cfe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "release-24.11",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1740932899,
+        "narHash": "sha256-F0qDu2egq18M3edJwEOAE+D+VQ+yESK6YWPRQBfOqq8=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "1546c45c538633ae40b93e2d14e0bb6fd8f13347",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "release-24.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "password-store": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1740923677,
+        "narHash": "sha256-uz5K3moVObia358CLMqZsfde5bq4Zwy4X5w9310bJ6M=",
+        "ref": "refs/heads/master",
+        "rev": "8d156509cdead199a5b8adde21b67146c81d46d5",
+        "revCount": 5,
+        "type": "git",
+        "url": "git://francescosaccone.com/password-store"
+      },
+      "original": {
+        "type": "git",
+        "url": "git://francescosaccone.com/password-store"
+      }
+    },
+    "root": {
+      "inputs": {
+        "disko": "disko",
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs",
+        "password-store": "password-store",
+        "treefmt-nix": "treefmt-nix",
+        "website": "website"
+      }
+    },
+    "treefmt-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1739829690,
+        "narHash": "sha256-mL1szCeIsjh6Khn3nH2cYtwO5YXG6gBiTw1A30iGeDU=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "3d0579f5cc93436052d94b73925b48973a104204",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "website": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1741032426,
+        "narHash": "sha256-XGdqhA3VQZMJdZBf9W3pQ+JZoMaZNvcIIXFMIYX8ess=",
+        "ref": "refs/heads/master",
+        "rev": "a615a58ab58a01a79398d78595fc035100b5f798",
+        "revCount": 44,
+        "type": "git",
+        "url": "git://francescosaccone.com/website"
+      },
+      "original": {
+        "type": "git",
+        "url": "git://francescosaccone.com/website"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
