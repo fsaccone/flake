@@ -1,0 +1,10 @@
+require('vis')
+
+vis.events.subscribe(vis.events.WIN_OPEN, function(win)
+  vis:command('set autoindent on')
+  vis:command('set colorcolumn 80')
+  vis:command('set expandtab on')
+  vis:command('set number')
+  vis:command('set show-spaces off')
+  vis:command('set tabwidth 2')
+end)
