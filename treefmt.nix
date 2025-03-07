@@ -16,6 +16,7 @@
       "README"
       "LICENSE"
       "*.asc"
+      "*.lua"
       "*.pub"
       "*.txt"
     ];
