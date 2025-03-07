@@ -38,7 +38,7 @@
           ];
         in
         {
-          forEachSystem = import ./lib/forEachSystem.nix {
+          forEachSystem = import ./lib/for-each-system.nix {
             inherit (inputs) nixpkgs;
             inherit systems;
           };
