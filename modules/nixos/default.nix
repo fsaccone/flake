@@ -8,7 +8,7 @@
     ./openssh
     ./pandoc
     ./pipewire
-    ./staticWebServer
+    ./static-web-server
     ./sudo
     ./tlp
     ./tor
