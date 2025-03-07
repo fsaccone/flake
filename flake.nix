@@ -50,7 +50,7 @@
             inherit (inputs) nixpkgs;
             inherit inputs;
           };
-          makeHomeModules = import ./lib/makeHomeModules.nix {
+          makeHomeModules = import ./lib/make-home-modules.nix {
             inherit (inputs) home-manager;
             inherit inputs;
           };
