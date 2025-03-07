@@ -54,7 +54,7 @@
             inherit (inputs) home-manager;
             inherit inputs;
           };
-          getPkgs = import ./lib/getPkgs.nix {
+          getPkgs = import ./lib/get-pkgs.nix {
             inherit (inputs) nixpkgs;
           };
         };
