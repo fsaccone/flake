@@ -1,0 +1,48 @@
+Flake
+=====
+
+Francesco Saccone's Nix flake.
+
+NixOS configurations
+--------------------
+
+- laptop: Designed for my laptop.
+- server: Designed for my main server.
+
+Home Manager configurations
+---------------------------
+
+- francesco: Designed for my daily needs, very minimalist and lightweight.
+
+Installation
+------------
+
+When installing a configuration, I prefer to use different methods based on the
+target machine.
+
+When I want to install a server, my choice is nixos-anywhere:
+
+    nixos-anywhere --generate-hardware-config nixos-generate-config \
+    hardware/server/default.nix --flake .#server <root@url>
+
+See <https://nix-community.github.io/nixos-anywhere> for more information.
+
+When instead I want to install my laptop configuration I would retrieve the
+official minimal ISO image from <https://nixos.org/download>, clone this
+repository, generate the hardware configuration file and use nixos-rebuild:
+
+    nixos-generate-config --show-hardware-config > hardware/laptop/default.nix
+    nixos-rebuild switch --flake .#laptop
+
+Usage
+-----
+
+When the server configuration changes, I rebuild the machine using 
+nixos-rebuild through SSH:
+
+    nixos-rebuild switch --flake .#server --target-host <root@url>
+
+When the laptop configuration changes, I rebuild my laptop using nixos-rebuild:
+
+    nixos-rebuild switch --flake .#laptop
+
