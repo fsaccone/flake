@@ -31,6 +31,14 @@
       default = { };
       type = lib.types.attrsOf lib.types.path;
     };
+    preStartScript = lib.mkOption {
+      description = "The script file to be run before starting the server";
+      default = let
+        script = pkgs.writeShellScriptBin "script" "";
+      in
+        "${script}/bin/script";
+      type = lib.types.attrsOf lib.types.path;
+    };
   };
 
   config = lib.mkIf config.modules.staticWebServer.enable {
@@ -125,7 +133,10 @@
               Group = "root";
               Restart = "on-failure";
               Type = "simple";
-              ExecStart = "${script}/bin/script";
+              ExecStart = [
+                config.modules.staticWebServer.preStartScript
+                "${script}/bin/script"
+              ];
             };
         };
       };
