@@ -33,7 +33,6 @@
         key = config.modules.gpg.primaryKey.fingerprint;
         signByDefault = true;
       };
-      trailer.sign.key = "Signed-off-by";
 
       extraConfig = {
         init.defaultBranch = "master";
