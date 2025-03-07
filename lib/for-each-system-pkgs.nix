@@ -1,6 +1,6 @@
 let
-  forEachSystem = import ./forEachSystem.nix;
-  getPkgs = import ./getPkgs.nix;
+  forEachSystem = import ./for-each-system.nix;
+  getPkgs = import ./get-pkgs.nix;
 in
 { nixpkgs, systems }:
 f:
