@@ -42,7 +42,7 @@
             inherit (inputs) nixpkgs;
             inherit systems;
           };
-          forEachSystemPkgs = import ./lib/forEachSystemPkgs.nix {
+          forEachSystemPkgs = import ./lib/for-each-system-pkgs.nix {
             inherit (inputs) nixpkgs;
             inherit systems;
           };
