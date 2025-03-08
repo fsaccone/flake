@@ -79,13 +79,11 @@ rec {
         ];
       };
       symlinks = {
-        "favicon.ico" = "${inputs.website}/favicon.ico";
-        "robots.txt" = "${inputs.website}/robots.txt";
-
         "index.html" = "/tmp/website/html/index.html";
         "blog" = "/tmp/website/html/blog";
-
         "public" = "${inputs.website}/public";
+        "favicon.ico" = "${inputs.website}/favicon.ico";
+        "robots.txt" = "${inputs.website}/robots.txt";
       };
       acme = {
         enable = true;
