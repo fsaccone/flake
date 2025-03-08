@@ -10,6 +10,21 @@ rec {
   ];
 
   modules = {
+    agate = {
+      enable = true;
+      preStart = {
+        script = "${inputs.website}/generate-gemini.sh /tmp/website/gemini";
+        packages = [
+          pkgs.coreutils
+          pkgs.findutils
+          pkgs.lowdown
+        ];
+      };
+      symlinks = {
+        "index.gmi" = "/tmp/website/gemini/index.gmi";
+        "notes" = "/tmp/website/gemini/notes";
+      };
+    };
     bind = {
       enable = true;
       inherit (networking) domain;
