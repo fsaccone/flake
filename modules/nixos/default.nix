@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./agate
     ./bind
     ./git
     ./monero
