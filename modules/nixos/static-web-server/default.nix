@@ -109,36 +109,38 @@
               ];
             };
         };
-        static-web-server = let
-          inherit (config.modules.staticWebServer) preStart;
-        in rec {
-          enable = true;
-          wantedBy = [ "multi-user.target" ];
-          requires = [ "static-web-server-setup.service" ];
-          after = [ "network.target" ];
-          path = preStart.packages;
-          serviceConfig =
-            let
-              inherit (config.modules.staticWebServer) tls;
-              script = pkgs.writeShellScriptBin "script" ''
-                ${pkgs.static-web-server}/bin/static-web-server \
-                  --port 80 \
-                  --http2 false \
-                  --root ${config.modules.staticWebServer.directory} \
-                  --index-files index.html \
-                  --ignore-hidden-files false \
-                  ${if tls.enable then "--https-redirect" else ";"}
-              '';
-            in
-            {
-              User = "root";
-              Group = "root";
-              Restart = "on-failure";
-              Type = "simple";
-              ExecStartPre = preStart.script;
-              ExecStart = "${script}/bin/script";
-            };
-        };
+        static-web-server =
+          let
+            inherit (config.modules.staticWebServer) preStart;
+          in
+          rec {
+            enable = true;
+            wantedBy = [ "multi-user.target" ];
+            requires = [ "static-web-server-setup.service" ];
+            after = [ "network.target" ];
+            path = preStart.packages;
+            serviceConfig =
+              let
+                inherit (config.modules.staticWebServer) tls;
+                script = pkgs.writeShellScriptBin "script" ''
+                  ${pkgs.static-web-server}/bin/static-web-server \
+                    --port 80 \
+                    --http2 false \
+                    --root ${config.modules.staticWebServer.directory} \
+                    --index-files index.html \
+                    --ignore-hidden-files false \
+                    ${if tls.enable then "--https-redirect" else ";"}
+                '';
+              in
+              {
+                User = "root";
+                Group = "root";
+                Restart = "on-failure";
+                Type = "simple";
+                ExecStartPre = preStart.script;
+                ExecStart = "${script}/bin/script";
+              };
+          };
       };
       paths = {
         static-web-server = {
