@@ -139,6 +139,7 @@
     nmap
     noice
     qjackctl
+    telescope
     tor-browser
   ];
 }
