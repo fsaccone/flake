@@ -67,7 +67,7 @@
               clean = pkgs.writeShellScriptBin "clean" ''
                 ${pkgs.coreutils}/bin/rm -rf \
                 ${config.modules.agate.directory}/*
-                
+
                 ${pkgs.coreutils}/bin/mkdir -p \
                 ${config.modules.agate.directory}/.certificates
               '';
