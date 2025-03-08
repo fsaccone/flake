@@ -127,6 +127,7 @@
   };
 
   home.packages = with pkgs; [
+    amfora
     ardour
     dig
     helvum
@@ -139,7 +140,6 @@
     nmap
     noice
     qjackctl
-    telescope
     tor-browser
   ];
 }
