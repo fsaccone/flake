@@ -23,6 +23,7 @@ rec {
       symlinks = {
         "index.gmi" = "/tmp/website/gemini/index.gmi";
         "notes" = "/tmp/website/gemini/notes";
+        "public" = "${inputs.website}/public";
       };
     };
     bind = {
