@@ -22,7 +22,7 @@ rec {
       };
       symlinks = {
         "index.gmi" = "/tmp/website/gemini/index.gmi";
-        "notes" = "/tmp/website/gemini/notes";
+        "blog" = "/tmp/website/gemini/blog";
         "public" = "${inputs.website}/public";
       };
     };
@@ -83,7 +83,7 @@ rec {
         "robots.txt" = "${inputs.website}/robots.txt";
 
         "index.html" = "/tmp/website/html/index.html";
-        "notes" = "/tmp/website/html/notes";
+        "blog" = "/tmp/website/html/blog";
 
         "public" = "${inputs.website}/public";
       };
