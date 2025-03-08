@@ -60,7 +60,7 @@ rec {
     staticWebServer = rec {
       enable = true;
       preStart = {
-        script = "${inputs.website}/generate-html.sh /tmp/website";
+        script = "${inputs.website}/generate-html.sh /tmp/website/html";
         packages = [
           pkgs.coreutils
           pkgs.findutils
@@ -71,8 +71,8 @@ rec {
         "favicon.ico" = "${inputs.website}/favicon.ico";
         "robots.txt" = "${inputs.website}/robots.txt";
 
-        "index.html" = "/tmp/website/index.html";
-        "notes" = "/tmp/website/notes";
+        "index.html" = "/tmp/website/html/index.html";
+        "notes" = "/tmp/website/html/notes";
 
         "public" = "${inputs.website}/public";
 
