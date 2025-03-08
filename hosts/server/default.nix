@@ -59,14 +59,20 @@ rec {
     };
     staticWebServer = rec {
       enable = true;
+      preStart = {
+        script = "${inputs.website}/generate-pages.sh /tmp/website";
+        packages = [
+          pkgs.coreutils
+          pkgs.findutils
+          pkgs.smu
+        ];
+      };
       symlinks = {
         "favicon.ico" = "${inputs.website}/favicon.ico";
         "robots.txt" = "${inputs.website}/robots.txt";
 
-        # The idea is to have a script running before static-web-server which
-        # generates the HTML files using md4c.
-        # "index.html" = "${inputs.website}/index.html";
-        # "notes" = "${inputs.website}/notes";
+        "index.html" = "/tmp/website/index.html";
+        "notes" = "/tmp/website/notes";
 
         "public" = "${inputs.website}/public";
 
