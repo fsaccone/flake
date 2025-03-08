@@ -31,13 +31,17 @@
       default = { };
       type = lib.types.attrsOf lib.types.path;
     };
-    preStartScript = lib.mkOption {
-      description = "The script file to be run before starting the server";
-      default = let
-        script = pkgs.writeShellScriptBin "script" "";
-      in
-        "${script}/bin/script";
-      type = lib.types.attrsOf lib.types.path;
+    preStart = {
+      script = lib.mkOption {
+        description = "The script file to be run before starting the server";
+        default = "${pkgs.writeShellScriptBin "script" ""}/bin/script";
+        type = lib.types.uniq lib.types.path;
+      };
+      packages = lib.mkOption {
+        description = "The list of packages required by the script";
+        default = [ ];
+        type = lib.types.listOf lib.types.package;
+      };
     };
   };
 
@@ -105,16 +109,14 @@
               ];
             };
         };
-        static-web-server = rec {
+        static-web-server = let
+          inherit (config.modules.staticWebServer) preStart;
+        in rec {
           enable = true;
           wantedBy = [ "multi-user.target" ];
-          requires = [
-            "static-web-server-setup.service"
-          ];
-          after = [
-            "static-web-server-setup.service"
-            "network.target"
-          ];
+          requires = [ "static-web-server-setup.service" ];
+          after = [ "network.target" ];
+          path = preStart.packages;
           serviceConfig =
             let
               inherit (config.modules.staticWebServer) tls;
@@ -133,10 +135,8 @@
               Group = "root";
               Restart = "on-failure";
               Type = "simple";
-              ExecStart = [
-                config.modules.staticWebServer.preStartScript
-                "${script}/bin/script"
-              ];
+              ExecStartPre = preStart.script;
+              ExecStart = "${script}/bin/script";
             };
         };
       };
