@@ -60,7 +60,7 @@ rec {
     staticWebServer = rec {
       enable = true;
       preStart = {
-        script = "${inputs.website}/generate-pages.sh /tmp/website";
+        script = "${inputs.website}/generate-html.sh /tmp/website";
         packages = [
           pkgs.coreutils
           pkgs.findutils
