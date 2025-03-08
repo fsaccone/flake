@@ -64,7 +64,7 @@ rec {
         packages = [
           pkgs.coreutils
           pkgs.findutils
-          pkgs.smu
+          pkgs.lowdown
         ];
       };
       symlinks = {
