@@ -123,6 +123,8 @@
               let
                 inherit (config.modules.staticWebServer) tls;
                 script = pkgs.writeShellScriptBin "script" ''
+                  ${preStart.script}
+
                   ${pkgs.static-web-server}/bin/static-web-server \
                     --port 80 \
                     --http2 false \
@@ -137,7 +139,6 @@
                 Group = "root";
                 Restart = "on-failure";
                 Type = "simple";
-                ExecStartPre = preStart.script;
                 ExecStart = "${script}/bin/script";
               };
           };

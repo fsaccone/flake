@@ -114,6 +114,8 @@
             serviceConfig =
               let
                 script = pkgs.writeShellScriptBin "script" ''
+                  ${preStart.script}
+
                   ${pkgs.agate}/bin/agate \
                     --content ${config.modules.agate.directory} \
                     --hostname ${config.networking.domain} \
@@ -126,7 +128,6 @@
                 Group = "root";
                 Restart = "on-failure";
                 Type = "simple";
-                ExecStartPre = preStart.script;
                 ExecStart = "${script}/bin/script";
               };
           };
