@@ -57,11 +57,6 @@ rec {
       daemon = {
         enable = true;
       };
-      stagit = {
-        enable = true;
-        baseUrl = "https://${networking.domain}/git";
-        iconPng = "${inputs.website}/public/icon/32.png";
-      };
     };
     openssh.listen = {
       enable = true;
@@ -91,8 +86,6 @@ rec {
         "notes" = "/tmp/website/html/notes";
 
         "public" = "${inputs.website}/public";
-
-        "git" = config.modules.git.stagit.output;
       };
       acme = {
         enable = true;

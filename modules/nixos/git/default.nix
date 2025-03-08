@@ -8,7 +8,6 @@
 {
   imports = [
     ./daemon
-    ./stagit
   ];
 
   options.modules.git = {
