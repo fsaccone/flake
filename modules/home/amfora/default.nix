@@ -47,12 +47,14 @@
       shellAliases =
         let
           inherit (config.modules) gpg;
+          inherit (config.modules.amfora) certificates;
+          certificatesIsEmpty = builtins.length certificates == 0;
         in
-        lib.mkIf gpg.enable {
+        lib.mkIf (gpg.enable && !certificatesIsEmpty) {
           "amfora" =
             let
               decryptKeys =
-                config.modules.amfora.certificates
+                certificates
                 |> builtins.map (
                   {
                     host,
