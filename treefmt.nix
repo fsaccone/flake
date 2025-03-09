@@ -16,8 +16,10 @@
       "README"
       "LICENSE"
       "*.asc"
+      "*.gpg"
       "*.lua"
       "*.pub"
+      "*.pem"
       "*.txt"
     ];
   };
