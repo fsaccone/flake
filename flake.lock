@@ -43,11 +43,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1741445498,
-        "narHash": "sha256-F5Em0iv/CxkN5mZ9hRn3vPknpoWdcdCyR0e4WklHwiE=",
+        "lastModified": 1741521366,
+        "narHash": "sha256-JOs9vfO+kks42DspCMLe0l5g9xZpRC34ZKhudByOTrE=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "52e3095f6d812b91b22fb7ad0bfc1ab416453634",
+        "rev": "16df1b33546abf4d55ee2b895606edd4e0e3612f",
         "type": "github"
       },
       "original": {
@@ -79,8 +79,24 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "password-store": "password-store",
-        "treefmt-nix": "treefmt-nix",
-        "website": "website"
+        "site": "site",
+        "treefmt-nix": "treefmt-nix"
+      }
+    },
+    "site": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1741528055,
+        "narHash": "sha256-8TbkB6SbiDb560aKs7ZoAL8Vm1zVK+zS9lyqfm4CdFY=",
+        "ref": "refs/heads/master",
+        "rev": "8741bdf0ce8ccc7003e05ab5653abbf7297005a4",
+        "revCount": 35,
+        "type": "git",
+        "url": "git://francescosaccone.com/site"
+      },
+      "original": {
+        "type": "git",
+        "url": "git://francescosaccone.com/site"
       }
     },
     "treefmt-nix": {
@@ -101,22 +117,6 @@
         "owner": "numtide",
         "repo": "treefmt-nix",
         "type": "github"
-      }
-    },
-    "website": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1741461423,
-        "narHash": "sha256-xfcQ0pQgGANW2igBnlmKkkRN3kF97js3NgemOOpL1WI=",
-        "ref": "refs/heads/master",
-        "rev": "8f4ec04020cc4ee39f12a43f223f0c74703fa493",
-        "revCount": 29,
-        "type": "git",
-        "url": "git://francescosaccone.com/website"
-      },
-      "original": {
-        "type": "git",
-        "url": "git://francescosaccone.com/website"
       }
     }
   },
