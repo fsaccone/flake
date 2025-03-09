@@ -54,7 +54,7 @@ rec {
             HOSTNAME=$(${pkgs.coreutils}/bin/cat \
             ${config.modules.tor.servicesDirectory}/website/hostname)
 
-            ${pkgs.coreutils}/bin/echo "https://$HOSTNAME"
+            ${pkgs.coreutils}/bin/echo "http://$HOSTNAME"
           '';
         in
         {
