@@ -13,7 +13,29 @@ rec {
     agate = {
       enable = true;
       preStart = {
-        script = "${inputs.site}/scripts/generate-gemini.sh /tmp/site/gemini";
+        scripts =
+          let
+            generateAtom = builtins.concatStringsSep " " [
+              "${inputs.site}/scripts/generate-atom.sh"
+              "/tmp/site/gemini"
+              "\"Francesco Saccone's blog\""
+              "gemini://${networking.domain}"
+            ];
+            generateSitemap = builtins.concatStringsSep " " [
+              "${inputs.site}/scripts/generate-sitemap.sh"
+              "/tmp/site/gemini"
+              "gemini://${networking.domain}"
+            ];
+            generateGemini = builtins.concatStringsSep " " [
+              "${inputs.site}/scripts/generate-gemini.sh"
+              "/tmp/site/gemini"
+            ];
+          in
+          [
+            generateAtom
+            generateSitemap
+            generateGemini
+          ];
         packages = [
           pkgs.coreutils
           pkgs.findutils
@@ -35,7 +57,29 @@ rec {
     darkhttpd = rec {
       enable = true;
       preStart = {
-        script = "${inputs.site}/scripts/generate-html.sh /tmp/site/html";
+        scripts =
+          let
+            generateAtom = builtins.concatStringsSep " " [
+              "${inputs.site}/scripts/generate-atom.sh"
+              "/tmp/site/html"
+              "\"Francesco Saccone's blog\""
+              "https://${networking.domain}"
+            ];
+            generateSitemap = builtins.concatStringsSep " " [
+              "${inputs.site}/scripts/generate-sitemap.sh"
+              "/tmp/site/html"
+              "https://${networking.domain}"
+            ];
+            generateHtml = builtins.concatStringsSep " " [
+              "${inputs.site}/scripts/generate-html.sh"
+              "/tmp/site/html"
+            ];
+          in
+          [
+            generateAtom
+            generateSitemap
+            generateHtml
+          ];
         packages = [
           pkgs.coreutils
           pkgs.findutils
