@@ -48,6 +48,8 @@ rec {
         "blog" = "/tmp/site/gemini/blog";
         "public" = "${inputs.site}/public";
         "robots.txt" = "${inputs.site}/robots.txt";
+        "atom.xml" = "/tmp/site/gemini/atom.xml";
+        "sitemap.xml" = "/tmp/site/gemini/sitemap.xml";
       };
     };
     bind = {
@@ -94,6 +96,8 @@ rec {
         "public" = "${inputs.site}/public";
         "favicon.ico" = "${inputs.site}/favicon.ico";
         "robots.txt" = "${inputs.site}/robots.txt";
+        "atom.xml" = "/tmp/site/html/atom.xml";
+        "sitemap.xml" = "/tmp/site/html/sitemap.xml";
       };
       customHeaderScripts =
         let
