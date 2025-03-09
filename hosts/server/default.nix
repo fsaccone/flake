@@ -90,8 +90,8 @@ rec {
           password-store = {
             description = "Francesco Saccone's password store.";
           };
-          website = {
-            description = "Francesco Saccone's website content.";
+          site = {
+            description = "Francesco Saccone's site content.";
           };
         }
         |> builtins.mapAttrs (
