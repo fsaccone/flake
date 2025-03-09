@@ -48,6 +48,18 @@ rec {
         "favicon.ico" = "${inputs.website}/favicon.ico";
         "robots.txt" = "${inputs.website}/robots.txt";
       };
+      customHeaderScripts =
+        let
+          getOnionAddress = pkgs.writeShellScriptBin "get-onion-address" ''
+            HOSTNAME=$(${pkgs.coreutils}/bin/cat \
+            ${config.modules.tor.servicesDirectory}/website/hostname)
+
+            ${pkgs.coreutils}/bin/echo "https://$HOSTNAME"
+          '';
+        in
+        {
+          "Onion-Location" = "${getOnionAddress}/bin/get-onion-address";
+        };
       acme = {
         enable = true;
         email = "admin@${networking.domain}";
