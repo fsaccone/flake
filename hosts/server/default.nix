@@ -13,7 +13,7 @@ rec {
     agate = {
       enable = true;
       preStart = {
-        script = "${inputs.site}/generate-gemini.sh /tmp/site/gemini";
+        script = "${inputs.site}/scripts/generate-gemini.sh /tmp/site/gemini";
         packages = [
           pkgs.coreutils
           pkgs.findutils
@@ -34,7 +34,7 @@ rec {
     darkhttpd = rec {
       enable = true;
       preStart = {
-        script = "${inputs.site}/generate-html.sh /tmp/site/html";
+        script = "${inputs.site}/scripts/generate-html.sh /tmp/site/html";
         packages = [
           pkgs.coreutils
           pkgs.findutils
