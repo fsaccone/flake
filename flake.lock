@@ -43,11 +43,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1741521366,
-        "narHash": "sha256-JOs9vfO+kks42DspCMLe0l5g9xZpRC34ZKhudByOTrE=",
+        "lastModified": 1741540914,
+        "narHash": "sha256-Cs6uawZoV3mboy+FCJiWJhnsbRRaatEI8Yp6pqKAwSk=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "16df1b33546abf4d55ee2b895606edd4e0e3612f",
+        "rev": "6182141a6f8244d89c015eeacef64124273cfa33",
         "type": "github"
       },
       "original": {
@@ -86,11 +86,11 @@
     "site": {
       "flake": false,
       "locked": {
-        "lastModified": 1741531286,
-        "narHash": "sha256-OMjOLTYtti8BACgR3ZTt9AsrocrdNISOLLsem9bhT6Q=",
+        "lastModified": 1741541316,
+        "narHash": "sha256-U6UVrqBwTd4Fep2p4mFjeFtyDFHbzLC/8B9vdU2bWNU=",
         "ref": "refs/heads/master",
-        "rev": "1e4a64804b5e51dac4a44290ca483f56638da67f",
-        "revCount": 45,
+        "rev": "8504659d7eb92f4a805160111c6455a96c820db1",
+        "revCount": 52,
         "type": "git",
         "url": "git://francescosaccone.com/site"
       },
