@@ -21,8 +21,8 @@
       url = "git://francescosaccone.com/password-store";
       flake = false;
     };
-    website = {
-      url = "git://francescosaccone.com/website";
+    site = {
+      url = "git://francescosaccone.com/site";
       flake = false;
     };
   };

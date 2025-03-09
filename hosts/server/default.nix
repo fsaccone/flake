@@ -13,7 +13,7 @@ rec {
     agate = {
       enable = true;
       preStart = {
-        script = "${inputs.website}/generate-gemini.sh /tmp/website/gemini";
+        script = "${inputs.site}/generate-gemini.sh /tmp/website/gemini";
         packages = [
           pkgs.coreutils
           pkgs.findutils
@@ -23,7 +23,7 @@ rec {
       symlinks = {
         "index.gmi" = "/tmp/website/gemini/index.gmi";
         "blog" = "/tmp/website/gemini/blog";
-        "public" = "${inputs.website}/public";
+        "public" = "${inputs.site}/public";
       };
     };
     bind = {
@@ -34,7 +34,7 @@ rec {
     darkhttpd = rec {
       enable = true;
       preStart = {
-        script = "${inputs.website}/generate-html.sh /tmp/website/html";
+        script = "${inputs.site}/generate-html.sh /tmp/website/html";
         packages = [
           pkgs.coreutils
           pkgs.findutils
@@ -44,9 +44,9 @@ rec {
       symlinks = {
         "index.html" = "/tmp/website/html/index.html";
         "blog" = "/tmp/website/html/blog";
-        "public" = "${inputs.website}/public";
-        "favicon.ico" = "${inputs.website}/favicon.ico";
-        "robots.txt" = "${inputs.website}/robots.txt";
+        "public" = "${inputs.site}/public";
+        "favicon.ico" = "${inputs.site}/favicon.ico";
+        "robots.txt" = "${inputs.site}/robots.txt";
       };
       customHeaderScripts =
         let
