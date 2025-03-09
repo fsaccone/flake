@@ -11,9 +11,9 @@
     ./tls
   ];
 
-  options.modules.staticWebServer = {
+  options.modules.darkhttpd = {
     enable = lib.mkOption {
-      description = "Whether to enable Static Web Server.";
+      description = "Whether to enable Darkhttpd.";
       default = false;
       type = lib.types.bool;
     };
@@ -45,43 +45,43 @@
     };
   };
 
-  config = lib.mkIf config.modules.staticWebServer.enable {
+  config = lib.mkIf config.modules.darkhttpd.enable {
     users = {
       users = {
-        static-web-server = {
+        darkhttpd = {
           hashedPassword = "!";
           isSystemUser = true;
-          group = "www";
+          group = "darkhttpd";
           createHome = true;
-          home = config.modules.staticWebServer.directory;
+          home = config.modules.darkhttpd.directory;
         };
       };
       groups = {
-        www = { };
+        darkhttpd = { };
       };
     };
 
     systemd = {
       services = {
-        static-web-server-setup = {
+        darkhttpd-setup = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           serviceConfig =
             let
               permissions = pkgs.writeShellScriptBin "permissions" ''
                 ${pkgs.coreutils}/bin/chmod -R g+rwx \
-                ${config.modules.staticWebServer.directory}
+                ${config.modules.darkhttpd.directory}
               '';
               clean = pkgs.writeShellScriptBin "clean" ''
                 ${pkgs.coreutils}/bin/rm -rf \
-                ${config.modules.staticWebServer.directory}/*
+                ${config.modules.darkhttpd.directory}/*
               '';
               symlinks =
-                config.modules.staticWebServer.symlinks
+                config.modules.darkhttpd.symlinks
                 |> builtins.mapAttrs (
                   name: target:
                   let
-                    inherit (config.modules.staticWebServer) directory;
+                    inherit (config.modules.darkhttpd) directory;
                   in
                   ''
                     ${pkgs.coreutils}/bin/mkdir -p \
@@ -90,7 +90,7 @@
                     ${pkgs.coreutils}/bin/ln -sf ${target} \
                     ${directory}/${name}
 
-                    ${pkgs.coreutils}/bin/chown -Rh static-web-server:www \
+                    ${pkgs.coreutils}/bin/chown -Rh darkhttpd:darkhttpd \
                     ${directory}/${name}
                   ''
                 )
@@ -109,29 +109,31 @@
               ];
             };
         };
-        static-web-server =
+        darkhttpd =
           let
-            inherit (config.modules.staticWebServer) preStart;
+            inherit (config.modules.darkhttpd) preStart;
           in
           rec {
             enable = true;
             wantedBy = [ "multi-user.target" ];
-            requires = [ "static-web-server-setup.service" ];
+            requires = [ "darkhttpd-setup.service" ];
             after = [ "network.target" ];
             path = preStart.packages;
             serviceConfig =
               let
-                inherit (config.modules.staticWebServer) tls;
+                inherit (config.modules.darkhttpd) tls;
                 script = pkgs.writeShellScriptBin "script" ''
                   ${preStart.script}
 
-                  ${pkgs.static-web-server}/bin/static-web-server \
+                  ${pkgs.darkhttpd}/bin/darkhttpd \
+                    ${config.modules.darkhttpd.directory} \
                     --port 80 \
-                    --http2 false \
-                    --root ${config.modules.staticWebServer.directory} \
-                    --index-files index.html \
-                    --ignore-hidden-files false \
-                    ${if tls.enable then "--https-redirect" else ";"}
+                    --index index.html \
+                    --no-listing \
+                    --uid darkhttpd \
+                    --gid darkhttpd \
+                    --no-server-id \
+                    --ipv6 ${if tls.enable then "--forward-https" else ""}
                 '';
               in
               {
@@ -144,13 +146,13 @@
           };
       };
       paths = {
-        static-web-server = {
+        darkhttpd = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
             PathModified = [
-              config.modules.staticWebServer.directory
-            ] ++ builtins.attrValues config.modules.staticWebServer.symlinks;
+              config.modules.darkhttpd.directory
+            ] ++ builtins.attrValues config.modules.darkhttpd.symlinks;
           };
         };
       };

@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.staticWebServer.acme = {
+  options.modules.darkhttpd.acme = {
     enable = lib.mkOption {
       description = "Whether to enable the Certbot ACME client.";
       default = false;
@@ -37,15 +37,15 @@
 
   config =
     let
-      inherit (config.modules.staticWebServer) acme;
+      inherit (config.modules.darkhttpd) acme;
     in
-    lib.mkIf (acme.enable && config.modules.staticWebServer.enable) {
+    lib.mkIf (acme.enable && config.modules.darkhttpd.enable) {
       systemd = {
         services = {
           acme = {
             enable = true;
             wantedBy = [ "multi-user.target" ];
-            after = [ "static-web-server-setup.service" ];
+            after = [ "darkhttpd-setup.service" ];
             serviceConfig =
               let
                 domains = [ acme.domain ] ++ acme.extraDomains;
@@ -55,7 +55,7 @@
                   | ${pkgs.gnugrep}/bin/grep -q "No certificates"; then
                     ${pkgs.certbot}/bin/certbot certonly --quiet --webroot \
                     --agree-tos --email ${acme.email} \
-                    -w ${config.modules.staticWebServer.directory} \
+                    -w ${config.modules.darkhttpd.directory} \
                     -d ${builtins.concatStringsSep " -d " domains}
                   else
                     ${pkgs.certbot}/bin/certbot renew --quiet

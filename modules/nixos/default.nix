@@ -3,12 +3,12 @@
   imports = [
     ./agate
     ./bind
+    ./darkhttpd
     ./git
     ./monero
     ./networkmanager
     ./openssh
     ./pipewire
-    ./static-web-server
     ./sudo
     ./tlp
     ./tor

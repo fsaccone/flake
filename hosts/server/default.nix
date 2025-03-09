@@ -31,6 +31,43 @@ rec {
       inherit (networking) domain;
       records = import ./dns.nix networking.domain;
     };
+    darkhttpd = rec {
+      enable = true;
+      preStart = {
+        script = "${inputs.website}/generate-html.sh /tmp/website/html";
+        packages = [
+          pkgs.coreutils
+          pkgs.findutils
+          pkgs.lowdown
+        ];
+      };
+      symlinks = {
+        "index.html" = "/tmp/website/html/index.html";
+        "blog" = "/tmp/website/html/blog";
+        "public" = "${inputs.website}/public";
+        "favicon.ico" = "${inputs.website}/favicon.ico";
+        "robots.txt" = "${inputs.website}/robots.txt";
+      };
+      acme = {
+        enable = true;
+        email = "admin@${networking.domain}";
+        inherit (networking) domain;
+        extraDomains = builtins.map (sub: "${sub}.${networking.domain}") [
+          "www"
+        ];
+      };
+      tls = {
+        enable = true;
+        pemFiles =
+          let
+            inherit (config.modules.darkhttpd.acme) directory;
+          in
+          [
+            "${directory}/${acme.domain}/fullchain.pem"
+            "${directory}/${acme.domain}/privkey.pem"
+          ];
+      };
+    };
     git = {
       enable = true;
       repositories =
@@ -66,43 +103,6 @@ rec {
           ./ssh/francescosaccone.pub
         ];
         git = root;
-      };
-    };
-    staticWebServer = rec {
-      enable = true;
-      preStart = {
-        script = "${inputs.website}/generate-html.sh /tmp/website/html";
-        packages = [
-          pkgs.coreutils
-          pkgs.findutils
-          pkgs.lowdown
-        ];
-      };
-      symlinks = {
-        "index.html" = "/tmp/website/html/index.html";
-        "blog" = "/tmp/website/html/blog";
-        "public" = "${inputs.website}/public";
-        "favicon.ico" = "${inputs.website}/favicon.ico";
-        "robots.txt" = "${inputs.website}/robots.txt";
-      };
-      acme = {
-        enable = true;
-        email = "admin@${networking.domain}";
-        inherit (networking) domain;
-        extraDomains = builtins.map (sub: "${sub}.${networking.domain}") [
-          "www"
-        ];
-      };
-      tls = {
-        enable = true;
-        pemFiles =
-          let
-            inherit (config.modules.staticWebServer.acme) directory;
-          in
-          [
-            "${directory}/${acme.domain}/fullchain.pem"
-            "${directory}/${acme.domain}/privkey.pem"
-          ];
       };
     };
     tor = {

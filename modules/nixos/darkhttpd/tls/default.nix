@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.staticWebServer.tls = {
+  options.modules.darkhttpd.tls = {
     enable = lib.mkOption {
       description = "Whether to enable the Hitch reverse proxy.";
       default = false;
@@ -20,15 +20,15 @@
 
   config =
     let
-      inherit (config.modules.staticWebServer) tls;
+      inherit (config.modules.darkhttpd) tls;
     in
-    lib.mkIf (tls.enable && config.modules.staticWebServer.enable) {
+    lib.mkIf (tls.enable && config.modules.darkhttpd.enable) {
       users = {
         users = {
           hitch = {
             hashedPassword = "!";
             isSystemUser = true;
-            group = "www";
+            group = "darkhttpd";
             createHome = true;
             home = "/var/lib/hitch";
           };
