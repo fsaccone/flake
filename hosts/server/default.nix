@@ -24,6 +24,7 @@ rec {
         "index.gmi" = "/tmp/site/gemini/index.gmi";
         "blog" = "/tmp/site/gemini/blog";
         "public" = "${inputs.site}/public";
+        "robots.txt" = "${inputs.site}/robots.txt";
       };
     };
     bind = {
