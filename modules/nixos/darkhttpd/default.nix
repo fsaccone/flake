@@ -39,13 +39,15 @@
       type = lib.types.attrsOf lib.types.path;
     };
     preStart = {
-      script = lib.mkOption {
-        description = "The script file to be run before starting the server";
-        default = "${pkgs.writeShellScriptBin "script" ""}/bin/script";
-        type = lib.types.uniq lib.types.path;
+      scripts = lib.mkOption {
+        description = ''
+          The list of scripts to run before starting the server.
+        '';
+        default = [ ];
+        type = lib.types.listOf lib.types.path;
       };
       packages = lib.mkOption {
-        description = "The list of packages required by the script";
+        description = "The list of packages required by the scripts.";
         default = [ ];
         type = lib.types.listOf lib.types.package;
       };
@@ -137,7 +139,7 @@
                   |> builtins.concatStringsSep " ";
 
                 script = pkgs.writeShellScriptBin "script" ''
-                  ${preStart.script}
+                  ${builtins.concatStringsSep "\n" preStart.scripts}
 
                   ${pkgs.darkhttpd}/bin/darkhttpd \
                     ${config.modules.darkhttpd.directory} \
