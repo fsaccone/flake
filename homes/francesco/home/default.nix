@@ -135,7 +135,7 @@
     helvum
     imv
     libreoffice
-    librewolf
+    librewolf-bin
     mpv
     mupdf
     musescore
