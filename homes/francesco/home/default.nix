@@ -27,6 +27,9 @@
         username = "francesco%40francescosaccone.com";
       };
     };
+    amfora = {
+      enable = true;
+    };
     git = {
       enable = true;
       name = "Francesco Saccone";
@@ -127,7 +130,6 @@
   };
 
   home.packages = with pkgs; [
-    amfora
     ardour
     dig
     helvum
