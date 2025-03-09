@@ -13,7 +13,7 @@ rec {
     agate = {
       enable = true;
       preStart = {
-        script = "${inputs.site}/generate-gemini.sh /tmp/website/gemini";
+        script = "${inputs.site}/generate-gemini.sh /tmp/site/gemini";
         packages = [
           pkgs.coreutils
           pkgs.findutils
@@ -21,8 +21,8 @@ rec {
         ];
       };
       symlinks = {
-        "index.gmi" = "/tmp/website/gemini/index.gmi";
-        "blog" = "/tmp/website/gemini/blog";
+        "index.gmi" = "/tmp/site/gemini/index.gmi";
+        "blog" = "/tmp/site/gemini/blog";
         "public" = "${inputs.site}/public";
       };
     };
@@ -34,7 +34,7 @@ rec {
     darkhttpd = rec {
       enable = true;
       preStart = {
-        script = "${inputs.site}/generate-html.sh /tmp/website/html";
+        script = "${inputs.site}/generate-html.sh /tmp/site/html";
         packages = [
           pkgs.coreutils
           pkgs.findutils
@@ -42,8 +42,8 @@ rec {
         ];
       };
       symlinks = {
-        "index.html" = "/tmp/website/html/index.html";
-        "blog" = "/tmp/website/html/blog";
+        "index.html" = "/tmp/site/html/index.html";
+        "blog" = "/tmp/site/html/blog";
         "public" = "${inputs.site}/public";
         "favicon.ico" = "${inputs.site}/favicon.ico";
         "robots.txt" = "${inputs.site}/robots.txt";
