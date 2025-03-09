@@ -39,6 +39,7 @@ rec {
         packages = [
           pkgs.coreutils
           pkgs.findutils
+          pkgs.gnused
           pkgs.lowdown
         ];
       };
@@ -83,6 +84,7 @@ rec {
         packages = [
           pkgs.coreutils
           pkgs.findutils
+          pkgs.gnused
           pkgs.lowdown
         ];
       };
