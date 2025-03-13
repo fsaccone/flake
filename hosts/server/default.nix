@@ -106,7 +106,7 @@ rec {
 
                     ${pkgs.coreutils}/bin/ln \
                       -sf \
-                      ${inputs.site}/public/style.css \
+                      ${./stagit.css} \
                       "/tmp/site/html/git/${name}/style.css"
                   '')
                   |> builtins.concatStringsSep "\n";
@@ -132,7 +132,7 @@ rec {
 
                     ${pkgs.coreutils}/bin/ln \
                       -sf \
-                      ${inputs.site}/public/style.css \
+                      ${./stagit.css} \
                       "/tmp/site/html/git/style.css"
                 '';
 
