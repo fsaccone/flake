@@ -77,71 +77,6 @@ rec {
               "${inputs.site}/scripts/generate-html.sh"
               "/tmp/site/html"
             ];
-            generateStagit =
-              let
-                inherit (config.modules.git) directory;
-                generateRepositories =
-                  modules.git.repositories
-                  |> builtins.attrNames
-                  |> builtins.map (name: ''
-                    ${pkgs.coreutils}/bin/mkdir \
-                      -p \
-                      "/tmp/site/html/git/${name}"
-
-                    cd "/tmp/site/html/git/${name}"
-
-                    ${pkgs.stagit}/bin/stagit \
-                      -u https://${networking.domain}/git/ \
-                      "${directory}/${name}"
-
-                    ${pkgs.coreutils}/bin/ln \
-                      -sf \
-                      ${inputs.site}/public/icon/1024.png \
-                      "/tmp/site/html/git/${name}/favicon.png"
-
-                    ${pkgs.coreutils}/bin/ln \
-                      -sf \
-                      ${inputs.site}/public/icon/32.png \
-                      "/tmp/site/html/git/${name}/logo.png"
-
-                    ${pkgs.coreutils}/bin/ln \
-                      -sf \
-                      ${./stagit.css} \
-                      "/tmp/site/html/git/${name}/style.css"
-                  '')
-                  |> builtins.concatStringsSep "\n";
-                generateIndex = ''
-                  ${pkgs.stagit}/bin/stagit-index ${
-                    (
-                      modules.git.repositories
-                      |> builtins.attrNames
-                      |> builtins.map (name: "${directory}/${name}")
-                      |> builtins.concatStringsSep " "
-                    )
-                  } > /tmp/site/html/git/index.html
-
-                  ${pkgs.coreutils}/bin/ln \
-                    -sf \
-                    ${inputs.site}/public/icon/1024.png \
-                    "/tmp/site/html/git/favicon.png"
-
-                  ${pkgs.coreutils}/bin/ln \
-                    -sf \
-                    ${inputs.site}/public/icon/32.png \
-                    "/tmp/site/html/git/logo.png"
-
-                    ${pkgs.coreutils}/bin/ln \
-                      -sf \
-                      ${./stagit.css} \
-                      "/tmp/site/html/git/style.css"
-                '';
-
-                script = pkgs.writeShellScriptBin "generate-stagit" ''
-                  ${generateRepositories}
-                  ${generateIndex}
-                '';
-              in
-              "${script}/bin/generate-stagit";
           in
           [
             generateAtom
@@ -219,6 +154,71 @@ rec {
             inherit description;
             owner = "Francesco Saccone";
             baseUrl = networking.domain;
+            hooks.postUpdate =
+              let
+                inherit (config.modules.git) directory;
+                generateRepositories =
+                  modules.git.repositories
+                  |> builtins.attrNames
+                  |> builtins.map (name: ''
+                    ${pkgs.coreutils}/bin/mkdir \
+                      -p \
+                      "/tmp/site/html/git/${name}"
+
+                    cd "/tmp/site/html/git/${name}"
+
+                    ${pkgs.stagit}/bin/stagit \
+                      -u https://${networking.domain}/git/ \
+                      "${directory}/${name}"
+
+                    ${pkgs.coreutils}/bin/ln \
+                      -sf \
+                      ${inputs.site}/public/icon/1024.png \
+                      "/tmp/site/html/git/${name}/favicon.png"
+
+                    ${pkgs.coreutils}/bin/ln \
+                      -sf \
+                      ${inputs.site}/public/icon/32.png \
+                      "/tmp/site/html/git/${name}/logo.png"
+
+                    ${pkgs.coreutils}/bin/ln \
+                      -sf \
+                      ${./stagit.css} \
+                      "/tmp/site/html/git/${name}/style.css"
+                  '')
+                  |> builtins.concatStringsSep "\n";
+                generateIndex = ''
+                  ${pkgs.stagit}/bin/stagit-index ${
+                    (
+                      modules.git.repositories
+                      |> builtins.attrNames
+                      |> builtins.map (name: "${directory}/${name}")
+                      |> builtins.concatStringsSep " "
+                    )
+                  } > /tmp/site/html/git/index.html
+
+                  ${pkgs.coreutils}/bin/ln \
+                    -sf \
+                    ${inputs.site}/public/icon/1024.png \
+                    "/tmp/site/html/git/favicon.png"
+
+                  ${pkgs.coreutils}/bin/ln \
+                    -sf \
+                    ${inputs.site}/public/icon/32.png \
+                    "/tmp/site/html/git/logo.png"
+
+                    ${pkgs.coreutils}/bin/ln \
+                      -sf \
+                      ${./stagit.css} \
+                      "/tmp/site/html/git/style.css"
+                '';
+
+                script = pkgs.writeShellScriptBin "script" ''
+                  ${generateRepositories}
+                  ${generateIndex}
+                '';
+              in
+              "${script}/bin/script";
           }
         );
       daemon = {
