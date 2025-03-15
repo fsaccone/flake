@@ -121,16 +121,16 @@
                     ${pkgs.coreutils}/bin/echo "git://${baseUrl}/${name}" > \
                     ${directory}/${name}/url
 
-                    ${pkgs.coreutils}/bin/mkdir -p ${directory}/hooks
+                    ${pkgs.coreutils}/bin/mkdir -p ${directory}/${name}/hooks
 
                     ${pkgs.coreutils}/bin/ln -sf ${hooks.preReceive} \
-                    ${directory}/hooks/pre-receive
+                    ${directory}/${name}/hooks/pre-receive
 
                     ${pkgs.coreutils}/bin/ln -sf ${hooks.update} \
-                    ${directory}/hooks/update
+                    ${directory}/${name}/hooks/update
 
                     ${pkgs.coreutils}/bin/ln -sf ${hooks.postReceive} \
-                    ${directory}/hooks/post-receive
+                    ${directory}/${name}/hooks/post-receive
                   ''
                 )
                 |> builtins.attrValues
