@@ -45,6 +45,23 @@
               '';
               type = lib.types.uniq lib.types.str;
             };
+            hooks = {
+              preReceive = lib.mkOption {
+                description = "The pre-receive hook script.";
+                default = "${pkgs.writeShellScriptBin "script" ""}/bin/script";
+                type = lib.types.uniq lib.types.path;
+              };
+              update = lib.mkOption {
+                description = "The update hook script.";
+                default = "${pkgs.writeShellScriptBin "script" ""}/bin/script";
+                type = lib.types.uniq lib.types.path;
+              };
+              postReceive = lib.mkOption {
+                description = "The post-receive hook script.";
+                default = "${pkgs.writeShellScriptBin "script" ""}/bin/script";
+                type = lib.types.uniq lib.types.path;
+              };
+            };
           };
         }
         |> lib.types.attrsOf;
@@ -80,27 +97,40 @@
           wantedBy = [ "multi-user.target" ];
           serviceConfig =
             let
+              inherit (config.modules.git) repositories directory;
               script =
-                config.modules.git.repositories
+                repositories
                 |> builtins.mapAttrs (
                   name:
                   {
                     description,
                     owner,
                     baseUrl,
+                    hooks,
                   }:
                   ''
                     ${pkgs.git}/bin/git init -q --bare -b master \
-                    ${config.modules.git.directory}/${name}
+                    ${directory}/${name}
 
                     ${pkgs.coreutils}/bin/echo "${description}" > \
-                    ${config.modules.git.directory}/${name}/description
+                    ${directory}/${name}/description
 
                     ${pkgs.coreutils}/bin/echo "${owner}" > \
-                    ${config.modules.git.directory}/${name}/owner
+                    ${directory}/${name}/owner
 
                     ${pkgs.coreutils}/bin/echo "git://${baseUrl}/${name}" > \
-                    ${config.modules.git.directory}/${name}/url
+                    ${directory}/${name}/url
+
+                    ${pkgs.coreutils}/bin/mkdir -p ${directory}/hooks
+
+                    ${pkgs.coreutils}/bin/ln -sf ${hooks.preReceive} \
+                    ${directory}/hooks/pre-receive
+
+                    ${pkgs.coreutils}/bin/ln -sf ${hooks.update} \
+                    ${directory}/hooks/update
+
+                    ${pkgs.coreutils}/bin/ln -sf ${hooks.postReceive} \
+                    ${directory}/hooks/post-receive
                   ''
                 )
                 |> builtins.attrValues
