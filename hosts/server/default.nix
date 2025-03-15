@@ -93,7 +93,7 @@ rec {
       symlinks = {
         "index.html" = "/tmp/site/html/index.html";
         "blog" = "/tmp/site/html/blog";
-        "git" = "/tmp/site/html/git";
+        "git" = "${config.modules.git.directory}/.stagit";
         "public" = "${inputs.site}/public";
         "favicon.ico" = "${inputs.site}/favicon.ico";
         "robots.txt" = "${inputs.site}/robots.txt";
@@ -162,9 +162,9 @@ rec {
                   |> builtins.map (name: ''
                     ${pkgs.coreutils}/bin/mkdir \
                       -p \
-                      "/tmp/site/html/git/${name}"
+                      "${directory}/.stagit/${name}"
 
-                    cd "/tmp/site/html/git/${name}"
+                    cd "${directory}/.stagit/${name}"
 
                     ${pkgs.stagit}/bin/stagit \
                       -u https://${networking.domain}/git/ \
@@ -173,17 +173,17 @@ rec {
                     ${pkgs.coreutils}/bin/ln \
                       -sf \
                       ${inputs.site}/public/icon/1024.png \
-                      "/tmp/site/html/git/${name}/favicon.png"
+                      "${directory}/.stagit/${name}/favicon.png"
 
                     ${pkgs.coreutils}/bin/ln \
                       -sf \
                       ${inputs.site}/public/icon/32.png \
-                      "/tmp/site/html/git/${name}/logo.png"
+                      "${directory}/.stagit/${name}/logo.png"
 
                     ${pkgs.coreutils}/bin/ln \
                       -sf \
                       ${./stagit.css} \
-                      "/tmp/site/html/git/${name}/style.css"
+                      "${directory}/.stagit/${name}/style.css"
                   '')
                   |> builtins.concatStringsSep "\n";
                 generateIndex = ''
@@ -194,22 +194,22 @@ rec {
                       |> builtins.map (name: "${directory}/${name}")
                       |> builtins.concatStringsSep " "
                     )
-                  } > /tmp/site/html/git/index.html
+                  } > ${directory}/.stagit/index.html
 
                   ${pkgs.coreutils}/bin/ln \
                     -sf \
                     ${inputs.site}/public/icon/1024.png \
-                    "/tmp/site/html/git/favicon.png"
+                    "${directory}/.stagit/favicon.png"
 
                   ${pkgs.coreutils}/bin/ln \
                     -sf \
                     ${inputs.site}/public/icon/32.png \
-                    "/tmp/site/html/git/logo.png"
+                    "${directory}/.stagit/logo.png"
 
                     ${pkgs.coreutils}/bin/ln \
                       -sf \
                       ${./stagit.css} \
-                      "/tmp/site/html/git/style.css"
+                      "${directory}/.stagit/style.css"
                 '';
 
                 script = pkgs.writeShellScriptBin "script" ''
