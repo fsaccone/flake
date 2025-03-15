@@ -153,7 +153,7 @@ rec {
             inherit description;
             owner = "Francesco Saccone";
             baseUrl = networking.domain;
-            hooks.postUpdate =
+            hooks.postReceive =
               let
                 inherit (config.modules.git) directory;
                 generateRepositories =
