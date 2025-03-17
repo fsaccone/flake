@@ -31,13 +31,6 @@
       default = { };
       type = lib.types.attrsOf lib.types.path;
     };
-    customHeaderScripts = lib.mkOption {
-      description = ''
-        For each custom HTTP header name, the shell script to get its value.
-      '';
-      default = { };
-      type = lib.types.attrsOf lib.types.path;
-    };
     preStart = {
       scripts = lib.mkOption {
         description = ''
@@ -131,13 +124,6 @@
             serviceConfig =
               let
                 inherit (config.modules.darkhttpd) customHeaderScripts tls;
-                customHeaderFlags =
-                  customHeaderScripts
-                  |> builtins.mapAttrs (name: script: "${name}: $(${script})")
-                  |> builtins.attrValues
-                  |> builtins.map (arg: "--header \"${arg}\"")
-                  |> builtins.concatStringsSep " ";
-
                 script = pkgs.writeShellScriptBin "script" ''
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
@@ -149,8 +135,7 @@
                     --uid darkhttpd \
                     --gid darkhttpd \
                     --no-server-id \
-                    --ipv6 ${if tls.enable then "--forward-https" else ""} \
-                    ${customHeaderFlags}
+                    --ipv6 ${if tls.enable then "--forward-https" else ""}
                 '';
               in
               {
