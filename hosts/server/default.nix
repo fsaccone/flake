@@ -93,7 +93,6 @@ rec {
       symlinks = {
         "index.html" = "/tmp/site/html/index.html";
         "blog" = "/tmp/site/html/blog";
-        "git" = "${config.modules.git.directory}/.stagit";
         "public" = "${inputs.site}/public";
         "favicon.ico" = "${inputs.site}/favicon.ico";
         "robots.txt" = "${inputs.site}/robots.txt";
@@ -141,71 +140,6 @@ rec {
             inherit description;
             owner = "Francesco Saccone";
             baseUrl = networking.domain;
-            hooks.postReceive =
-              let
-                inherit (config.modules.git) directory;
-                generateRepositories =
-                  modules.git.repositories
-                  |> builtins.attrNames
-                  |> builtins.map (name: ''
-                    ${pkgs.coreutils}/bin/mkdir \
-                      -p \
-                      "${directory}/.stagit/${name}"
-
-                    cd "${directory}/.stagit/${name}"
-
-                    ${pkgs.stagit}/bin/stagit \
-                      -u https://${networking.domain}/git/ \
-                      "${directory}/${name}"
-
-                    ${pkgs.coreutils}/bin/ln \
-                      -sf \
-                      ${inputs.site}/public/icon/1024.png \
-                      "${directory}/.stagit/${name}/favicon.png"
-
-                    ${pkgs.coreutils}/bin/ln \
-                      -sf \
-                      ${inputs.site}/public/icon/32.png \
-                      "${directory}/.stagit/${name}/logo.png"
-
-                    ${pkgs.coreutils}/bin/ln \
-                      -sf \
-                      ${./stagit.css} \
-                      "${directory}/.stagit/${name}/style.css"
-                  '')
-                  |> builtins.concatStringsSep "\n";
-                generateIndex = ''
-                  ${pkgs.stagit}/bin/stagit-index ${
-                    (
-                      modules.git.repositories
-                      |> builtins.attrNames
-                      |> builtins.map (name: "${directory}/${name}")
-                      |> builtins.concatStringsSep " "
-                    )
-                  } > ${directory}/.stagit/index.html
-
-                  ${pkgs.coreutils}/bin/ln \
-                    -sf \
-                    ${inputs.site}/public/icon/1024.png \
-                    "${directory}/.stagit/favicon.png"
-
-                  ${pkgs.coreutils}/bin/ln \
-                    -sf \
-                    ${inputs.site}/public/icon/32.png \
-                    "${directory}/.stagit/logo.png"
-
-                    ${pkgs.coreutils}/bin/ln \
-                      -sf \
-                      ${./stagit.css} \
-                      "${directory}/.stagit/style.css"
-                '';
-
-                script = pkgs.writeShellScriptBin "script" ''
-                  ${generateRepositories}
-                  ${generateIndex}
-                '';
-              in
-              "${script}/bin/script";
           }
         );
       daemon = {
