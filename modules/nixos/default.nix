@@ -11,7 +11,6 @@
     ./pipewire
     ./sudo
     ./tlp
-    ./tor
     ./wayland
   ];
 }

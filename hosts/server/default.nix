@@ -100,18 +100,6 @@ rec {
         "atom.xml" = "/tmp/site/html/atom.xml";
         "sitemap.xml" = "/tmp/site/html/sitemap.xml";
       };
-      customHeaderScripts =
-        let
-          getOnionAddress = pkgs.writeShellScriptBin "get-onion-address" ''
-            HOSTNAME=$(${pkgs.coreutils}/bin/cat \
-            ${config.modules.tor.servicesDirectory}/website/hostname)
-
-            ${pkgs.coreutils}/bin/echo "http://$HOSTNAME"
-          '';
-        in
-        {
-          "Onion-Location" = "${getOnionAddress}/bin/get-onion-address";
-        };
       acme = {
         enable = true;
         email = "admin@${networking.domain}";
@@ -232,17 +220,6 @@ rec {
           ./ssh/francescosaccone.pub
         ];
         git = root;
-      };
-    };
-    tor = {
-      enable = true;
-      services = {
-        website = {
-          ports = [
-            80
-            443
-          ];
-        };
       };
     };
   };
