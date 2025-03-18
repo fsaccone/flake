@@ -142,6 +142,7 @@
     helvum
     imv
     librewolf-bin
+    lilypond
     mpv
     musescore
     nmap
