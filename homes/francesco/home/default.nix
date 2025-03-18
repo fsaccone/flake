@@ -144,10 +144,10 @@
     libreoffice
     librewolf-bin
     mpv
-    mupdf
     musescore
     nmap
     noice
     qjackctl
+    zathura
   ];
 }
