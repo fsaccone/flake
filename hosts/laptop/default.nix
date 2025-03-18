@@ -6,6 +6,9 @@
 }:
 {
   modules = {
+    doas = {
+      enable = true;
+    };
     monero = {
       enable = true;
       mining = {
@@ -21,9 +24,6 @@
       randomiseMacAddress = true;
     };
     openssh.agent = {
-      enable = true;
-    };
-    sudo = {
       enable = true;
     };
     tlp = {

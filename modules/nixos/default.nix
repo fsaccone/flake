@@ -4,11 +4,11 @@
     ./agate
     ./bind
     ./darkhttpd
+    ./doas
     ./git
     ./monero
     ./networkmanager
     ./openssh
-    ./sudo
     ./tlp
     ./wayland
   ];
