@@ -7,11 +7,10 @@
 {
   users.users."francesco" = {
     description = "Francesco Saccone";
-    hashedPassword =
-      let
-        hashedPassword = builtins.readFile ./hashedPassword.txt;
-      in
-      lib.strings.trim hashedPassword;
+    hashedPassword = builtins.concatStringsSep "" [
+      "$y$j9T$OeFz3YZ.sA0W62wz7QEyr.$p8n5VCft9O6sdxSedIh4SQ7"
+      "JiXWgFI0/E5knPbX9y/3"
+    ];
     isNormalUser = true;
     extraGroups = [
       "networkmanager"
