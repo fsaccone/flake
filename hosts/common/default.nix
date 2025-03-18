@@ -8,7 +8,12 @@
   system.stateVersion = "23.11";
 
   services.fwupd.enable = true;
-  security.protectKernelImage = true;
+
+  security = {
+    protectKernelImage = true;
+    sudo.enable = lib.mkForce false;
+  };
+
   boot.tmp.cleanOnBoot = true;
 
   users = {
