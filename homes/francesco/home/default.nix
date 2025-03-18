@@ -145,7 +145,6 @@
     lilypond
     md2pdf
     mpv
-    musescore
     nmap
     noice
     sent
