@@ -141,7 +141,6 @@
     dig
     helvum
     imv
-    libreoffice
     librewolf-bin
     mpv
     musescore
