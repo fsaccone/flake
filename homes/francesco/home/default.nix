@@ -46,7 +46,7 @@
       enable = true;
       primaryKey = {
         fingerprint = "2BE025D27B449E55B320C44209F39C4E70CB2C24";
-        file = ./openpgp.asc;
+        file = inputs.openpgp-key;
       };
     };
     pass = {
