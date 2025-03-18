@@ -8,7 +8,6 @@
     ./monero
     ./networkmanager
     ./openssh
-    ./pipewire
     ./sudo
     ./tlp
     ./wayland

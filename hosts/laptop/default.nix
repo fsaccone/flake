@@ -23,9 +23,6 @@
     openssh.agent = {
       enable = true;
     };
-    pipewire = {
-      enable = true;
-    };
     sudo = {
       enable = true;
     };
