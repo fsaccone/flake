@@ -17,6 +17,10 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    openpgp-key = {
+      url = "https://francescosaccone.com/public/francescosaccone.asc";
+      flake = false;
+    };
     password-store = {
       url = "git://francescosaccone.com/password-store";
       flake = false;

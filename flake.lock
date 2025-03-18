@@ -57,6 +57,18 @@
         "type": "github"
       }
     },
+    "openpgp-key": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-Oz+cHPKOt3PAzxxZQUkmOmRkKmwTAMn9NIu4RdbGX+8=",
+        "type": "file",
+        "url": "https://francescosaccone.com/public/francescosaccone.asc"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://francescosaccone.com/public/francescosaccone.asc"
+      }
+    },
     "password-store": {
       "flake": false,
       "locked": {
@@ -78,6 +90,7 @@
         "disko": "disko",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "openpgp-key": "openpgp-key",
         "password-store": "password-store",
         "site": "site",
         "treefmt-nix": "treefmt-nix"
