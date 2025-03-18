@@ -143,6 +143,7 @@
     imv
     librewolf-bin
     lilypond
+    md2pdf
     mpv
     musescore
     nmap
