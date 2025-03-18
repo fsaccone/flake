@@ -137,9 +137,9 @@
   };
 
   home.packages = with pkgs; [
-    ardour
+    alsa-utils
+    ffmpeg
     dig
-    helvum
     imv
     librewolf-bin
     lilypond
@@ -148,7 +148,6 @@
     musescore
     nmap
     noice
-    qjackctl
     sent
     zathura
   ];
