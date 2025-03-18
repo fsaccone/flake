@@ -14,9 +14,7 @@
       lib.strings.trim hashedPassword;
     isNormalUser = true;
     extraGroups = [
-      "audio"
       "networkmanager"
-      "realtime"
       "wheel"
     ];
     createHome = true;
