@@ -147,6 +147,7 @@
     nmap
     noice
     qjackctl
+    sent
     zathura
   ];
 }
