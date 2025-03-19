@@ -3,7 +3,7 @@
   ...
 }:
 {
-  programs.bash = {
-    enable = true;
-  };
+  home.file.".mkshrc".text = ''
+    PS1="[\${"$"}{PWD}/]$ "
+  '';
 }

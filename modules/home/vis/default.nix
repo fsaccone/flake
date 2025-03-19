@@ -16,15 +16,12 @@
   };
 
   config = lib.mkIf config.modules.vis.enable {
-    programs.bash.initExtra = ''
-      export EDITOR=${pkgs.vis}/bin/vis
-    '';
-
     home = {
       packages = [
         pkgs.vis
       ];
       file = {
+        ".mkshrc".text = "export EDITOR=${pkgs.vis}/bin/vis";
         ".config/vis/visrc.lua".source = ./visrc.lua;
       };
     };
