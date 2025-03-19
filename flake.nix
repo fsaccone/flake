@@ -48,7 +48,7 @@
           };
           forEachSystemPkgs = import ./lib/for-each-system-pkgs.nix {
             inherit (inputs) nixpkgs;
-            inherit systems;
+            inherit systems inputs;
           };
           makeHost = import ./lib/make-host.nix {
             inherit (inputs) nixpkgs;

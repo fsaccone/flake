@@ -1,14 +1,14 @@
+{ nixpkgs, inputs, systems }:
 let
   forEachSystem = import ./for-each-system.nix;
-  getPkgs = import ./get-pkgs.nix;
+  getPkgs = import ./get-pkgs.nix { inherit nixpkgs inputs; };
 in
-{ nixpkgs, systems }:
 f:
 (
   { system }:
   f {
     inherit system;
-    pkgs = getPkgs { inherit nixpkgs; } { inherit system; };
+    pkgs = getPkgs { inherit system; };
   }
 )
 |> forEachSystem {
