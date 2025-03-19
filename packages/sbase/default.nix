@@ -1,7 +1,7 @@
 {
   lib,
   stdenv,
-  fetchgit
+  fetchgit,
 }:
 stdenv.mkDerivation {
   pname = "sbase";
