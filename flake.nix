@@ -68,17 +68,18 @@
       );
     in
     {
-      formatter = lib.forEachSystem (
-        {
-          system,
-        }:
-        treefmtEval.${system}.config.build.wrapper
-      );
       checks = lib.forEachSystem (
         { system }:
         {
           formatting = treefmtEval.${system}.config.build.check inputs.self;
         }
+      );
+
+      formatter = lib.forEachSystem (
+        {
+          system,
+        }:
+        treefmtEval.${system}.config.build.wrapper
       );
 
       packages = lib.forEachSystem (
