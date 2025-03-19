@@ -89,6 +89,8 @@
         import ./packages inputs.nixpkgs.legacyPackages.${system}
       );
 
+      overlays.default = final: prev: import ./packages final.pkgs;
+
       nixosConfigurations = {
         "laptop" = lib.makeHost "laptop" {
           additionalModules = lib.makeHomeModules "francesco";
