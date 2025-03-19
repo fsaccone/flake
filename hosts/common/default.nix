@@ -29,7 +29,12 @@
     package = pkgs.iptables;
   };
 
-  environment.defaultPackages = lib.mkForce [ ];
+  environment = {
+    defaultPackages = lib.mkForce [ ];
+    systemPackages = [
+      (lib.meta.hiPrio pkgs.sbase)
+    ];
+  };
 
   i18n.defaultLocale = "en_GB.UTF-8";
   time.timeZone = "Europe/Rome";
