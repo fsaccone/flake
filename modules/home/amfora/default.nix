@@ -66,7 +66,7 @@
                     output = "${cacheDirectory}/amfora/keys/${host}";
                   in
                   ''
-                    ${pkgs.coreutils}/bin/mkdir -p ${builtins.dirOf output}
+                    ${pkgs.sbase}/bin/mkdir -p ${builtins.dirOf output}
 
                     ${pkgs.gnupg}/bin/gpg -r "${gpg.primaryKey.fingerprint}" \
                     -d ${gpgEncryptedKey} > ${output}

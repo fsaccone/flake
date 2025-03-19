@@ -45,6 +45,6 @@
       pinentryPackage = pkgs.pinentry-tty;
     };
 
-    home.file.".mkshrc".text = "export GPG_TTY=$(${pkgs.coreutils}/bin/tty)";
+    home.file.".mkshrc".text = "export GPG_TTY=$(${pkgs.sbase}/bin/tty)";
   };
 }

@@ -71,11 +71,11 @@
           serviceConfig =
             let
               permissions = pkgs.writeShellScriptBin "permissions" ''
-                ${pkgs.coreutils}/bin/chmod -R g+rwx \
+                ${pkgs.sbase}/bin/chmod -R g+rwx \
                 ${config.modules.darkhttpd.directory}
               '';
               clean = pkgs.writeShellScriptBin "clean" ''
-                ${pkgs.coreutils}/bin/rm -rf \
+                ${pkgs.sbase}/bin/rm -rf \
                 ${config.modules.darkhttpd.directory}/*
               '';
               symlinks =
@@ -86,13 +86,13 @@
                     inherit (config.modules.darkhttpd) directory;
                   in
                   ''
-                    ${pkgs.coreutils}/bin/mkdir -p \
+                    ${pkgs.sbase}/bin/mkdir -p \
                     ${directory}/${builtins.dirOf name}
 
-                    ${pkgs.coreutils}/bin/ln -sf ${target} \
+                    ${pkgs.sbase}/bin/ln -sf ${target} \
                     ${directory}/${name}
 
-                    ${pkgs.coreutils}/bin/chown -Rh darkhttpd:darkhttpd \
+                    ${pkgs.sbase}/bin/chown -Rh darkhttpd:darkhttpd \
                     ${directory}/${name}
                   ''
                 )

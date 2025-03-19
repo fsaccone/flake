@@ -112,24 +112,24 @@
                     ${pkgs.git}/bin/git init -q --bare -b master \
                     ${directory}/${name}
 
-                    ${pkgs.coreutils}/bin/echo "${description}" > \
+                    ${pkgs.sbase}/bin/echo "${description}" > \
                     ${directory}/${name}/description
 
-                    ${pkgs.coreutils}/bin/echo "${owner}" > \
+                    ${pkgs.sbase}/bin/echo "${owner}" > \
                     ${directory}/${name}/owner
 
-                    ${pkgs.coreutils}/bin/echo "git://${baseUrl}/${name}" > \
+                    ${pkgs.sbase}/bin/echo "git://${baseUrl}/${name}" > \
                     ${directory}/${name}/url
 
-                    ${pkgs.coreutils}/bin/mkdir -p ${directory}/${name}/hooks
+                    ${pkgs.sbase}/bin/mkdir -p ${directory}/${name}/hooks
 
-                    ${pkgs.coreutils}/bin/ln -sf ${hooks.preReceive} \
+                    ${pkgs.sbase}/bin/ln -sf ${hooks.preReceive} \
                     ${directory}/${name}/hooks/pre-receive
 
-                    ${pkgs.coreutils}/bin/ln -sf ${hooks.update} \
+                    ${pkgs.sbase}/bin/ln -sf ${hooks.update} \
                     ${directory}/${name}/hooks/update
 
-                    ${pkgs.coreutils}/bin/ln -sf ${hooks.postReceive} \
+                    ${pkgs.sbase}/bin/ln -sf ${hooks.postReceive} \
                     ${directory}/${name}/hooks/post-receive
                   ''
                 )

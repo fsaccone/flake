@@ -67,20 +67,20 @@
           serviceConfig =
             let
               clean = pkgs.writeShellScriptBin "clean" ''
-                ${pkgs.coreutils}/bin/rm -rf \
+                ${pkgs.sbase}/bin/rm -rf \
                 ${config.modules.agate.directory}/*
 
-                ${pkgs.coreutils}/bin/mkdir -p \
+                ${pkgs.sbase}/bin/mkdir -p \
                 ${config.modules.agate.directory}/.certificates
               '';
               symlinks =
                 config.modules.agate.symlinks
                 |> builtins.mapAttrs (
                   name: target: ''
-                    ${pkgs.coreutils}/bin/mkdir -p \
+                    ${pkgs.sbase}/bin/mkdir -p \
                     ${config.modules.agate.directory}/${builtins.dirOf name}
 
-                    ${pkgs.coreutils}/bin/ln -sf ${target} \
+                    ${pkgs.sbase}/bin/ln -sf ${target} \
                     ${config.modules.agate.directory}/${name}
                   ''
                 )
@@ -88,7 +88,7 @@
                 |> builtins.concatStringsSep "\n"
                 |> pkgs.writeShellScriptBin "symlinks";
               permissions = pkgs.writeShellScriptBin "permissions" ''
-                ${pkgs.coreutils}/bin/chmod -R g+rwx \
+                ${pkgs.sbase}/bin/chmod -R g+rwx \
                 ${config.modules.agate.directory}
               '';
             in
