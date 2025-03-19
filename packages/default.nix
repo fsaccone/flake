@@ -1,2 +1,4 @@
-pkgs: {
+pkgs:
+{
+  sbase = pkgs.callPackage ./sbase { };
 }
