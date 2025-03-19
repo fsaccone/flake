@@ -19,6 +19,9 @@ nixpkgs.lib.nixosSystem {
       }:
       {
         networking.hostName = "fs-${host}";
+        nixpkgs.overlays = [
+          inputs.self.outputs.overlays.default
+        ];
       }
     )
   ] ++ additionalModules;
