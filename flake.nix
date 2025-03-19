@@ -81,6 +81,13 @@
         }
       );
 
+      packages = lib.forEachSystem (
+        {
+          system,
+        }:
+        import ./packages inputs.nixpkgs.legacyPackages.${system}
+      );
+
       nixosConfigurations = {
         "laptop" = lib.makeHost "laptop" {
           additionalModules = lib.makeHomeModules "francesco";
