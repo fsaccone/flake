@@ -60,6 +60,7 @@
           };
           getPkgs = import ./lib/get-pkgs.nix {
             inherit (inputs) nixpkgs;
+            inherit inputs;
           };
         };
 
