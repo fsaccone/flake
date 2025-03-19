@@ -4,6 +4,6 @@
 }:
 {
   home.file.".mkshrc".text = ''
-    PS1="[\${"$"}{PWD}/]$ "
+    PS1="[\${"$"}{PWD}]$ "
   '';
 }
