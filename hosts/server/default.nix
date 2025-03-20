@@ -131,8 +131,16 @@ rec {
           password-store = {
             description = "Francesco Saccone's password store.";
           };
+          sbase = {
+            description = "Francesco Saccone's fork of suckless UNIX tools.";
+          };
           site = {
             description = "Francesco Saccone's site content.";
+          };
+          ubase = {
+            description = ''
+              Francesco Saccone's fork of suckless Linux base utils.
+            '';
           };
         }
         |> builtins.mapAttrs (
