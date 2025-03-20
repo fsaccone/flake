@@ -4,8 +4,7 @@
   fetchgit,
 }:
 stdenv.mkDerivation {
-  pname = "sbase";
-  version = "0.1";
+  name = "sbase";
 
   src = fetchgit {
     url = "git://francescosaccone.com/sbase";
