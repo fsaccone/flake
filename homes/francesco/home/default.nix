@@ -141,6 +141,7 @@
     ffmpeg
     dig
     imv
+    itd
     librewolf-bin
     lilypond
     md2pdf
