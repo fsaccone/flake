@@ -141,7 +141,6 @@
     ffmpeg
     dig
     imv
-    itd
     librewolf-bin
     lilypond
     md2pdf
@@ -149,6 +148,7 @@
     nmap
     noice
     sent
+    watchmate
     zathura
   ];
 }
