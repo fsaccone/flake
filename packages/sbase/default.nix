@@ -22,6 +22,6 @@ stdenv.mkDerivation {
       UNIX-like systems.
     '';
     license = lib.licenses.mit;
-    platforms = lib.platforms.linux;
+    platforms = lib.platforms.unix;
   };
 }
