@@ -137,6 +137,9 @@ rec {
           site = {
             description = "Francesco Saccone's site content.";
           };
+          st = {
+            description = "Simple terminal.";
+          };
           ubase = {
             description = ''
               Francesco Saccone's fork of suckless Linux base utils.
