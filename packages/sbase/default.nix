@@ -8,7 +8,7 @@ stdenv.mkDerivation {
   version = "0.1";
 
   src = fetchgit {
-    url = "git://git.suckless.org/sbase";
+    url = "git://francescosaccone.com/sbase";
     rev = "0.1";
     sha256 = "sha256-v+73ERFDtpL7bP9gC9zXndLn4HDxTuryTTQboFERduk=";
   };
@@ -22,7 +22,6 @@ stdenv.mkDerivation {
       Collection of UNIX tools that are inherently portable across UNIX and
       UNIX-like systems.
     '';
-    homepage = "https://git.suckless.org/sbase/file/README.html";
     license = lib.licenses.mit;
     platforms = lib.platforms.linux;
   };
