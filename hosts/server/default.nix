@@ -131,6 +131,9 @@ rec {
           password-store = {
             description = "Francesco Saccone's password store.";
           };
+          prometheus = {
+            description = "Prometheus.";
+          };
           sbase = {
             description = "Francesco Saccone's fork of suckless UNIX tools.";
           };
