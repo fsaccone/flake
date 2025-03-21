@@ -1,9 +1,10 @@
 {
   config,
+  pkgs,
   ...
 }:
 {
   home.file.".mkshrc".text = ''
-    PS1="[\${"$"}{PWD}]$ "
+    PS1="${"$"}{USER}@$(${pkgs.sbase}/bin/hostname):\${"$"}{PWD} $ "
   '';
 }
