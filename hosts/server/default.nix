@@ -201,6 +201,24 @@ rec {
                   ${pkgs.sbase}/bin/ln -sf \
                     ${destDir}/${name}/log.html \
                     ${destDir}/${name}/index.html
+
+                  # Symlink favicon.png and logo.png from site
+                  ${pkgs.sbase}/bin/ln -sf \
+                    ${inputs.site}/public/icon/256.png \
+                    ${destDir}/favicon.png
+
+                  ${pkgs.sbase}/bin/ln -sf \
+                    ${inputs.site}/public/icon/32.png \
+                    ${destDir}/logo.png
+
+                  # Symlink favicon.png and logo.png in repos from index
+                  ${pkgs.sbase}/bin/ln -sf \
+                    ${destDir}/favicon.png \
+                    ${destDir}/${name}/favicon.png
+
+                  ${pkgs.sbase}/bin/ln -sf \
+                    ${destDir}/logo.png \
+                    ${destDir}/${name}/logo.png
                 '';
               in
               "${script}/bin/stagit";
