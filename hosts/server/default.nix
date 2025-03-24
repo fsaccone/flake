@@ -176,11 +176,11 @@ rec {
                     ${pkgs.sbase}/bin/test "$old" = $null_ref && continue
                     ${pkgs.sbase}/bin/test "$new" = $null_ref && continue
 
-                    hasRevs=$(${pkgs.git}/bin/git rev-list "$old" "^$new" | \
+                    has_revs=$(${pkgs.git}/bin/git rev-list "$old" "^$new" | \
                       ${pkgs.sbase}/bin/sed 1q)
 
-                    if ${pkgs.sbase}/bin/test -n "$hasRevs"; then
-                      force=1
+                    if ${pkgs.sbase}/bin/test -n "$has_revs"; then
+                      is_force=1
                       break
                     fi
                   done
