@@ -198,7 +198,7 @@ rec {
                   ${pkgs.stagit}/bin/stagit-index ${reposDir}/*/ \
                     > ${destDir}/index.html
 
-                  ${pkgs.stagit}/bin/ln -sf \
+                  ${pkgs.sbase}/bin/ln -sf \
                     ${destDir}/${name}/log.html \
                     ${destDir}/${name}/index.html
                 '';
