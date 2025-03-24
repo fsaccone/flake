@@ -153,9 +153,11 @@ rec {
           name:
           { description }:
           {
-            inherit description;
-            owner = "Francesco Saccone";
-            baseUrl = networking.domain;
+            additionalFiles = {
+              inherit description;
+              owner = "Francesco Saccone";
+              url = "git://${networking.domain}/${name}";
+            };
           }
         );
       daemon = {

@@ -30,20 +30,13 @@
       type =
         lib.types.submodule {
           options = {
-            description = lib.mkOption {
-              description = "The description.";
-              type = lib.types.uniq lib.types.str;
-            };
-            owner = lib.mkOption {
-              description = "The owner.";
-              type = lib.types.uniq lib.types.str;
-            };
-            baseUrl = lib.mkOption {
+            additionalFiles = lib.mkOption {
               description = ''
-                The base URL used to clone the repository through the Git
-                protocol.
+                For each additional file to add to the repository directory,
+                its content.
               '';
-              type = lib.types.uniq lib.types.str;
+              default = { };
+              type = lib.types.attrsOf lib.types.str;
             };
             hooks = {
               preReceive = lib.mkOption {
@@ -103,23 +96,26 @@
                 |> builtins.mapAttrs (
                   name:
                   {
-                    description,
-                    owner,
-                    baseUrl,
+                    additionalFiles,
                     hooks,
                   }:
                   ''
                     ${pkgs.git}/bin/git init -q --bare -b master \
                     ${directory}/${name}
 
-                    ${pkgs.sbase}/bin/echo "${description}" > \
-                    ${directory}/${name}/description
-
-                    ${pkgs.sbase}/bin/echo "${owner}" > \
-                    ${directory}/${name}/owner
-
-                    ${pkgs.sbase}/bin/echo "git://${baseUrl}/${name}" > \
-                    ${directory}/${name}/url
+                    ${
+                      (
+                        additionalFiles
+                        |> builtins.mapAttrs (
+                          fileName: content: ''
+                            ${pkgs.sbase}/bin/echo "${content}" > \
+                            ${directory}/${name}/${fileName}
+                          ''
+                        )
+                        |> builtins.attrValues
+                        |> builtins.concatStringsSep "\n"
+                      )
+                    }
 
                     ${pkgs.sbase}/bin/mkdir -p ${directory}/${name}/hooks
 
