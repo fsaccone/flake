@@ -165,7 +165,7 @@ rec {
                 reposDir = config.modules.git.directory;
                 flags = builtins.concatStringsSep " " [
                   "-c ${cacheFile}"
-                  "-u https://${networking.domain}/git/${name}"
+                  "-u https://${networking.domain}/git/${name}/"
                 ];
 
                 script = pkgs.writeShellScriptBin "stagit" ''
