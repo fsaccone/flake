@@ -158,6 +158,52 @@ rec {
               owner = "Francesco Saccone";
               url = "git://${networking.domain}/${name}";
             };
+            hooks.postReceive =
+              let
+                destDir = "/tmp/stagit";
+                cacheFile = "${destDir}/.htmlcache";
+                reposDir = config.modules.git.directory;
+                flags = builtins.concatStringsSep " " [
+                  "-c ${cacheFile}"
+                  "-l 32"
+                  "-u https://${networking.domain}/git/${name}"
+                ];
+
+                script = pkgs.writeShellScriptBin "stagit" ''
+                  # Define is_force=1 if 'git push -f' was used
+                  null="0000000000000000000000000000000000000000"
+                  is_force=0
+                  while read -r old new ref; do
+                    ${pkgs.sbase}/bin/test "$old" = $null && continue
+                    ${pkgs.sbase}/bin/test "$new" = $null && continue
+
+                    hasRevs=$(${pkgs.git}/bin/git rev-list "$old" "^$new" | \
+                      ${pkgs.sbase}/bin/sed 1q)
+
+                    if ${pkgs.sbase}/bin/test -n "$hasRevs"; then
+                      force=1
+                      break
+                    fi
+                  done
+
+                  # If is_force = 1, remove commits and cache file
+                  if ${pkgs.sbase}/bin/test $force = "1"; then
+                    ${pkgs.sbase}/bin/rm -f ${cacheFile}
+                    ${pkgs.sbase}/bin/rm -rf ${reposDir}/${name}/commit
+                  fi
+
+                  ${pkgs.sbase}/bin/mkdir -p ${destDir}/${name}
+                  cd ${destDir}/${name}
+                  ${pkgs.stagit}/bin/stagit ${flags} ${reposDir}/${name}
+                  ${pkgs.stagit}/bin/stagit-index ${reposDir}/*/ \
+                    > ${destDir}/index.html
+
+                  ${pkgs.stagit}/bin/ln -sf \
+                    ${destDir}/${name}/log.html \
+                    ${destDir}/${name}/index.html
+                '';
+              in
+              "${script}/bin/stagit";
           }
         );
       daemon = {
