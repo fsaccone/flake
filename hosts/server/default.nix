@@ -47,7 +47,6 @@ rec {
         "index.gmi" = "/tmp/site/gemini/index.gmi";
         "blog" = "/tmp/site/gemini/blog";
         "code" = "/tmp/site/gemini/code";
-        "git" = "/tmp/stagit";
         "public" = "${inputs.site}/public";
         "robots.txt" = "${inputs.site}/robots.txt";
         "atom.xml" = "/tmp/site/gemini/atom.xml";
@@ -96,6 +95,7 @@ rec {
         "index.html" = "/tmp/site/html/index.html";
         "blog" = "/tmp/site/html/blog";
         "code" = "/tmp/site/html/code";
+        "git" = "/tmp/stagit";
         "public" = "${inputs.site}/public";
         "favicon.ico" = "${inputs.site}/favicon.ico";
         "robots.txt" = "${inputs.site}/robots.txt";
