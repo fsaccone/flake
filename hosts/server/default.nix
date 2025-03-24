@@ -165,7 +165,6 @@ rec {
                 reposDir = config.modules.git.directory;
                 flags = builtins.concatStringsSep " " [
                   "-c ${cacheFile}"
-                  "-l 32"
                   "-u https://${networking.domain}/git/${name}"
                 ];
 
