@@ -170,11 +170,11 @@ rec {
 
                 script = pkgs.writeShellScriptBin "stagit" ''
                   # Define is_force=1 if 'git push -f' was used
-                  null="0000000000000000000000000000000000000000"
+                  null_ref="0000000000000000000000000000000000000000"
                   is_force=0
                   while read -r old new ref; do
-                    ${pkgs.sbase}/bin/test "$old" = $null && continue
-                    ${pkgs.sbase}/bin/test "$new" = $null && continue
+                    ${pkgs.sbase}/bin/test "$old" = $null_ref && continue
+                    ${pkgs.sbase}/bin/test "$new" = $null_ref && continue
 
                     hasRevs=$(${pkgs.git}/bin/git rev-list "$old" "^$new" | \
                       ${pkgs.sbase}/bin/sed 1q)
