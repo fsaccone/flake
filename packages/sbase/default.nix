@@ -9,7 +9,7 @@ stdenv.mkDerivation {
   src = fetchgit {
     url = "git://francescosaccone.com/sbase";
     rev = "0.1";
-    sha256 = "sha256-v+73ERFDtpL7bP9gC9zXndLn4HDxTuryTTQboFERduk=";
+    sha256 = "sha256-tH8XeIYy/l3DFPEZ7dlaLFP1Di2g8RpEfLl+nTx880U=";
   };
 
   makeFlags = [ "CC:=$(CC)" ];
