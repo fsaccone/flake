@@ -186,7 +186,7 @@ rec {
                   done
 
                   # If is_force = 1, remove commits and cache file
-                  if ${pkgs.sbase}/bin/test $force = "1"; then
+                  if ${pkgs.sbase}/bin/test $is_force = "1"; then
                     ${pkgs.sbase}/bin/rm -f ${cacheFile}
                     ${pkgs.sbase}/bin/rm -rf ${reposDir}/${name}/commit
                   fi
