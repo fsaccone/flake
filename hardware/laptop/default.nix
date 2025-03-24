@@ -20,20 +20,21 @@
     "usb_storage"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [
+    "dm-snapshot"
+    "cryptd"
+  ];
+  boot.initrd.luks.devices.cryptlvm.device = "/dev/disk/by-uuid/2c032c52-484a-4a5b-b349-639ab5a10bf8";
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/7eeda32c-200b-45bd-9e6d-0a58a7d54319";
+    device = "/dev/disk/by-uuid/16ab9331-c200-4062-9689-9d5fd5d3a90b";
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."cryptroot".device =
-    "/dev/disk/by-uuid/a696b4ad-c872-44b6-82aa-4707e9c24224";
-
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/3726-52C1";
+    device = "/dev/disk/by-uuid/3F87-8EA7";
     fsType = "vfat";
     options = [
       "fmask=0077"
@@ -42,7 +43,7 @@
   };
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/8ab1f79a-79bc-4a8c-9512-7a35c435116e"; }
+    { device = "/dev/disk/by-uuid/10c762f7-ed35-4e38-86df-8a9e94c43263"; }
   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
