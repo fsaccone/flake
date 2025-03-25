@@ -27,6 +27,8 @@
   };
 
   config = lib.mkIf config.modules.sway.enable {
+    home.packages = [ pkgs.wl-clipboard ];
+
     wayland.windowManager.sway =
       let
         commands = {
