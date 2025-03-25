@@ -17,18 +17,18 @@ rec {
           let
             generateAtom = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-atom.sh"
-              "/tmp/site/gemini"
+              "/var/site/gemini"
               "\"Francesco Saccone's blog\""
               "gemini://${networking.domain}"
             ];
             generateSitemap = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-sitemap.sh"
-              "/tmp/site/gemini"
+              "/var/site/gemini"
               "gemini://${networking.domain}"
             ];
             generateGemini = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-gemini.sh"
-              "/tmp/site/gemini"
+              "/var/site/gemini"
             ];
           in
           [
@@ -44,13 +44,13 @@ rec {
         ];
       };
       symlinks = {
-        "index.gmi" = "/tmp/site/gemini/index.gmi";
-        "blog" = "/tmp/site/gemini/blog";
-        "code" = "/tmp/site/gemini/code";
+        "index.gmi" = "/var/site/gemini/index.gmi";
+        "blog" = "/var/site/gemini/blog";
+        "code" = "/var/site/gemini/code";
         "public" = "${inputs.site}/public";
         "robots.txt" = "${inputs.site}/robots.txt";
-        "atom.xml" = "/tmp/site/gemini/atom.xml";
-        "sitemap.xml" = "/tmp/site/gemini/sitemap.xml";
+        "atom.xml" = "/var/site/gemini/atom.xml";
+        "sitemap.xml" = "/var/site/gemini/sitemap.xml";
       };
     };
     bind = {
@@ -65,18 +65,18 @@ rec {
           let
             generateAtom = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-atom.sh"
-              "/tmp/site/html"
+              "/var/site/html"
               "\"Francesco Saccone's blog\""
               "https://${networking.domain}"
             ];
             generateSitemap = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-sitemap.sh"
-              "/tmp/site/html"
+              "/var/site/html"
               "https://${networking.domain}"
             ];
             generateHtml = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-html.sh"
-              "/tmp/site/html"
+              "/var/site/html"
             ];
           in
           [
@@ -92,15 +92,15 @@ rec {
         ];
       };
       symlinks = {
-        "index.html" = "/tmp/site/html/index.html";
-        "blog" = "/tmp/site/html/blog";
-        "code" = "/tmp/site/html/code";
+        "index.html" = "/var/site/html/index.html";
+        "blog" = "/var/site/html/blog";
+        "code" = "/var/site/html/code";
         "git" = "/tmp/stagit";
         "public" = "${inputs.site}/public";
         "favicon.ico" = "${inputs.site}/favicon.ico";
         "robots.txt" = "${inputs.site}/robots.txt";
-        "atom.xml" = "/tmp/site/html/atom.xml";
-        "sitemap.xml" = "/tmp/site/html/sitemap.xml";
+        "atom.xml" = "/var/site/html/atom.xml";
+        "sitemap.xml" = "/var/site/html/sitemap.xml";
       };
       acme = {
         enable = true;
