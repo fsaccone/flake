@@ -132,22 +132,11 @@ rec {
           password-store = {
             description = "Francesco Saccone's password store.";
           };
-          prometheus = {
-            description = "Prometheus.";
-          };
           sbase = {
             description = "Francesco Saccone's fork of suckless UNIX tools.";
           };
           site = {
             description = "Francesco Saccone's site content.";
-          };
-          st = {
-            description = "Simple terminal.";
-          };
-          ubase = {
-            description = ''
-              Francesco Saccone's fork of suckless Linux base utils.
-            '';
           };
         }
         |> builtins.mapAttrs (
