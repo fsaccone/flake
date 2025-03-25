@@ -18,7 +18,7 @@
 
   users = {
     mutableUsers = false;
-    defaultUserShell = "${pkgs.dash}/bin/dash";
+    defaultUserShell = "${pkgs.mksh}/bin/mksh";
     users.root = {
       hashedPassword = "!";
     };
