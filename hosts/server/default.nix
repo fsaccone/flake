@@ -192,7 +192,7 @@ rec {
                     ${destDir}/${name}/log.html \
                     ${destDir}/${name}/index.html
 
-                  # Symlink favicon.png and logo.png from site
+                  # Symlink favicon.png, logo.png and stagit.css from site
                   ${pkgs.sbase}/bin/ln -sf \
                     ${inputs.site}/public/icon/256.png \
                     ${destDir}/favicon.png
@@ -201,7 +201,12 @@ rec {
                     ${inputs.site}/public/icon/32.png \
                     ${destDir}/logo.png
 
-                  # Symlink favicon.png and logo.png in repos from index
+                  ${pkgs.sbase}/bin/ln -sf \
+                    ${inputs.site}/public/stagit.css \
+                    ${destDir}/style.css
+
+                  # Symlink favicon.png, logo.png and style.css in repos from
+                  # index
                   ${pkgs.sbase}/bin/ln -sf \
                     ${destDir}/favicon.png \
                     ${destDir}/${name}/favicon.png
@@ -209,6 +214,10 @@ rec {
                   ${pkgs.sbase}/bin/ln -sf \
                     ${destDir}/logo.png \
                     ${destDir}/${name}/logo.png
+
+                  ${pkgs.sbase}/bin/ln -sf \
+                    ${destDir}/style.css \
+                    ${destDir}/${name}/style.css
                 '';
               in
               "${script}/bin/stagit";
