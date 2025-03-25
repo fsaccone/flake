@@ -95,7 +95,7 @@ rec {
         "index.html" = "/var/site/html/index.html";
         "blog" = "/var/site/html/blog";
         "code" = "/var/site/html/code";
-        "git" = "/tmp/stagit";
+        "git" = "/var/tmp/stagit";
         "public" = "${inputs.site}/public";
         "favicon.ico" = "${inputs.site}/favicon.ico";
         "robots.txt" = "${inputs.site}/robots.txt";
@@ -150,7 +150,7 @@ rec {
             };
             hooks.postReceive =
               let
-                destDir = "/tmp/stagit";
+                destDir = "/var/tmp/stagit";
                 cacheFile = "${destDir}/.htmlcache";
                 reposDir = config.modules.git.directory;
                 flags = builtins.concatStringsSep " " [
