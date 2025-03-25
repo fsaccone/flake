@@ -187,6 +187,7 @@ rec {
                   ${pkgs.stagit}/bin/stagit-index ${reposDir}/*/ \
                     > ${destDir}/index.html
 
+                  # Make the log.html file the index page
                   ${pkgs.sbase}/bin/ln -sf \
                     ${destDir}/${name}/log.html \
                     ${destDir}/${name}/index.html
