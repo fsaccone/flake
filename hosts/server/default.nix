@@ -151,7 +151,7 @@ rec {
               owner = "Francesco Saccone";
               url = "git://${networking.domain}/${name}";
             };
-            hooks.postReceive = scripts.stagit { inherit name; };
+            hooks.postReceive = scripts.stagitPostReceive { inherit name; };
           }
         );
       daemon = {

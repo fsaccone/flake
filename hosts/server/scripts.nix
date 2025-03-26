@@ -4,7 +4,7 @@
   inputs,
 }:
 {
-  stagit =
+  stagitPostReceive =
     { name }:
     let
       destDir = "/var/tmp/stagit";
