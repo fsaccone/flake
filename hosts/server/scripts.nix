@@ -6,7 +6,6 @@
 let
   stagit = rec {
     destDir = "/var/tmp/stagit";
-    cacheFile = "${destDir}/.htmlcache";
     reposDir = config.modules.git.directory;
 
     createIndex = ''
@@ -32,7 +31,7 @@ let
       ${pkgs.sbase}/bin/mkdir -p ${destDir}/${name}
       cd ${destDir}/${name}
       ${pkgs.stagit}/bin/stagit \
-        -c ${cacheFile} \
+        -l 64 \
         -u https://${config.networking.domain}/git/${name}/ \
         ${reposDir}/${name}
 
@@ -96,9 +95,8 @@ in
           fi
         done
 
-        # If is_force = 1, remove commits and cache file
+        # If is_force = 1, delete commits
         if ${pkgs.sbase}/bin/test $is_force = "1"; then
-          ${pkgs.sbase}/bin/rm -f ${stagit.cacheFile}
           ${pkgs.sbase}/bin/rm -rf ${stagit.reposDir}/${name}/commit
         fi
 
