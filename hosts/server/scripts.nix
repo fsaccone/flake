@@ -4,6 +4,67 @@
   inputs,
 }:
 {
+  stagitCreate =
+    let
+      destDir = "/var/tmp/stagit";
+      reposDir = config.modules.git.directory;
+      flags = builtins.concatStringsSep " " [
+        "-u https://${config.networking.domain}/git/${name}/"
+      ];
+
+      indexScript = pkgs.writeShellScriptBin "index" ''
+        ${pkgs.stagit}/bin/stagit-index ${reposDir}/*/ > ${destDir}/index.html
+
+        # Symlink favicon.png, logo.png and stagit.css from site
+        ${pkgs.sbase}/bin/ln -sf \
+          ${inputs.site}/public/icon/256.png \
+          ${destDir}/favicon.png
+
+        ${pkgs.sbase}/bin/ln -sf \
+          ${inputs.site}/public/icon/32.png \
+          ${destDir}/logo.png
+
+        ${pkgs.sbase}/bin/ln -sf \
+          ${inputs.site}/public/stagit.css \
+          ${destDir}/style.css
+      '';
+
+      repositoriesScript =
+        config.modules.git.repositories
+        |> builtins.attrNames
+        |> builtins.map (name: ''
+          ${pkgs.sbase}/bin/mkdir -p ${destDir}/${name}
+          cd ${destDir}/${name}
+          ${pkgs.stagit}/bin/stagit ${flags} ${reposDir}/${name}
+
+          # Make the log.html file the index page
+          ${pkgs.sbase}/bin/ln -sf \
+            ${destDir}/${name}/log.html \
+            ${destDir}/${name}/index.html
+
+          # Symlink favicon.png, logo.png and style.css in repos from
+          # index
+          ${pkgs.sbase}/bin/ln -sf \
+            ${destDir}/favicon.png \
+            ${destDir}/${name}/favicon.png
+
+          ${pkgs.sbase}/bin/ln -sf \
+            ${destDir}/logo.png \
+            ${destDir}/${name}/logo.png
+
+          ${pkgs.sbase}/bin/ln -sf \
+            ${destDir}/style.css \
+            ${destDir}/${name}/style.css
+        '')
+        |> pkgs.writeShellScriptBin "repositories";
+
+      script = pkgs.writeShellScriptBin "stagit-create" ''
+        ${indexScript}
+        ${repositoriesScript}
+      '';
+    in
+    "${script}/bin/stagit-create";
+
   stagitPostReceive =
     { name }:
     let
