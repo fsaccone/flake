@@ -72,11 +72,11 @@
     "password-store": {
       "flake": false,
       "locked": {
-        "lastModified": 1741456296,
-        "narHash": "sha256-brBmpzA+Kxuj37ggWWKmWU9eqOGMtqgRvj0L8p+WAwU=",
+        "lastModified": 1743016993,
+        "narHash": "sha256-2GLBomLSrcVKw9O8L1t/r9nBRXVVWdCcpTgpENG1nd8=",
         "ref": "refs/heads/master",
-        "rev": "7704f80e16e4ecb0a7c9dce153aca04d3c458284",
-        "revCount": 4,
+        "rev": "3de21380f012d10457a44ae9346affd08feef4d6",
+        "revCount": 6,
         "type": "git",
         "url": "git://francescosaccone.com/password-store"
       },
