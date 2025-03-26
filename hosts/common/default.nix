@@ -14,7 +14,12 @@
     sudo.enable = lib.mkForce false;
   };
 
-  boot.tmp.cleanOnBoot = true;
+  boot = {
+    initrd.verbose = false;
+    consoleLogLevel = 0;
+    kernelParams = [ "quiet" "udev.log_level=3" ];
+    tmp.cleanOnBoot = true;
+  };
 
   users = {
     mutableUsers = false;
