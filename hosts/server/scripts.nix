@@ -24,6 +24,8 @@ let
       ${pkgs.sbase}/bin/ln -sf \
         ${inputs.site}/public/stagit.css \
         ${destDir}/style.css
+
+      ${pkgs.sbase}/bin/echo "Stagit index generated: ${destDir}/index.html".
     '';
 
     createRepository = name: ''
@@ -52,6 +54,9 @@ let
       ${pkgs.sbase}/bin/ln -sf \
         ${destDir}/style.css \
         ${destDir}/${name}/style.css
+
+      ${pkgs.sbase}/bin/echo \
+        "Stagit page generated for ${name}: ${destDir}/${name}".
     '';
   };
 in
