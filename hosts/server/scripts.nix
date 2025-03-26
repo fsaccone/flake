@@ -31,7 +31,7 @@ let
       ${pkgs.sbase}/bin/mkdir -p ${destDir}/${name}
       cd ${destDir}/${name}
       ${pkgs.stagit}/bin/stagit \
-        -l 64 \
+        -l 100 \
         -u https://${config.networking.domain}/git/${name}/ \
         ${reposDir}/${name}
 
