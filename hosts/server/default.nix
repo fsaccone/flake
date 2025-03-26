@@ -86,6 +86,7 @@ rec {
             generateAtom
             generateSitemap
             generateHtml
+            scripts.stagitCreate
           ];
         packages = [
           pkgs.coreutils
