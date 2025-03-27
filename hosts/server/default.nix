@@ -5,6 +5,7 @@
   ...
 }:
 let
+  domain = import ./domain.nix;
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
 in
 rec {
@@ -22,12 +23,12 @@ rec {
               "${inputs.site}/scripts/generate-atom.sh"
               "/var/tmp/site/gemini"
               "\"Francesco Saccone's blog\""
-              "gemini://${networking.domain}"
+              "gemini://${domain}"
             ];
             generateSitemap = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-sitemap.sh"
               "/var/tmp/site/gemini"
-              "gemini://${networking.domain}"
+              "gemini://${domain}"
             ];
             generateGemini = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-gemini.sh"
@@ -59,9 +60,9 @@ rec {
     bind = {
       enable = true;
       inherit (networking) domain;
-      records = import ./dns.nix networking.domain;
+      records = import ./dns.nix domain;
     };
-    darkhttpd = rec {
+    darkhttpd = {
       enable = true;
       preStart = {
         scripts =
@@ -70,12 +71,12 @@ rec {
               "${inputs.site}/scripts/generate-atom.sh"
               "/var/tmp/site/html"
               "\"Francesco Saccone's blog\""
-              "https://${networking.domain}"
+              "https://${domain}"
             ];
             generateSitemap = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-sitemap.sh"
               "/var/tmp/site/html"
-              "https://${networking.domain}"
+              "https://${domain}"
             ];
             generateHtml = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-html.sh"
@@ -108,9 +109,9 @@ rec {
       };
       acme = {
         enable = true;
-        email = "admin@${networking.domain}";
-        inherit (networking) domain;
-        extraDomains = builtins.map (sub: "${sub}.${networking.domain}") [
+        email = "admin@${domain}";
+        inherit domain;
+        extraDomains = builtins.map (sub: "${sub}.${domain}") [
           "www"
         ];
       };
@@ -121,8 +122,8 @@ rec {
             inherit (config.modules.darkhttpd.acme) directory;
           in
           [
-            "${directory}/${acme.domain}/fullchain.pem"
-            "${directory}/${acme.domain}/privkey.pem"
+            "${directory}/${domain}/fullchain.pem"
+            "${directory}/${domain}/privkey.pem"
           ];
       };
     };
@@ -150,7 +151,7 @@ rec {
             additionalFiles = {
               inherit description;
               owner = "Francesco Saccone";
-              url = "git://${networking.domain}/${name}";
+              url = "git://${domain}/${name}";
             };
             hooks.postReceive = scripts.stagitPostReceive { inherit name; };
           }
@@ -171,7 +172,9 @@ rec {
     };
   };
 
-  networking.domain = "francescosaccone.com";
+  networking = {
+    inherit domain;
+  };
 
   boot.loader.grub = {
     efiSupport = true;
