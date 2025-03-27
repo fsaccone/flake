@@ -5,8 +5,8 @@
 let
   mainServer = ../main-server;
 
-  domain = import "${mainServer}/domain.nix";
-  gitDomain = "git.${domain}";
+  rootDomain = import "${mainServer}/domain.nix";
+  gitDomain = "git.${rootDomain}";
 in
 {
   imports = [
@@ -16,14 +16,14 @@ in
   modules = {
     bind = {
       enable = true;
-      inherit domain;
-      records = import "${mainServer}/dns.nix" domain;
+      domain = rootDomain;
+      records = import "${mainServer}/dns.nix" rootDomain;
     };
     darkhttpd = {
       enable = true;
       acme = {
         enable = true;
-        email = "admin@${domain}";
+        email = "admin@${rootDomain}";
         domain = gitDomain;
       };
     };
