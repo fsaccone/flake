@@ -145,6 +145,7 @@
     lilypond
     md2pdf
     mpv
+    nixos-anywhere
     nmap
     noice
     sent
