@@ -18,6 +18,7 @@ in
     inherit git;
 
     ns1 = main;
+    ns2 = git;
   }
   |> builtins.mapAttrs (
     name:
