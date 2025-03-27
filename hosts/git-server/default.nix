@@ -85,6 +85,7 @@ in
         root = [
           "${mainServer}/ssh/francescosaccone.pub"
         ];
+        git = root;
       };
     };
   };
