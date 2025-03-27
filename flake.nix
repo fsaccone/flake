@@ -101,7 +101,7 @@
             inputs.disko.nixosModules.disko
           ];
         };
-        "server" = lib.makeHost "server" {
+        "main-server" = lib.makeHost "main-server" {
           additionalModules = [
             inputs.disko.nixosModules.disko
           ];
