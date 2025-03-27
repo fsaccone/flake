@@ -19,6 +19,9 @@ in
       inherit domain;
       records = import "${mainServer}/dns.nix" domain;
     };
+    darkhttpd = {
+      enable = true;
+    };
     openssh.listen = {
       enable = true;
       port = 22;
