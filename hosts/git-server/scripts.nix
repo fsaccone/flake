@@ -9,6 +9,8 @@ let
     reposDir = config.modules.git.directory;
 
     createIndex = ''
+      ${pkgs.sbase}/bin/mkdir -p ${destDir}
+
       ${pkgs.stagit}/bin/stagit-index ${reposDir}/*/ > ${destDir}/index.html
 
       # Symlink favicon.png, logo.png and stagit.css from site
