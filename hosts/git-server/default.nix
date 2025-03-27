@@ -68,7 +68,10 @@ in
               owner = "Francesco Saccone";
               url = "git://${gitDomain}/${name}";
             };
-            hooks.postReceive = scripts.stagitPostReceive { inherit name; };
+            hooks.postReceive = scripts.stagitPostReceive {
+              inherit name;
+              httpBaseUrl = "https://${gitDomain}";
+            };
           }
         );
       daemon = {

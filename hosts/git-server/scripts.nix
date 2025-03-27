@@ -27,45 +27,53 @@ let
       ${pkgs.sbase}/bin/echo "Stagit index generated: ${destDir}/index.html".
     '';
 
-    createRepository = name: ''
-      ${pkgs.sbase}/bin/mkdir -p ${destDir}/${name}
-      cd ${destDir}/${name}
-      ${pkgs.stagit}/bin/stagit \
-        -l 100 \
-        -u https://${config.networking.domain}/git/${name}/ \
-        ${reposDir}/${name}
+    createRepository =
+      { name, httpBaseUrl }:
+      ''
+        ${pkgs.sbase}/bin/mkdir -p ${destDir}/${name}
+        cd ${destDir}/${name}
+        ${pkgs.stagit}/bin/stagit \
+          -l 100 \
+          -u ${httpBaseUrl}/${name}/ \
+          ${reposDir}/${name}
 
-      # Make the log.html file the index page
-      ${pkgs.sbase}/bin/ln -sf \
-        ${destDir}/${name}/log.html \
-        ${destDir}/${name}/index.html
+        # Make the log.html file the index page
+        ${pkgs.sbase}/bin/ln -sf \
+          ${destDir}/${name}/log.html \
+          ${destDir}/${name}/index.html
 
-      # Symlink favicon.png, logo.png and style.css in repos from
-      # index
-      ${pkgs.sbase}/bin/ln -sf \
-        ${destDir}/favicon.png \
-        ${destDir}/${name}/favicon.png
+        # Symlink favicon.png, logo.png and style.css in repos from
+        # index
+        ${pkgs.sbase}/bin/ln -sf \
+          ${destDir}/favicon.png \
+          ${destDir}/${name}/favicon.png
 
-      ${pkgs.sbase}/bin/ln -sf \
-        ${destDir}/logo.png \
-        ${destDir}/${name}/logo.png
+        ${pkgs.sbase}/bin/ln -sf \
+          ${destDir}/logo.png \
+          ${destDir}/${name}/logo.png
 
-      ${pkgs.sbase}/bin/ln -sf \
-        ${destDir}/style.css \
-        ${destDir}/${name}/style.css
+        ${pkgs.sbase}/bin/ln -sf \
+          ${destDir}/style.css \
+          ${destDir}/${name}/style.css
 
-      ${pkgs.sbase}/bin/echo \
-        "Stagit page generated for ${name}: ${destDir}/${name}".
-    '';
+        ${pkgs.sbase}/bin/echo \
+          "Stagit page generated for ${name}: ${destDir}/${name}".
+      '';
   };
 in
 {
   stagitCreate =
+    { httpBaseUrl }:
     let
       createRepositories =
         config.modules.git.repositories
         |> builtins.attrNames
-        |> builtins.map stagit.createRepository
+        |> builtins.map (
+          name:
+          stagit.createRepository {
+            inherit name httpBaseUrl;
+          }
+        )
         |> builtins.concatStringsSep "\n";
 
       script = pkgs.writeShellScriptBin "stagit-create" ''
@@ -76,7 +84,7 @@ in
     "${script}/bin/stagit-create";
 
   stagitPostReceive =
-    { name }:
+    { name, httpBaseUrl }:
     let
       script = pkgs.writeShellScriptBin "stagit" ''
         # Define is_force=1 if 'git push -f' was used
@@ -101,7 +109,7 @@ in
         fi
 
         ${stagit.createIndex}
-        ${stagit.createRepository name}
+        ${stagit.createRepository { inherit name httpBaseUrl; }}
       '';
     in
     "${script}/bin/stagit";
