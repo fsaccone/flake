@@ -67,6 +67,13 @@ in
     data = "ns1.${domain}.";
   }
   {
+    name = "@";
+    inherit ttl;
+    class = "IN";
+    type = "NS";
+    data = "ns2.${domain}.";
+  }
+  {
     name = "www";
     inherit ttl;
     class = "IN";
