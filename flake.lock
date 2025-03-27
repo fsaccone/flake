@@ -78,11 +78,11 @@
         "rev": "3de21380f012d10457a44ae9346affd08feef4d6",
         "revCount": 6,
         "type": "git",
-        "url": "git://francescosaccone.com/password-store"
+        "url": "git://git.francescosaccone.com/password-store"
       },
       "original": {
         "type": "git",
-        "url": "git://francescosaccone.com/password-store"
+        "url": "git://git.francescosaccone.com/password-store"
       }
     },
     "root": {
