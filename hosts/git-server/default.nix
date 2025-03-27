@@ -11,6 +11,11 @@ let
   gitDomain = "git.${rootDomain}";
 
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
+
+  stagit = {
+    destDir = "/var/tmp/stagit";
+    reposDir = config.modules.git.directory;
+  };
 in
 {
   imports = [
@@ -28,6 +33,7 @@ in
       preStart = {
         scripts = [
           (scripts.stagitCreate {
+            inherit (stagit) destDir reposDir;
             httpBaseUrl = "https://${gitDomain}";
           })
         ];
@@ -92,6 +98,7 @@ in
               url = "git://${gitDomain}/${name}";
             };
             hooks.postReceive = scripts.stagitPostReceive {
+              inherit (stagit) destDir reposDir;
               inherit name;
               httpBaseUrl = "https://${gitDomain}";
             };

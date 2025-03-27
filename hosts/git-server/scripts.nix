@@ -4,33 +4,37 @@
   inputs,
 }:
 let
-  stagit = rec {
-    destDir = "/var/tmp/stagit";
-    reposDir = config.modules.git.directory;
+  stagit = {
+    createIndex =
+      { destDir, reposDir }:
+      ''
+        ${pkgs.sbase}/bin/mkdir -p ${destDir}
 
-    createIndex = ''
-      ${pkgs.sbase}/bin/mkdir -p ${destDir}
+        ${pkgs.stagit}/bin/stagit-index ${reposDir}/*/ > ${destDir}/index.html
 
-      ${pkgs.stagit}/bin/stagit-index ${reposDir}/*/ > ${destDir}/index.html
+        # Symlink favicon.png, logo.png and stagit.css from site
+        ${pkgs.sbase}/bin/ln -sf \
+          ${inputs.site}/public/icon/256.png \
+          ${destDir}/favicon.png
 
-      # Symlink favicon.png, logo.png and stagit.css from site
-      ${pkgs.sbase}/bin/ln -sf \
-        ${inputs.site}/public/icon/256.png \
-        ${destDir}/favicon.png
+        ${pkgs.sbase}/bin/ln -sf \
+          ${inputs.site}/public/icon/32.png \
+          ${destDir}/logo.png
 
-      ${pkgs.sbase}/bin/ln -sf \
-        ${inputs.site}/public/icon/32.png \
-        ${destDir}/logo.png
+        ${pkgs.sbase}/bin/ln -sf \
+          ${inputs.site}/public/stagit.css \
+          ${destDir}/style.css
 
-      ${pkgs.sbase}/bin/ln -sf \
-        ${inputs.site}/public/stagit.css \
-        ${destDir}/style.css
-
-      ${pkgs.sbase}/bin/echo "Stagit index generated: ${destDir}/index.html".
-    '';
+        ${pkgs.sbase}/bin/echo "Stagit index generated: ${destDir}/index.html".
+      '';
 
     createRepository =
-      { name, httpBaseUrl }:
+      {
+        destDir,
+        reposDir,
+        name,
+        httpBaseUrl,
+      }:
       ''
         ${pkgs.sbase}/bin/mkdir -p ${destDir}/${name}
         cd ${destDir}/${name}
@@ -65,29 +69,58 @@ let
 in
 {
   stagitCreate =
-    { httpBaseUrl }:
+    {
+      destDir,
+      reposDir,
+      httpBaseUrl,
+    }:
     let
+      createIndex = stagit.createIndex {
+        inherit destDir reposDir;
+      };
       createRepositories =
         config.modules.git.repositories
         |> builtins.attrNames
         |> builtins.map (
           name:
           stagit.createRepository {
-            inherit name httpBaseUrl;
+            inherit
+              destDir
+              reposDir
+              name
+              httpBaseUrl
+              ;
           }
         )
         |> builtins.concatStringsSep "\n";
 
       script = pkgs.writeShellScriptBin "stagit-create" ''
-        ${stagit.createIndex}
+        ${createIndex}
         ${createRepositories}
       '';
     in
     "${script}/bin/stagit-create";
 
   stagitPostReceive =
-    { name, httpBaseUrl }:
+    {
+      destDir,
+      reposDir,
+      name,
+      httpBaseUrl,
+    }:
     let
+      createIndex = stagit.createIndex {
+        inherit destDir reposDir;
+      };
+      createRepositories = stagit.createRepository {
+        inherit
+          destDir
+          reposDir
+          name
+          httpBaseUrl
+          ;
+      };
+
       script = pkgs.writeShellScriptBin "stagit" ''
         # Define is_force=1 if 'git push -f' was used
         null_ref="0000000000000000000000000000000000000000"
@@ -107,11 +140,11 @@ in
 
         # If is_force = 1, delete commits
         if ${pkgs.sbase}/bin/test $is_force = "1"; then
-          ${pkgs.sbase}/bin/rm -rf ${stagit.reposDir}/${name}/commit
+          ${pkgs.sbase}/bin/rm -rf ${reposDir}/${name}/commit
         fi
 
-        ${stagit.createIndex}
-        ${stagit.createRepository { inherit name httpBaseUrl; }}
+        ${createIndex}
+        ${createRepositories}
       '';
     in
     "${script}/bin/stagit";
