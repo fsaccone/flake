@@ -111,9 +111,7 @@ rec {
         enable = true;
         email = "admin@${domain}";
         inherit domain;
-        extraDomains = builtins.map (sub: "${sub}.${domain}") [
-          "www"
-        ];
+        extraDomains = [ "www.${domain}" ];
       };
       tls = {
         enable = true;
