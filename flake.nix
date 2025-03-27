@@ -96,6 +96,11 @@
         "laptop" = lib.makeHost "laptop" {
           additionalModules = lib.makeHomeModules "francesco";
         };
+        "git-server" = lib.makeHost "git-server" {
+          additionalModules = [
+            inputs.disko.nixosModules.disko
+          ];
+        };
         "server" = lib.makeHost "server" {
           additionalModules = [
             inputs.disko.nixosModules.disko
