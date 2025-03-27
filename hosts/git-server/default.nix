@@ -3,7 +3,9 @@
   ...
 }:
 let
-  domain = import ../main-server/domain.nix;
+  mainServer = ../main-server;
+
+  domain = import "${mainServer}/domain.nix";
   gitDomain = "git.${domain}";
 in
 {
@@ -15,14 +17,14 @@ in
     bind = {
       enable = true;
       inherit domain;
-      records = import ../main-server/dns.nix domain;
+      records = import "${mainServer}/dns.nix" domain;
     };
     openssh.listen = {
       enable = true;
       port = 22;
       authorizedKeyFiles = rec {
         root = [
-          ../main-server/ssh/francescosaccone.pub
+          "${mainServer}/ssh/francescosaccone.pub"
         ];
       };
     };
