@@ -21,6 +21,11 @@ in
     };
     darkhttpd = {
       enable = true;
+      acme = {
+        enable = true;
+        email = "admin@${domain}";
+        domain = gitDomain;
+      };
     };
     openssh.listen = {
       enable = true;
