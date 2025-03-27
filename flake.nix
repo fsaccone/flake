@@ -22,11 +22,11 @@
       flake = false;
     };
     password-store = {
-      url = "git://francescosaccone.com/password-store";
+      url = "git://git.francescosaccone.com/password-store";
       flake = false;
     };
     site = {
-      url = "git://francescosaccone.com/site";
+      url = "git://git.francescosaccone.com/site";
       flake = false;
     };
   };
