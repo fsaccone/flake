@@ -29,10 +29,11 @@ See <https://nix-community.github.io/nixos-anywhere> for more information.
 
 When instead I want to install my laptop configuration I would retrieve the
 official minimal ISO image from <https://nixos.org/download>, clone this
-repository, generate the hardware configuration file and use nixos-rebuild:
+repository, generate the hardware configuration file and use nixos-install:
 
+    # Disk partitioning, etc.
     nixos-generate-config --show-hardware-config > hardware/laptop/default.nix
-    nixos-rebuild switch --flake .#laptop
+    nixos-install --root /mnt --flake .#server --no-root-password
 
 Usage
 -----
