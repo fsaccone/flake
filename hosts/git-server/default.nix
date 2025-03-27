@@ -8,6 +8,11 @@
   ];
 
   modules = {
+    bind = rec {
+      enable = true;
+      domain = "francescosaccone.com";
+      records = import ../server/dns.nix domain;
+    };
     openssh.listen = {
       enable = true;
       port = 22;
