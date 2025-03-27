@@ -26,6 +26,17 @@ in
         email = "admin@${rootDomain}";
         domain = gitDomain;
       };
+      tls = {
+        enable = true;
+        pemFiles =
+          let
+            inherit (config.modules.darkhttpd.acme) directory;
+          in
+          [
+            "${directory}/${gitDomain}/fullchain.pem"
+            "${directory}/${gitDomain}/privkey.pem"
+          ];
+      };
     };
     openssh.listen = {
       enable = true;
