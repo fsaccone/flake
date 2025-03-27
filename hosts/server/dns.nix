@@ -16,10 +16,6 @@ in
       ipv4 = "193.108.52.52";
       ipv6 = "2001:1600:13:101::16e3";
     };
-    www = {
-      ipv4 = "193.108.52.52";
-      ipv6 = "2001:1600:13:101::16e3";
-    };
   }
   |> builtins.mapAttrs (
     name:
@@ -66,6 +62,13 @@ in
     class = "IN";
     type = "NS";
     data = "ns1.${domain}.";
+  }
+  {
+    name = "www";
+    inherit ttl;
+    class = "IN";
+    type = "CNAME";
+    data = "${domain}.";
   }
   {
     name = "@";
