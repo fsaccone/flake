@@ -99,17 +99,17 @@
     "site": {
       "flake": false,
       "locked": {
-        "lastModified": 1742998700,
-        "narHash": "sha256-aBQ2RmY7mALR3T6O/fBSvJuPY1s+XNbu7FDdZ9dchH8=",
+        "lastModified": 1743097857,
+        "narHash": "sha256-Aa5sF2/nvIsmMqogploq46KZpfVYwyQthlTE1DXIjwc=",
         "ref": "refs/heads/master",
-        "rev": "24e2cba072d1edbc56a8a923a6659bb79f8652cb",
-        "revCount": 76,
+        "rev": "fc6c55f97703fc7bad997474d9d1aa8bff3012dd",
+        "revCount": 78,
         "type": "git",
-        "url": "git://francescosaccone.com/site"
+        "url": "git://git.francescosaccone.com/site"
       },
       "original": {
         "type": "git",
-        "url": "git://francescosaccone.com/site"
+        "url": "git://git.francescosaccone.com/site"
       }
     },
     "treefmt-nix": {
