@@ -6,7 +6,6 @@
 }:
 let
   domain = import ./domain.nix;
-  scripts = import ./scripts.nix { inherit config pkgs inputs; };
 in
 rec {
   imports = [
@@ -87,7 +86,6 @@ rec {
             generateAtom
             generateSitemap
             generateHtml
-            scripts.stagitCreate
           ];
         packages = [
           pkgs.coreutils
@@ -100,7 +98,6 @@ rec {
         "index.html" = "/var/tmp/site/html/index.html";
         "blog" = "/var/tmp/site/html/blog";
         "code" = "/var/tmp/site/html/code";
-        "git" = "/var/tmp/stagit";
         "public" = "${inputs.site}/public";
         "favicon.ico" = "${inputs.site}/favicon.ico";
         "robots.txt" = "${inputs.site}/robots.txt";
@@ -125,39 +122,6 @@ rec {
           ];
       };
     };
-    git = {
-      enable = true;
-      repositories =
-        {
-          flake = {
-            description = "Francesco Saccone's Nix flake.";
-          };
-          password-store = {
-            description = "Francesco Saccone's password store.";
-          };
-          sbase = {
-            description = "Francesco Saccone's fork of suckless UNIX tools.";
-          };
-          site = {
-            description = "Francesco Saccone's site content.";
-          };
-        }
-        |> builtins.mapAttrs (
-          name:
-          { description }:
-          {
-            additionalFiles = {
-              inherit description;
-              owner = "Francesco Saccone";
-              url = "git://${domain}/${name}";
-            };
-            hooks.postReceive = scripts.stagitPostReceive { inherit name; };
-          }
-        );
-      daemon = {
-        enable = true;
-      };
-    };
     openssh.listen = {
       enable = true;
       port = 22;
@@ -165,7 +129,6 @@ rec {
         root = [
           ./ssh/francescosaccone.pub
         ];
-        git = root;
       };
     };
   };
