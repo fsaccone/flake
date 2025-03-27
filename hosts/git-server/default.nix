@@ -25,6 +25,13 @@ in
     };
     darkhttpd = {
       enable = true;
+      preStart = {
+        scripts = [
+          (scripts.stagitCreate {
+            httpBaseUrl = "https://${gitDomain}";
+          })
+        ];
+      };
       acme = {
         enable = true;
         email = "admin@${rootDomain}";
