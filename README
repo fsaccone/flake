@@ -7,7 +7,8 @@ NixOS configurations
 --------------------
 
 - laptop: Designed for my laptop.
-- server: Designed for my main server.
+- main-server: Designed for my main server.
+- git-server: Designed for my Git server.
 
 Home Manager configurations
 ---------------------------
