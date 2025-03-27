@@ -31,12 +31,25 @@ in
     darkhttpd = {
       enable = true;
       preStart = {
-        scripts = [
-          (scripts.stagitCreate {
-            inherit (stagit) destDir reposDir;
-            httpBaseUrl = "https://${gitDomain}";
-          })
-        ];
+        scripts =
+          let
+            stagitCreate = scripts.stagitCreate {
+              inherit (stagit) destDir reposDir;
+              httpBaseUrl = "https://${gitDomain}";
+            };
+
+            stagitCreateAndChown =
+              let
+                script = pkgs.writeShellScriptBin "stagit-create-and-chown" ''
+                  ${stagitCreate}
+                  ${pkgs.sbase}/bin/chown -R git:git ${stagit.destDir}
+                '';
+              in
+              "${script}/bin/stagit-create-and-chown";
+          in
+          [
+            stagitCreateAndChown
+          ];
       };
       symlinks =
         {
