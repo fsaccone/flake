@@ -149,6 +149,7 @@
     nmap
     noice
     sent
+    timidity
     watchmate
     zathura
   ];
