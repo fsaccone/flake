@@ -143,6 +143,7 @@
     imv
     librewolf-bin
     lilypond
+    man-pages-posix
     md2pdf
     mpv
     nixos-anywhere
