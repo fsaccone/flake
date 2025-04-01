@@ -8,8 +8,8 @@ stdenv.mkDerivation {
 
   src = fetchgit {
     url = "git://git.francescosaccone.com/hermes";
-    rev = "0.1.0";
-    sha256 = "sha256-w7ywSKayEvjdUPC7G17mH5uQqjsn/JZqL3pfKm1pXro=";
+    rev = "0.1.1";
+    sha256 = "sha256-nR1z9iWdl2vt6ytSHM3aGxJE8WxfOQJBQe/CP7CnjTY=";
   };
 
   makeFlags = [ "CC:=$(CC)" ];
