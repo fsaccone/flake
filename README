@@ -34,7 +34,8 @@ repository, generate the hardware configuration file and use nixos-install:
 
     # Disk partitioning, etc.
     nixos-generate-config --show-hardware-config > hardware/laptop/default.nix
-    nixos-install --root /mnt --flake .#server --no-root-password
+    nixos-install --root /mnt --flake .#laptop --no-root-password --option \
+    extra-experimental-features 'nix-command flakes pipe-operators'
 
 Usage
 -----
