@@ -97,9 +97,6 @@ in
           password-store = {
             description = "Francesco Saccone's password store.";
           };
-          sbase = {
-            description = "Francesco Saccone's fork of suckless UNIX tools.";
-          };
           site = {
             description = "Francesco Saccone's site content.";
           };
