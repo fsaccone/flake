@@ -137,9 +137,4 @@ in
   };
 
   networking.domain = gitDomain;
-
-  boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
 }

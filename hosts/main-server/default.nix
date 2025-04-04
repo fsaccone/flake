@@ -136,9 +136,4 @@ rec {
   networking = {
     inherit domain;
   };
-
-  boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
 }
