@@ -8,8 +8,8 @@
   users.users."francesco" = {
     description = "Francesco Saccone";
     hashedPassword = builtins.concatStringsSep "" [
-      "$y$j9T$OeFz3YZ.sA0W62wz7QEyr.$p8n5VCft9O6sdxSedIh4SQ7"
-      "JiXWgFI0/E5knPbX9y/3"
+      "$y$j9T$ZJ7/UHs2qss.7QaCKrAOY/$A6u2M1y7IKyZjj0du"
+      "kLW8vQW87hzB/iSklEX6ecqajD"
     ];
     isNormalUser = true;
     extraGroups = [
