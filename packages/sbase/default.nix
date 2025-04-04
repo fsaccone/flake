@@ -7,9 +7,9 @@ stdenv.mkDerivation {
   name = "sbase";
 
   src = fetchgit {
-    url = "git://git.francescosaccone.com/sbase";
+    url = "git://git.suckless.org/sbase";
     rev = "0.1";
-    sha256 = "sha256-tH8XeIYy/l3DFPEZ7dlaLFP1Di2g8RpEfLl+nTx880U=";
+    sha256 = "sha256-v+73ERFDtpL7bP9gC9zXndLn4HDxTuryTTQboFERduk=";
   };
 
   makeFlags = [ "CC:=$(CC)" ];
