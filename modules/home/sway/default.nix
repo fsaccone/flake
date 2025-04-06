@@ -66,6 +66,7 @@
         enable = true;
         package = pkgs.sway;
 
+        xwayland = lib.mkForce false;
         config = {
           fonts = {
             names = [
