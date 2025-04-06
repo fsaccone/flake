@@ -16,6 +16,7 @@
 
   config =
     let
+      colors = import ../colors.nix;
       inherit (config.modules.sway) bar;
     in
     lib.mkIf (bar.enable && config.modules.sway.enable) {
@@ -41,27 +42,27 @@
 
           colors = {
             activeWorkspace = {
-              background = "#000000";
-              border = "#ffffff";
-              text = "#ffffff";
+              background = colors.black;
+              border = colors.white;
+              text = colors.white;
             };
-            background = "#000000";
+            background = colors.black;
             focusedWorkspace = {
-              background = "#ffffff";
-              border = "#ffffff";
-              text = "#000000";
+              background = colors.white;
+              border = colors.white;
+              text = colors.black;
             };
             inactiveWorkspace = {
-              background = "#000000";
-              border = "#000000";
-              text = "#ffffff";
+              background = colors.black;
+              border = colors.black;
+              text = colors.white;
             };
-            separator = "#ffffff";
-            statusline = "#ffffff";
+            separator = colors.white;
+            statusline = colors.white;
             urgentWorkspace = {
-              background = "#000000";
-              border = "#da8b8b";
-              text = "#ffffff";
+              background = colors.black;
+              border = colors.red;
+              text = colors.white;
             };
           };
         }
