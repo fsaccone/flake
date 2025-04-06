@@ -67,6 +67,8 @@
 
                 [main]
                 font=${config.modules.sway.fonts.monospace}:size=11
+                title=Foot
+                locked-title=yes
               '';
             in
             "${pkgs.foot}/bin/foot -c ${configFile}";
