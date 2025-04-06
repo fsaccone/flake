@@ -91,13 +91,6 @@
               indicator = colors.background;
               text = colors.white;
             };
-            placeholder = {
-              background = colors.white;
-              border = colors.background;
-              childBorder = colors.white;
-              indicator = colors.white;
-              text = colors.background;
-            };
             unfocused = {
               background = colors.background;
               border = colors.background;
