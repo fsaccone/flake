@@ -31,13 +31,21 @@
 
     wayland.windowManager.sway =
       let
+        colors = {
+          black = "#000000";
+          red = "#da8b8b";
+          white = "#ffffff";
+        };
         commands = {
           foot =
             let
+              # Remove the leading '#' character.
+              parseColor = builtins.substring 1 7;
+
               configFile = pkgs.writeText "foot.ini" ''
                 [colors]
-                background=000000
-                foreground=ffffff
+                background=${parseColor colors.black}
+                foreground=${parseColor colors.white}
 
                 [main]
                 font=${config.modules.sway.fonts.monospace}:size=11
@@ -65,34 +73,34 @@
           floating.modifier = "Mod4";
 
           colors = {
-            background = "#ffffff";
+            background = colors.white;
             focused = {
-              background = "#ffffff";
-              border = "#ffffff";
-              childBorder = "#ffffff";
-              indicator = "#ffffff";
-              text = "#000000";
+              background = colors.white;
+              border = colors.white;
+              childBorder = colors.white;
+              indicator = colors.white;
+              text = colors.black;
             };
             placeholder = {
-              background = "#ffffff";
-              border = "#000000";
-              childBorder = "#ffffff";
-              indicator = "#ffffff";
-              text = "#000000";
+              background = colors.white;
+              border = colors.black;
+              childBorder = colors.white;
+              indicator = colors.white;
+              text = colors.black;
             };
             unfocused = {
-              background = "#000000";
-              border = "#000000";
-              childBorder = "#000000";
-              indicator = "#000000";
-              text = "#ffffff";
+              background = colors.black;
+              border = colors.black;
+              childBorder = colors.black;
+              indicator = colors.black;
+              text = colors.white;
             };
             urgent = {
-              background = "#000000";
-              border = "#da8b8b";
-              childBorder = "#000000";
-              indicator = "#000000";
-              text = "#ffffff";
+              background = colors.black;
+              border = colors.red;
+              childBorder = colors.black;
+              indicator = colors.black;
+              text = colors.white;
             };
           };
 
