@@ -46,7 +46,7 @@
               border = colors.white;
               text = colors.white;
             };
-            background = colors.black;
+            background = colors.background;
             focusedWorkspace = {
               background = colors.white;
               border = colors.white;
