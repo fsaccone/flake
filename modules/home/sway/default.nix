@@ -75,8 +75,17 @@
 
           output."*".background = "${./background.png} fill";
 
-          colors = rec {
+          colors = let
+            default = {
+              inherit (colors) background;
+              border = colors.background;
+              childBorder = colors.background;
+              indicator = colors.background;
+              text = colors.white;
+            };
+          in rec {
             background = colors.transparent;
+
             focused = {
               background = colors.white;
               border = colors.white;
@@ -84,20 +93,17 @@
               indicator = colors.white;
               text = colors.background;
             };
-            focusedInactive = {
-              inherit (colors) background;
-              border = colors.background;
-              childBorder = colors.background;
-              indicator = colors.background;
-              text = colors.white;
-            };
-            unfocused = focusedInactive;
+
+            focusedInactive = default;
+            unfocused = default;
             urgent = {
-              inherit (colors) background;
+              inherit (default)
+                background
+                childBorder
+                indicator
+                text
+                ;
               border = colors.red;
-              childBorder = colors.background;
-              indicator = colors.background;
-              text = colors.white;
             };
           };
 
