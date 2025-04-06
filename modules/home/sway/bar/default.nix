@@ -30,7 +30,7 @@
           mode = "dock";
           trayOutput = "none";
           workspaceButtons = true;
-          extraConfig = "separator_symbol \"|\"";
+          extraConfig = "separator_symbol \"  \"";
 
           fonts = {
             names = [
