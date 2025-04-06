@@ -53,6 +53,13 @@
               foreground = parseColor colors.foreground;
 
               configFile = pkgs.writeText "foot.ini" ''
+                [cursor]
+                color=${background} ${foreground}
+                style=beam
+                blink=yes
+                blink-rate=500
+                beam-thickness=1.5
+
                 [colors]
                 alpha=0.8
                 background=${background}
