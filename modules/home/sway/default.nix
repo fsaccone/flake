@@ -27,7 +27,10 @@
   };
 
   config = lib.mkIf config.modules.sway.enable {
-    home.packages = [ pkgs.wl-clipboard-rs ];
+    home.packages = [
+      pkgs.swaybg
+      pkgs.wl-clipboard-rs
+    ];
 
     wayland.windowManager.sway =
       let
