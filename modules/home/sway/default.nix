@@ -44,7 +44,7 @@
               configFile = pkgs.writeText "foot.ini" ''
                 [colors]
                 alpha=0.8
-                background=${parseColor colors.black}
+                background=${parseColor colors.background}
                 foreground=${parseColor colors.white}
 
                 [main]
@@ -82,27 +82,27 @@
               border = colors.white;
               childBorder = colors.white;
               indicator = colors.white;
-              text = colors.black;
+              text = colors.background;
             };
             placeholder = {
               background = colors.white;
-              border = colors.black;
+              border = colors.background;
               childBorder = colors.white;
               indicator = colors.white;
-              text = colors.black;
+              text = colors.background;
             };
             unfocused = {
-              background = colors.black;
-              border = colors.black;
-              childBorder = colors.black;
-              indicator = colors.black;
+              background = colors.background;
+              border = colors.background;
+              childBorder = colors.background;
+              indicator = colors.background;
               text = colors.white;
             };
             urgent = {
-              background = colors.black;
+              background = colors.background;
               border = colors.red;
-              childBorder = colors.black;
-              indicator = colors.black;
+              childBorder = colors.background;
+              indicator = colors.background;
               text = colors.white;
             };
           };

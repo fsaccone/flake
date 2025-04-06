@@ -42,7 +42,7 @@
 
           colors = {
             activeWorkspace = {
-              background = colors.black;
+              background = colors.background;
               border = colors.white;
               text = colors.white;
             };
@@ -50,17 +50,17 @@
             focusedWorkspace = {
               background = colors.white;
               border = colors.white;
-              text = colors.black;
+              text = colors.background;
             };
             inactiveWorkspace = {
-              background = colors.black;
-              border = colors.black;
+              background = colors.background;
+              border = colors.background;
               text = colors.white;
             };
-            separator = colors.white;
+            separator = colors.background;
             statusline = colors.white;
             urgentWorkspace = {
-              background = colors.black;
+              background = colors.background;
               border = colors.red;
               text = colors.white;
             };
