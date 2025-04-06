@@ -140,6 +140,7 @@
     alsa-utils
     ffmpeg
     dig
+    gimp
     imv
     librewolf-bin
     lilypond
