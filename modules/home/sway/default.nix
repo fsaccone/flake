@@ -80,8 +80,6 @@
               default = {
                 background = colors.transparent;
                 border = colors.transparent;
-                childBorder = colors.transparent;
-                indicator = colors.transparent;
                 text = colors.white;
               };
             in
@@ -91,8 +89,6 @@
               focused = {
                 background = colors.white;
                 border = colors.white;
-                childBorder = colors.white;
-                indicator = colors.white;
                 text = colors.background;
               };
 
@@ -101,13 +97,24 @@
               urgent = {
                 inherit (default)
                   background
-                  childBorder
-                  indicator
                   text
                   ;
                 border = colors.red;
               };
-            };
+            }
+            |> builtins.mapAttrs (
+              name:
+              {
+                background,
+                border,
+                text,
+              }:
+              {
+                inherit background border text;
+                childBorder = border;
+                indicator = border;
+              }
+            );
 
           gaps = {
             inner = 14;
