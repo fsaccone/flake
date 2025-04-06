@@ -75,7 +75,7 @@
 
           output."*".background = "${./background.png} fill";
 
-          colors = {
+          colors = rec {
             background = colors.transparent;
             focused = {
               background = colors.white;
@@ -91,13 +91,7 @@
               indicator = colors.background;
               text = colors.white;
             };
-            unfocused = {
-              background = colors.background;
-              border = colors.background;
-              childBorder = colors.background;
-              indicator = colors.background;
-              text = colors.white;
-            };
+            unfocused = focusedInactive;
             urgent = {
               background = colors.background;
               border = colors.red;
