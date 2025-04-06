@@ -27,10 +27,18 @@
   };
 
   config = lib.mkIf config.modules.sway.enable {
-    home.packages = [
-      pkgs.swaybg
-      pkgs.wl-clipboard-rs
-    ];
+    home = {
+      packages = [
+        pkgs.swaybg
+        pkgs.wl-clipboard-rs
+      ];
+      pointerCursor = {
+        gtk.enable = true;
+        name = "graphite-dark-nord";
+        package = pkgs.graphite-cursors;
+        size = 20;
+      };
+    };
 
     wayland.windowManager.sway =
       let
