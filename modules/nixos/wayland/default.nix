@@ -30,12 +30,5 @@
       package = pkgs.sway;
       extraPackages = lib.mkForce [ ];
     };
-
-    services.logind = {
-      killUserProcesses = true;
-      lidSwitch = "poweroff";
-      powerKey = "poweroff";
-      powerKeyLongPress = "poweroff";
-    };
   };
 }
