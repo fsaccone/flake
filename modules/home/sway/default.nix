@@ -84,6 +84,13 @@
               indicator = colors.white;
               text = colors.background;
             };
+            focusedInactive = {
+              background = colors.background;
+              border = colors.background;
+              childBorder = colors.background;
+              indicator = colors.background;
+              text = colors.white;
+            };
             placeholder = {
               background = colors.white;
               border = colors.background;
