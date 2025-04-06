@@ -85,7 +85,7 @@
               text = colors.background;
             };
             focusedInactive = {
-              background = colors.background;
+              inherit (colors) background;
               border = colors.background;
               childBorder = colors.background;
               indicator = colors.background;
@@ -93,7 +93,7 @@
             };
             unfocused = focusedInactive;
             urgent = {
-              background = colors.background;
+              inherit (colors) background;
               border = colors.red;
               childBorder = colors.background;
               indicator = colors.background;
