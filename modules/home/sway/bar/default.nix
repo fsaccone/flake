@@ -77,7 +77,7 @@
           output_format = "i3bar";
           colors = true;
           color_good = "#80ff80";
-          color_degraded = "#da8b8b";
+          color_degraded = colors.red;
           color_bad = "#c85151";
         };
         modules = {
