@@ -78,9 +78,9 @@
           colors =
             let
               default = {
-                background = colors.transparent;
+                background = colors.white;
                 border = colors.transparent;
-                text = colors.white;
+                text = colors.background;
               };
             in
             rec {
