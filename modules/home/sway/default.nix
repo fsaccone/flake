@@ -49,11 +49,14 @@
               # Remove the leading '#' character.
               parseColor = builtins.substring 1 7;
 
+              background = parseColor colors.background;
+              foreground = parseColor colors.white;
+
               configFile = pkgs.writeText "foot.ini" ''
                 [colors]
                 alpha=0.8
-                background=${parseColor colors.background}
-                foreground=${parseColor colors.white}
+                background=${background}
+                foreground=${foreground}
 
                 [main]
                 font=${config.modules.sway.fonts.monospace}:size=11
