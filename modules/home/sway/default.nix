@@ -34,11 +34,7 @@
 
     wayland.windowManager.sway =
       let
-        colors = {
-          black = "#000000";
-          red = "#da8b8b";
-          white = "#ffffff";
-        };
+        colors = import ./colors.nix;
         commands = {
           foot =
             let
