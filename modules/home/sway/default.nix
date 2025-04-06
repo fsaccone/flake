@@ -76,7 +76,7 @@
           output."*".background = "${./background.png} fill";
 
           colors = {
-            background = colors.white;
+            background = colors.transparent;
             focused = {
               background = colors.white;
               border = colors.white;
