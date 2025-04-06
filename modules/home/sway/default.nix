@@ -50,7 +50,7 @@
               parseColor = builtins.substring 1 7;
 
               background = parseColor colors.background;
-              foreground = parseColor colors.white;
+              foreground = parseColor colors.foreground;
 
               configFile = pkgs.writeText "foot.ini" ''
                 [colors]
@@ -90,15 +90,15 @@
           colors =
             let
               default = {
-                background = colors.white;
+                background = colors.foreground;
                 border = colors.transparent;
                 text = colors.background;
               };
             in
             rec {
               focused = {
-                background = colors.white;
-                border = colors.white;
+                background = colors.foreground;
+                border = colors.foreground;
                 text = colors.background;
               };
 

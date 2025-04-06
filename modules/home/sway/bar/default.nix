@@ -43,26 +43,26 @@
           colors = {
             activeWorkspace = {
               background = colors.background;
-              border = colors.white;
-              text = colors.white;
+              border = colors.foreground;
+              text = colors.foreground;
             };
             background = colors.background;
             focusedWorkspace = {
-              background = colors.white;
-              border = colors.white;
+              background = colors.foreground;
+              border = colors.foreground;
               text = colors.background;
             };
             inactiveWorkspace = {
               background = colors.background;
               border = colors.background;
-              text = colors.white;
+              text = colors.foreground;
             };
             separator = colors.background;
-            statusline = colors.white;
+            statusline = colors.foreground;
             urgentWorkspace = {
               background = colors.background;
               border = colors.red;
-              text = colors.white;
+              text = colors.foreground;
             };
           };
         }
