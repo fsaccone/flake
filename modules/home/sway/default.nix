@@ -68,6 +68,7 @@
 
           defaultWorkspace = "workspace number \"1\"";
 
+          inherit (commands) terminal;
           modifier = "Mod4";
           floating.modifier = "Mod4";
 
