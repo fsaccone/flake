@@ -75,6 +75,8 @@
           modifier = "Mod4";
           floating.modifier = "Mod4";
 
+          output."*".background = "${./background.png} fill";
+
           colors = {
             background = colors.white;
             focused = {
