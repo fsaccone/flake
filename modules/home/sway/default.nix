@@ -210,10 +210,6 @@
               always = true;
             }
             {
-              command = commands.terminal;
-              always = false;
-            }
-            {
               command = "${pkgs.alsa-utils}/bin/amixer set Master 100%";
               always = false;
             }
