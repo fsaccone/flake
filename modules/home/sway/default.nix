@@ -84,8 +84,6 @@
               };
             in
             rec {
-              background = colors.transparent;
-
               focused = {
                 background = colors.white;
                 border = colors.white;
