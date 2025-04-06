@@ -74,13 +74,6 @@ in
     data = "ns2.${domain}.";
   }
   {
-    name = "www";
-    inherit ttl;
-    class = "IN";
-    type = "CNAME";
-    data = "${domain}.";
-  }
-  {
     name = "@";
     inherit ttl;
     class = "IN";
