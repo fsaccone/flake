@@ -75,37 +75,39 @@
 
           output."*".background = "${./background.png} fill";
 
-          colors = let
-            default = {
-              inherit (colors) background;
-              border = colors.background;
-              childBorder = colors.background;
-              indicator = colors.background;
-              text = colors.white;
-            };
-          in rec {
-            background = colors.transparent;
+          colors =
+            let
+              default = {
+                inherit (colors) background;
+                border = colors.background;
+                childBorder = colors.background;
+                indicator = colors.background;
+                text = colors.white;
+              };
+            in
+            rec {
+              background = colors.transparent;
 
-            focused = {
-              background = colors.white;
-              border = colors.white;
-              childBorder = colors.white;
-              indicator = colors.white;
-              text = colors.background;
-            };
+              focused = {
+                background = colors.white;
+                border = colors.white;
+                childBorder = colors.white;
+                indicator = colors.white;
+                text = colors.background;
+              };
 
-            focusedInactive = default;
-            unfocused = default;
-            urgent = {
-              inherit (default)
-                background
-                childBorder
-                indicator
-                text
-                ;
-              border = colors.red;
+              focusedInactive = default;
+              unfocused = default;
+              urgent = {
+                inherit (default)
+                  background
+                  childBorder
+                  indicator
+                  text
+                  ;
+                border = colors.red;
+              };
             };
-          };
 
           gaps = {
             inner = 14;
