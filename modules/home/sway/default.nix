@@ -43,6 +43,7 @@
 
               configFile = pkgs.writeText "foot.ini" ''
                 [colors]
+                alpha=0.8
                 background=${parseColor colors.black}
                 foreground=${parseColor colors.white}
 
