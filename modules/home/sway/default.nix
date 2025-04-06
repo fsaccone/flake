@@ -107,12 +107,8 @@
           };
 
           gaps = {
-            bottom = 7;
-            left = 7;
-            right = 7;
-            top = 7;
-
-            inner = 7;
+            inner = 14;
+            outer = 18;
           };
 
           window = {
