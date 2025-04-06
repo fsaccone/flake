@@ -36,7 +36,7 @@
       let
         colors = import ./colors.nix;
         commands = {
-          foot =
+          terminal =
             let
               # Remove the leading '#' character.
               parseColor = builtins.substring 1 7;
@@ -137,7 +137,7 @@
           };
 
           keybindings = {
-            "Mod4+Return" = "exec ${commands.foot}";
+            "Mod4+Return" = "exec ${commands.terminal}";
 
             "XF86AudioRaiseVolume" = ''
               exec ${pkgs.alsa-utils}/bin/amixer set Master 10%+
@@ -209,7 +209,7 @@
               always = true;
             }
             {
-              command = commands.foot;
+              command = commands.terminal;
               always = false;
             }
             {
