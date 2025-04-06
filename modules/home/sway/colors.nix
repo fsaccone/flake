@@ -3,6 +3,8 @@
   # the background image.
   background = "#00112b";
 
+  transparent = "#00000000";
+
   darkRed = "#c85151";
   green = "#80ff80";
   red = "#da8b8b";
