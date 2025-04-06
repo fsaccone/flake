@@ -78,7 +78,7 @@
           colors =
             let
               default = {
-                inherit (colors) background;
+                background = colors.transparent;
                 border = colors.transparent;
                 childBorder = colors.transparent;
                 indicator = colors.transparent;
