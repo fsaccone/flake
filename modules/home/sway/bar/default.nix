@@ -76,9 +76,9 @@
         general = {
           output_format = "i3bar";
           colors = true;
-          color_good = "#80ff80";
+          color_good = colors.green;
           color_degraded = colors.red;
-          color_bad = "#c85151";
+          color_bad = colors.darkRed;
         };
         modules = {
           "wireless _first_" = {
