@@ -24,7 +24,7 @@
         {
           command = "${pkgs.sway}/bin/swaybar";
 
-          position = "bottom";
+          position = "top";
 
           statusCommand = "${pkgs.i3status}/bin/i3status";
           mode = "dock";
