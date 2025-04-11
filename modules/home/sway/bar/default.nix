@@ -85,22 +85,22 @@
             enable = true;
             position = 0;
             settings = {
-              format_up = "WIR: %essid";
-              format_down = "WIR: None";
+              format_up = "📡 %essid";
+              format_down = "📡 None";
             };
           };
           "battery all" = {
             enable = true;
             position = 1;
             settings = {
-              format = "BAT: %percentage [%status]";
-              format_down = "BAT: None";
+              format = "🔋 %percentage %status";
+              format_down = "🔋 None";
               format_percentage = "%.01f%s";
-              status_chr = "+";
-              status_bat = "-";
-              status_unk = "?";
-              status_full = "F";
-              status_idle = "I";
+              status_chr = "⚡";
+              status_bat = "";
+              status_unk = "";
+              status_full = "✅";
+              status_idle = "";
               low_threshold = 15;
               threshold_type = "percentage";
               last_full_capacity = false;
@@ -111,7 +111,7 @@
             enable = true;
             position = 2;
             settings = {
-              format = "CPU: %degrees°C";
+              format = "🌡️ %degrees°C";
               max_threshold = 75;
             };
           };
@@ -119,7 +119,7 @@
             enable = true;
             position = 3;
             settings = {
-              format = "RAM: %percentage_used";
+              format = "🧠 %percentage_used";
               threshold_degraded = "10%";
               threshold_critical = "5%";
               unit = "auto";
