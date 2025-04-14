@@ -71,7 +71,7 @@
       {
         imports = [
           ./home
-          ../../modules/home
+          inputs.self.outputs.homeManagerModules.default
         ];
 
         home.stateVersion = "25.05";
