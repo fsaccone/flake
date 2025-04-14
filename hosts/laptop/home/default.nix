@@ -130,14 +130,20 @@
       fonts = {
         monospace = "IBM Plex Mono";
       };
-      backgroundImage = ./background.png;
-      colors = {
-        background = "#00112b";
-        foreground = "#d5e5ff";
-        darkRed = "#c85151";
-        green = "#80ff80";
-        red = "#da8b8b";
-      };
+      backgroundImage = ../background.png;
+      colors =
+        let
+          colors = import ../colors.nix;
+        in
+        {
+          inherit (colors)
+            background
+            foreground
+            darkRed
+            green
+            red
+            ;
+        };
     };
     vis = {
       enable = true;
