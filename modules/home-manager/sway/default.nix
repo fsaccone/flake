@@ -85,7 +85,7 @@
 
     wayland.windowManager.sway =
       let
-        colors = import ./colors.nix;
+        inherit (config.modules.sway) colors;
         commands = {
           terminal =
             let

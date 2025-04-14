@@ -16,8 +16,7 @@
 
   config =
     let
-      colors = import ../colors.nix;
-      inherit (config.modules.sway) bar;
+      inherit (config.modules.sway) bar colors;
     in
     lib.mkIf (bar.enable && config.modules.sway.enable) {
       wayland.windowManager.sway.config.bars = [
