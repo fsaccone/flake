@@ -24,6 +24,43 @@
         '';
       };
     };
+    colors = lib.mkOption {
+      description = "The hex colors, in '#rrggbb[aa]' format.";
+      default = import ./colors.nix;
+      type = lib.types.submodule {
+        options = {
+          background = lib.mkOption {
+            description = ''
+              The background color: it should be continous with the background
+              image.
+            '';
+            type = lib.types.uniq lib.types.str;
+          };
+          foreground = lib.mkOption {
+            description = "The foreground color.";
+            type = lib.types.uniq lib.types.str;
+          };
+          darkRed = lib.mkOption {
+            description = "The dark red color.";
+            type = lib.types.uniq lib.types.str;
+          };
+          green = lib.mkOption {
+            description = "The green color.";
+            type = lib.types.uniq lib.types.str;
+          };
+          red = lib.mkOption {
+            description = "The red color.";
+            type = lib.types.uniq lib.types.str;
+          };
+          transparent = lib.mkOption {
+            description = "The transparent color.";
+            readOnly = true;
+            default = "#00000000";
+            type = lib.types.uniq lib.types.str;
+          };
+        };
+      };
+    };
   };
 
   config = lib.mkIf config.modules.sway.enable {

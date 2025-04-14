@@ -4,7 +4,6 @@
   background = "#00112b";
 
   foreground = "#d5e5ff";
-  transparent = "#00000000";
 
   darkRed = "#c85151";
   green = "#80ff80";
