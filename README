@@ -10,11 +10,6 @@ NixOS configurations
 - main-server: Designed for my main server.
 - git-server: Designed for my Git server.
 
-Home Manager configurations
----------------------------
-
-- francesco: Designed for my daily needs, very minimalist and lightweight.
-
 Installation
 ------------
 
