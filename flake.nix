@@ -106,7 +106,7 @@
                   { ... }:
                   {
                     imports = [
-                      ./homes/francesco/home
+                      ./hosts/laptop/home
                       ./modules/home
                     ];
 
