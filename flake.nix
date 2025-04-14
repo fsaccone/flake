@@ -92,28 +92,6 @@
         "laptop" = lib.makeHost "laptop" {
           additionalModules = [
             inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "bkp";
-
-                extraSpecialArgs = {
-                  inherit inputs;
-                };
-
-                users.francesco =
-                  { ... }:
-                  {
-                    imports = [
-                      ./hosts/laptop/home
-                      ./modules/home
-                    ];
-
-                    home.stateVersion = "25.05";
-                  };
-              };
-            }
           ];
         };
         "git-server" = lib.makeHost "git-server" {

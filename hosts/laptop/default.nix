@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -54,5 +55,26 @@
     createHome = true;
     home = "/home/francesco";
     shell = "${pkgs.mksh}/bin/mksh";
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "bkp";
+
+    extraSpecialArgs = {
+      inherit inputs;
+    };
+
+    users.francesco =
+      { ... }:
+      {
+        imports = [
+          ./home
+          ../../modules/home
+        ];
+
+        home.stateVersion = "25.05";
+      };
   };
 }
