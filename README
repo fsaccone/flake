@@ -57,4 +57,3 @@ nixos-rebuild through SSH:
 When the laptop configuration changes, I rebuild my laptop using nixos-rebuild:
 
     # nixos-rebuild switch --flake .#laptop
-
