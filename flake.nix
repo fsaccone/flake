@@ -88,9 +88,10 @@
 
       overlays.default = final: prev: import ./packages final.pkgs;
 
-      homeManagerModules.default = import ./modules/home-manager;
-
-      nixosModules.default = import ./modules/nixos;
+      nixosModules = {
+        default = import ./modules/nixos;
+        home-manager = import ./modules/home-manager;
+      };
 
       nixosConfigurations = {
         "laptop" = lib.makeHost "laptop" {

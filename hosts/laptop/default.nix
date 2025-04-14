@@ -71,7 +71,7 @@
       {
         imports = [
           ./home
-          inputs.self.outputs.homeManagerModules.default
+          inputs.self.outputs.nixosModules.home-manager
         ];
 
         home.stateVersion = "25.05";
