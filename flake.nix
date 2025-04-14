@@ -72,18 +72,18 @@
         }
       );
 
-      formatter = lib.forEachSystem (
-        {
-          system,
-        }:
-        treefmtEval.${system}.config.build.wrapper
-      );
-
       packages = lib.forEachSystem (
         {
           system,
         }:
         import ./packages inputs.nixpkgs.legacyPackages.${system}
+      );
+
+      formatter = lib.forEachSystem (
+        {
+          system,
+        }:
+        treefmtEval.${system}.config.build.wrapper
       );
 
       overlays.default = final: prev: import ./packages final.pkgs;
