@@ -6,23 +6,17 @@
   ...
 }:
 {
-  options.modules.wayland = {
+  options.modules.sway = {
     enable = lib.mkOption {
-      description = ''
-        Whether to enable Ly and Sway, effectively enabling Wayland.
-      '';
+      description = "Whether to enable Sway.";
       default = false;
       type = lib.types.bool;
     };
   };
 
-  config = lib.mkIf config.modules.wayland.enable {
+  config = lib.mkIf config.modules.sway.enable {
     services.displayManager = {
       defaultSession = "Sway";
-      ly = {
-        enable = true;
-        package = pkgs.ly;
-      };
     };
 
     programs.sway = {

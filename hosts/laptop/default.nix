@@ -10,6 +10,9 @@
     doas = {
       enable = true;
     };
+    ly = {
+      enable = true;
+    };
     monero = {
       enable = true;
       mining = {
@@ -27,10 +30,10 @@
     openssh.agent = {
       enable = true;
     };
-    tlp = {
+    sway = {
       enable = true;
     };
-    wayland = {
+    tlp = {
       enable = true;
     };
   };

@@ -6,10 +6,11 @@
     ./darkhttpd
     ./doas
     ./git
+    ./ly
     ./monero
     ./networkmanager
     ./openssh
+    ./sway
     ./tlp
-    ./wayland
   ];
 }
