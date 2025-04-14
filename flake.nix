@@ -93,10 +93,6 @@
           additionalModules = [
             inputs.home-manager.nixosModules.home-manager
             {
-              imports = [
-                ./homes/francesco/user
-              ];
-
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
