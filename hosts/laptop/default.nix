@@ -37,8 +37,8 @@
 
   services.flatpak.enable = true;
 
-  fonts.packages = with pkgs; [
-    ibm-plex
+  fonts.packages = [
+    pkgs.ibm-plex
   ];
 
   users.users."francesco" = {

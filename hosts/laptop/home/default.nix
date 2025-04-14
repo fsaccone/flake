@@ -140,24 +140,24 @@
     file.".mkshrc".text = ''
       PS1="${"$"}{USER}@$(${pkgs.sbase}/bin/hostname):\${"$"}{PWD} $ "
     '';
-    packages = with pkgs; [
-      alsa-utils
-      ffmpeg
-      dig
-      gimp
-      imv
-      librewolf-bin
-      lilypond
-      man-pages-posix
-      md2pdf
-      mpv
-      nixos-anywhere
-      nmap
-      noice
-      sent
-      timidity
-      watchmate
-      zathura
+    packages = [
+      pkgs.alsa-utils
+      pkgs.ffmpeg
+      pkgs.dig
+      pkgs.gimp
+      pkgs.imv
+      pkgs.librewolf-bin
+      pkgs.lilypond
+      pkgs.man-pages-posix
+      pkgs.md2pdf
+      pkgs.mpv
+      pkgs.nixos-anywhere
+      pkgs.nmap
+      pkgs.noice
+      pkgs.sent
+      pkgs.timidity
+      pkgs.watchmate
+      pkgs.zathura
     ];
   };
 }
