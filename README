@@ -7,7 +7,9 @@ NixOS configurations
 --------------------
 
 - laptop: Designed for my laptop.
+
 - main-server: Designed for my main server.
+
 - git-server: Designed for my Git server.
 
 NixOS modules
