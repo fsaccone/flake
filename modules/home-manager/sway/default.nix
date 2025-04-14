@@ -24,6 +24,11 @@
         '';
       };
     };
+    backgroundImage = lib.mkOption {
+      description = "The image used as background.";
+      default = ./background.png;
+      type = lib.types.uniq lib.types.path;
+    };
     colors = lib.mkOption {
       description = "The hex colors, in '#rrggbb[aa]' format.";
       default = {
