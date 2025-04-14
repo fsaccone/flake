@@ -90,7 +90,7 @@
 
     wayland.windowManager.sway =
       let
-        inherit (config.modules.sway) colors;
+        inherit (config.modules.sway) backgroundImage colors;
         commands = {
           terminal =
             let
@@ -142,7 +142,7 @@
           modifier = "Mod4";
           floating.modifier = "Mod4";
 
-          output."*".background = "${./background.png} fill";
+          output."*".background = "${backgroundImage} fill";
 
           colors =
             let
