@@ -26,7 +26,13 @@
     };
     colors = lib.mkOption {
       description = "The hex colors, in '#rrggbb[aa]' format.";
-      default = import ./colors.nix;
+      default = {
+        background = "#00112b";
+        foreground = "#d5e5ff";
+        darkRed = "#c85151";
+        green = "#80ff80";
+        red = "#da8b8b";
+      };
       type = lib.types.submodule {
         options = {
           background = lib.mkOption {
