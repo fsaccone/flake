@@ -26,18 +26,10 @@
     };
     backgroundImage = lib.mkOption {
       description = "The image used as background.";
-      default = ./background.png;
       type = lib.types.uniq lib.types.path;
     };
     colors = lib.mkOption {
       description = "The hex colors, in '#rrggbb[aa]' format.";
-      default = {
-        background = "#00112b";
-        foreground = "#d5e5ff";
-        darkRed = "#c85151";
-        green = "#80ff80";
-        red = "#da8b8b";
-      };
       type = lib.types.submodule {
         options = {
           background = lib.mkOption {
