@@ -54,10 +54,6 @@
             inherit (inputs) nixpkgs;
             inherit inputs;
           };
-          makeHomeModules = import ./lib/make-home-modules.nix {
-            inherit (inputs) home-manager;
-            inherit inputs;
-          };
           getPkgs = import ./lib/get-pkgs.nix {
             inherit (inputs) nixpkgs;
             inherit inputs;
@@ -94,7 +90,36 @@
 
       nixosConfigurations = {
         "laptop" = lib.makeHost "laptop" {
-          additionalModules = lib.makeHomeModules "francesco";
+          additionalModules = [
+            inputs.home-manager.nixosModules.home-manager
+            {
+              imports = [
+                ./homes/francesco/user
+              ];
+
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "bkp";
+
+                extraSpecialArgs = {
+                  inherit inputs;
+                };
+
+                users.francesco =
+                  { ... }:
+                  {
+                    imports = [
+                      ./homes/francesco/home
+                      ./homes/common
+                      ./modules/home
+                    ];
+
+                    home.stateVersion = "25.05";
+                  };
+              };
+            }
+          ];
         };
         "git-server" = lib.makeHost "git-server" {
           additionalModules = [
