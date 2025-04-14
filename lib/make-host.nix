@@ -11,7 +11,7 @@ nixpkgs.lib.nixosSystem {
     (../hosts + "/${host}")
     (../hardware + "/${host}")
     ../hosts/common
-    ../modules/nixos
+    inputs.self.outputs.nixosModules.default
     (
       {
         config,
