@@ -111,7 +111,6 @@
                   {
                     imports = [
                       ./homes/francesco/home
-                      ./homes/common
                       ./modules/home
                     ];
 

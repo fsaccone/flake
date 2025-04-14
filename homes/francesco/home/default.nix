@@ -136,23 +136,28 @@
     };
   };
 
-  home.packages = with pkgs; [
-    alsa-utils
-    ffmpeg
-    dig
-    gimp
-    imv
-    librewolf-bin
-    lilypond
-    man-pages-posix
-    md2pdf
-    mpv
-    nixos-anywhere
-    nmap
-    noice
-    sent
-    timidity
-    watchmate
-    zathura
-  ];
+  home = {
+    file.".mkshrc".text = ''
+      PS1="${"$"}{USER}@$(${pkgs.sbase}/bin/hostname):\${"$"}{PWD} $ "
+    '';
+    packages = with pkgs; [
+      alsa-utils
+      ffmpeg
+      dig
+      gimp
+      imv
+      librewolf-bin
+      lilypond
+      man-pages-posix
+      md2pdf
+      mpv
+      nixos-anywhere
+      nmap
+      noice
+      sent
+      timidity
+      watchmate
+      zathura
+    ];
+  };
 }
