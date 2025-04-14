@@ -52,7 +52,7 @@ Usage
 When the server configuration changes, I rebuild the machine using 
 nixos-rebuild through SSH:
 
-    $ nixos-rebuild switch --flake .#server --target-host <root@url>
+    $ nixos-rebuild switch --flake .#main-server --target-host <root@url>
 
 When the laptop configuration changes, I rebuild my laptop using nixos-rebuild:
 
