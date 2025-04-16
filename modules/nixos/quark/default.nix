@@ -57,30 +57,6 @@
 
     systemd = {
       services = {
-        quark-setup = {
-          enable = true;
-          wantedBy = [ "multi-user.target" ];
-          serviceConfig =
-            let
-              permissions = pkgs.writeShellScriptBin "permissions" ''
-                ${pkgs.sbase}/bin/chmod -R g+rwx \
-                ${config.modules.quark.directory}
-              '';
-              clean = pkgs.writeShellScriptBin "clean" ''
-                ${pkgs.sbase}/bin/rm -rf \
-                ${config.modules.quark.directory}/*
-              '';
-            in
-            {
-              User = "root";
-              Group = "root";
-              Type = "oneshot";
-              ExecStart = [
-                "${permissions}/bin/permissions"
-                "${clean}/bin/clean"
-              ];
-            };
-        };
         quark =
           let
             inherit (config.modules.quark) preStart;
@@ -88,7 +64,6 @@
           rec {
             enable = true;
             wantedBy = [ "multi-user.target" ];
-            requires = [ "quark-setup.service" ];
             after = [ "network.target" ];
             path = preStart.packages;
             serviceConfig =

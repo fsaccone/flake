@@ -45,7 +45,6 @@
           acme = {
             enable = true;
             wantedBy = [ "multi-user.target" ];
-            after = [ "quark-setup.service" ];
             serviceConfig =
               let
                 domains = [ acme.domain ] ++ acme.extraDomains;
