@@ -95,7 +95,7 @@ in
             additionalFiles = {
               inherit description;
               owner = "Francesco Saccone";
-              url = "git://${gitDomain}/${name}";
+              url = "https://${gitDomain}/${name}";
             };
             hooks.postReceive =
               builtins.concatStringsSep "\n" [
