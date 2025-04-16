@@ -13,7 +13,7 @@ let
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
 
   stagit = {
-    destDir = config.modules.quark.directory;
+    destDir = config.modules.git.directory;
     reposDir = config.modules.git.directory;
   };
 in
@@ -30,6 +30,7 @@ in
     };
     quark = {
       enable = true;
+      directory = config.modules.git.directory;
       user = "git";
       preStart = {
         scripts =
