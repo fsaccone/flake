@@ -97,11 +97,16 @@ in
               owner = "Francesco Saccone";
               url = "git://${gitDomain}/${name}";
             };
-            hooks.postReceive = scripts.stagitPostReceive {
-              inherit (stagit) destDir reposDir;
-              inherit name;
-              httpBaseUrl = "https://${gitDomain}";
-            };
+            hooks.postReceive =
+              builtins.concatStringsSep "\n" [
+                (scripts.stagitPostReceive {
+                  inherit (stagit) destDir reposDir;
+                  inherit name;
+                  httpBaseUrl = "https://${gitDomain}";
+                })
+                "git update-server-info" # Dumb HTTP protocol
+              ]
+              |> pkgs.writeShellScript "post-receive";
           }
         );
       daemon = {
