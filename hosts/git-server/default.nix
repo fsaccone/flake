@@ -30,6 +30,7 @@ in
     };
     quark = {
       enable = true;
+      user = "git";
       preStart = {
         scripts =
           let
