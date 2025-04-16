@@ -81,11 +81,19 @@ rec {
               "${inputs.site}/scripts/generate-html.sh"
               config.modules.darkhttpd.directory
             ];
+            copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
+              ${pkgs.sbase}/bin/cp -r \
+                ${inputs.site}/public \
+                ${inputs.site}/favicon.ico \
+                ${inputs.site}/robots.txt \
+                ${config.modules.darkhttpd.directory}
+            '';
           in
           [
             generateAtom
             generateSitemap
             generateHtml
+            copyStaticContent
           ];
         packages = [
           pkgs.coreutils
@@ -93,11 +101,6 @@ rec {
           pkgs.gnused
           pkgs.lowdown
         ];
-      };
-      symlinks = {
-        "public" = "${inputs.site}/public";
-        "favicon.ico" = "${inputs.site}/favicon.ico";
-        "robots.txt" = "${inputs.site}/robots.txt";
       };
       acme = {
         enable = true;
