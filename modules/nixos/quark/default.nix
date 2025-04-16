@@ -11,9 +11,9 @@
     ./tls
   ];
 
-  options.modules.darkhttpd = {
+  options.modules.quark = {
     enable = lib.mkOption {
-      description = "Whether to enable Darkhttpd.";
+      description = "Whether to enable Quark web server.";
       default = false;
       type = lib.types.bool;
     };
@@ -47,43 +47,43 @@
     };
   };
 
-  config = lib.mkIf config.modules.darkhttpd.enable {
+  config = lib.mkIf config.modules.quark.enable {
     users = {
       users = {
-        darkhttpd = {
+        quark = {
           hashedPassword = "!";
           isSystemUser = true;
-          group = "darkhttpd";
+          group = "quark";
           createHome = true;
-          home = config.modules.darkhttpd.directory;
+          home = config.modules.quark.directory;
         };
       };
       groups = {
-        darkhttpd = { };
+        quark = { };
       };
     };
 
     systemd = {
       services = {
-        darkhttpd-setup = {
+        quark-setup = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           serviceConfig =
             let
               permissions = pkgs.writeShellScriptBin "permissions" ''
                 ${pkgs.sbase}/bin/chmod -R g+rwx \
-                ${config.modules.darkhttpd.directory}
+                ${config.modules.quark.directory}
               '';
               clean = pkgs.writeShellScriptBin "clean" ''
                 ${pkgs.sbase}/bin/rm -rf \
-                ${config.modules.darkhttpd.directory}/*
+                ${config.modules.quark.directory}/*
               '';
               symlinks =
-                config.modules.darkhttpd.symlinks
+                config.modules.quark.symlinks
                 |> builtins.mapAttrs (
                   name: target:
                   let
-                    inherit (config.modules.darkhttpd) directory;
+                    inherit (config.modules.quark) directory;
                   in
                   ''
                     ${pkgs.sbase}/bin/mkdir -p \
@@ -111,31 +111,28 @@
               ];
             };
         };
-        darkhttpd =
+        quark =
           let
-            inherit (config.modules.darkhttpd) preStart;
+            inherit (config.modules.quark) preStart;
           in
           rec {
             enable = true;
             wantedBy = [ "multi-user.target" ];
-            requires = [ "darkhttpd-setup.service" ];
+            requires = [ "quark-setup.service" ];
             after = [ "network.target" ];
             path = preStart.packages;
             serviceConfig =
               let
-                inherit (config.modules.darkhttpd) customHeaderScripts tls;
+                inherit (config.modules.quark) customHeaderScripts tls;
                 script = pkgs.writeShellScriptBin "script" ''
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
-                  ${pkgs.darkhttpd}/bin/darkhttpd \
-                    ${config.modules.darkhttpd.directory} \
-                    --port 80 \
-                    --index index.html \
-                    --no-listing \
-                    --uid darkhttpd \
-                    --gid darkhttpd \
-                    --no-server-id \
-                    --ipv6 ${if tls.enable then "--forward-https" else ""}
+                  ${pkgs.quark}/bin/quark \
+                    -p 80 \
+                    -d ${config.modules.quark.directory} \
+                    -u quark \
+                    -g quark \
+                    -i index.html
                 '';
               in
               {
@@ -148,13 +145,13 @@
           };
       };
       paths = {
-        darkhttpd = {
+        quark = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
             PathModified = [
-              config.modules.darkhttpd.directory
-            ] ++ builtins.attrValues config.modules.darkhttpd.symlinks;
+              config.modules.quark.directory
+            ] ++ builtins.attrValues config.modules.quark.symlinks;
           };
         };
       };

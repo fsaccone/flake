@@ -13,7 +13,7 @@ let
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
 
   stagit = {
-    destDir = config.modules.darkhttpd.directory;
+    destDir = config.modules.quark.directory;
     reposDir = config.modules.git.directory;
   };
 in
@@ -28,7 +28,7 @@ in
       domain = rootDomain;
       records = import "${mainServer}/dns.nix" rootDomain;
     };
-    darkhttpd = {
+    quark = {
       enable = true;
       preStart = {
         scripts =
@@ -60,7 +60,7 @@ in
         enable = true;
         pemFiles =
           let
-            inherit (config.modules.darkhttpd.acme) directory;
+            inherit (config.modules.quark.acme) directory;
           in
           [
             "${directory}/${gitDomain}/fullchain.pem"

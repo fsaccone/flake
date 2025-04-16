@@ -61,32 +61,32 @@ rec {
       inherit (networking) domain;
       records = import ./dns.nix domain;
     };
-    darkhttpd = {
+    quark = {
       enable = true;
       preStart = {
         scripts =
           let
             generateAtom = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-atom.sh"
-              config.modules.darkhttpd.directory
+              config.modules.quark.directory
               "\"Francesco Saccone's blog\""
               "https://${domain}"
             ];
             generateSitemap = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-sitemap.sh"
-              config.modules.darkhttpd.directory
+              config.modules.quark.directory
               "https://${domain}"
             ];
             generateHtml = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-html.sh"
-              config.modules.darkhttpd.directory
+              config.modules.quark.directory
             ];
             copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
               ${pkgs.sbase}/bin/cp -r \
                 ${inputs.site}/public \
                 ${inputs.site}/favicon.ico \
                 ${inputs.site}/robots.txt \
-                ${config.modules.darkhttpd.directory}
+                ${config.modules.quark.directory}
             '';
           in
           [
@@ -112,7 +112,7 @@ rec {
         enable = true;
         pemFiles =
           let
-            inherit (config.modules.darkhttpd.acme) directory;
+            inherit (config.modules.quark.acme) directory;
           in
           [
             "${directory}/${domain}/fullchain.pem"
