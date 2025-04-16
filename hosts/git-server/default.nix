@@ -13,7 +13,7 @@ let
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
 
   stagit = {
-    destDir = "/var/tmp/stagit";
+    destDir = config.modules.darkhttpd.directory;
     reposDir = config.modules.git.directory;
   };
 in
@@ -51,22 +51,6 @@ in
             stagitCreateAndChown
           ];
       };
-      symlinks =
-        {
-          "index.html" = "/var/tmp/stagit/index.html";
-          "favicon.png" = "/var/tmp/stagit/favicon.png";
-          "logo.png" = "/var/tmp/stagit/logo.png";
-          "style.css" = "/var/tmp/stagit/style.css";
-        }
-        // (
-          config.modules.git.repositories
-          |> builtins.attrNames
-          |> builtins.map (name: {
-            inherit name;
-            value = "/var/tmp/stagit/${name}";
-          })
-          |> builtins.listToAttrs
-        );
       acme = {
         enable = true;
         email = "admin@${rootDomain}";
