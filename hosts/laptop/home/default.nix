@@ -168,6 +168,7 @@
       pkgs.nixos-anywhere
       pkgs.nmap
       pkgs.noice
+      pkgs.qrcode
       pkgs.sent
       pkgs.timidity
       pkgs.watchmate
