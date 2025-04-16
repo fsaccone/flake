@@ -12,16 +12,16 @@ let
 
         ${pkgs.stagit}/bin/stagit-index ${reposDir}/*/ > ${destDir}/index.html
 
-        # Symlink favicon.png, logo.png and stagit.css from site
-        ${pkgs.sbase}/bin/ln -sf \
+        # Copy favicon.png, logo.png and stagit.css from site
+        ${pkgs.sbase}/bin/cp \
           ${inputs.site}/public/icon/256.png \
           ${destDir}/favicon.png
 
-        ${pkgs.sbase}/bin/ln -sf \
+        ${pkgs.sbase}/bin/cp \
           ${inputs.site}/public/icon/32.png \
           ${destDir}/logo.png
 
-        ${pkgs.sbase}/bin/ln -sf \
+        ${pkgs.sbase}/bin/cp \
           ${inputs.site}/public/stagit.css \
           ${destDir}/style.css
 
@@ -43,22 +43,22 @@ let
           -u ${httpBaseUrl}/${name}/ \
           ${reposDir}/${name}
 
-        # Make the log.html file the index page
-        ${pkgs.sbase}/bin/ln -sf \
+        # Make the log.html file the index page as well
+        ${pkgs.sbase}/bin/cp \
           ${destDir}/${name}/log.html \
           ${destDir}/${name}/index.html
 
         # Symlink favicon.png, logo.png and style.css in repos from
         # index
-        ${pkgs.sbase}/bin/ln -sf \
+        ${pkgs.sbase}/bin/cp \
           ${destDir}/favicon.png \
           ${destDir}/${name}/favicon.png
 
-        ${pkgs.sbase}/bin/ln -sf \
+        ${pkgs.sbase}/bin/cp \
           ${destDir}/logo.png \
           ${destDir}/${name}/logo.png
 
-        ${pkgs.sbase}/bin/ln -sf \
+        ${pkgs.sbase}/bin/cp \
           ${destDir}/style.css \
           ${destDir}/${name}/style.css
 
