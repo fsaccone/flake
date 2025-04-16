@@ -44,6 +44,7 @@ in
                 script = pkgs.writeShellScriptBin "stagit-create-and-chown" ''
                   ${stagitCreate}
                   ${pkgs.sbase}/bin/chown -R git:git ${stagit.destDir}
+                  ${pkgs.sbase}/bin/chmod -R u+rw ${stagit.destDir}
                 '';
               in
               "${script}/bin/stagit-create-and-chown";
