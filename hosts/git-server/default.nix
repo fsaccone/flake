@@ -13,7 +13,7 @@ let
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
 
   stagit = {
-    destDir = config.modules.git.directory;
+    destDir = config.modules.quark.directory;
     reposDir = config.modules.git.directory;
   };
 in
@@ -30,7 +30,6 @@ in
     };
     quark = {
       enable = true;
-      directory = config.modules.git.directory;
       user = "git";
       preStart = {
         scripts =
@@ -49,9 +48,16 @@ in
                 '';
               in
               "${script}/bin/stagit-create-and-chown";
+
+            copyRepositories = pkgs.writeShellScript "copy-repositories" ''
+              ${pkgs.sbase}/bin/cp -R \
+                ${config.modules.git.directory}/* \
+                ${config.modules.quark.directory}
+            '';
           in
           [
             stagitCreateAndChown
+            copyRepositories
           ];
       };
       acme = {
