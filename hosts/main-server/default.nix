@@ -68,18 +68,18 @@ rec {
           let
             generateAtom = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-atom.sh"
-              "/var/tmp/site/html"
+              config.modules.darkhttpd.directory
               "\"Francesco Saccone's blog\""
               "https://${domain}"
             ];
             generateSitemap = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-sitemap.sh"
-              "/var/tmp/site/html"
+              config.modules.darkhttpd.directory
               "https://${domain}"
             ];
             generateHtml = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-html.sh"
-              "/var/tmp/site/html"
+              config.modules.darkhttpd.directory
             ];
           in
           [
@@ -95,14 +95,9 @@ rec {
         ];
       };
       symlinks = {
-        "index.html" = "/var/tmp/site/html/index.html";
-        "blog" = "/var/tmp/site/html/blog";
-        "code" = "/var/tmp/site/html/code";
         "public" = "${inputs.site}/public";
         "favicon.ico" = "${inputs.site}/favicon.ico";
         "robots.txt" = "${inputs.site}/robots.txt";
-        "atom.xml" = "/var/tmp/site/html/atom.xml";
-        "sitemap.xml" = "/var/tmp/site/html/sitemap.xml";
       };
       acme = {
         enable = true;
