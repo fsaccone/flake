@@ -23,6 +23,11 @@
       readOnly = true;
       type = lib.types.uniq lib.types.path;
     };
+    user = lib.mkOption {
+      description = "The user to drop privileges to.";
+      default = "quark";
+      type = lib.types.uniq lib.types.str;
+    };
     preStart = {
       scripts = lib.mkOption {
         description = ''
@@ -75,7 +80,7 @@
                   ${pkgs.quark}/bin/quark \
                     -p 80 \
                     -d ${config.modules.quark.directory} \
-                    -u quark \
+                    -u ${config.modules.quark.user} \
                     -g quark \
                     -i index.html
                 '';
