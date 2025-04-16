@@ -20,7 +20,6 @@
     directory = lib.mkOption {
       description = "The root directory to statically host.";
       default = "/var/www";
-      readOnly = true;
       type = lib.types.uniq lib.types.path;
     };
     user = lib.mkOption {
@@ -52,7 +51,7 @@
           isSystemUser = true;
           group = "quark";
           createHome = true;
-          home = config.modules.quark.directory;
+          home = "/var/www";
         };
       };
       groups = {
