@@ -40,6 +40,11 @@
 
   services.flatpak.enable = true;
 
+  services.pipewire = {
+    enable = true;
+    jack.enable = true;
+  };
+
   fonts.packages = [
     pkgs.ibm-plex
   ];
