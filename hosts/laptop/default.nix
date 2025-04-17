@@ -59,6 +59,7 @@
     extraGroups = [
       "audio"
       "networkmanager"
+      "realtime"
       "wheel"
     ];
     createHome = true;
