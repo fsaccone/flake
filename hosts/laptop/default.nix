@@ -57,6 +57,7 @@
     ];
     isNormalUser = true;
     extraGroups = [
+      "audio"
       "networkmanager"
       "wheel"
     ];
