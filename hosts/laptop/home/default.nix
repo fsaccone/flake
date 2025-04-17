@@ -156,9 +156,11 @@
     '';
     packages = [
       pkgs.alsa-utils
+      pkgs.ardour
       pkgs.ffmpeg
       pkgs.dig
       pkgs.gimp
+      pkgs.helvum
       pkgs.imv
       pkgs.librewolf-bin
       pkgs.lilypond
