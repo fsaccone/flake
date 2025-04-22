@@ -172,6 +172,7 @@
       pkgs.noice
       pkgs.qrcode
       pkgs.sent
+      pkgs.shotcut
       pkgs.timidity
       pkgs.watchmate
       pkgs.zathura
