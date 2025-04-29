@@ -171,6 +171,7 @@
       pkgs.nmap
       pkgs.noice
       pkgs.qrcode
+      pkgs.prismlauncher
       pkgs.sent
       pkgs.shotcut
       pkgs.timidity
