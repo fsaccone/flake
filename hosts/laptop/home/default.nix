@@ -170,6 +170,7 @@
       pkgs.nixos-anywhere
       pkgs.nmap
       pkgs.noice
+      pkgs.openssl
       pkgs.qrcode
       pkgs.prismlauncher
       pkgs.sent
