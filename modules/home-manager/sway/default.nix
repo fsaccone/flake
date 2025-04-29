@@ -190,6 +190,7 @@
             };
             "*" = {
               tap = "enabled";
+              dwt = "disabled";
             };
           };
 
