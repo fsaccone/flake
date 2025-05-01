@@ -162,6 +162,7 @@
       pkgs.gimp
       pkgs.helvum
       pkgs.imv
+      pkgs.jre8
       pkgs.librewolf-bin
       pkgs.lilypond
       pkgs.man-pages-posix
