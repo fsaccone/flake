@@ -10,7 +10,7 @@
     ./daemon
   ];
 
-  options.modules.git = {
+  options.services.git = {
     enable = lib.mkOption {
       description = "Whether to set up a Git server.";
       default = false;
@@ -61,7 +61,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.git.enable {
+  config = lib.mkIf config.services.git.enable {
     users = {
       users = {
         git = {
@@ -69,7 +69,7 @@
           isSystemUser = true;
           group = "git";
           createHome = true;
-          home = config.modules.git.directory;
+          home = config.services.git.directory;
           shell = "${pkgs.git}/bin/git-shell";
         };
       };
@@ -90,7 +90,7 @@
           wantedBy = [ "multi-user.target" ];
           serviceConfig =
             let
-              inherit (config.modules.git) repositories directory;
+              inherit (config.services.git) repositories directory;
               script =
                 repositories
                 |> builtins.mapAttrs (
