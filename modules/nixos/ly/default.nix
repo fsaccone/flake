@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.ly = {
+  options.services.ly = {
     enable = lib.mkOption {
       description = "Whether to enable Ly display manager.";
       default = false;
@@ -14,7 +14,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.ly.enable {
+  config = lib.mkIf config.services.ly.enable {
     services.displayManager = {
       ly = {
         enable = true;
