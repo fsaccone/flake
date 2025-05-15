@@ -9,6 +9,5 @@
     ./openssh
     ./quark
     ./sway
-    ./tlp
   ];
 }
