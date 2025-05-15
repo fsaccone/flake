@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.monero = {
+  options.programs.monero = {
     enable = lib.mkOption {
       description = "Whether to enable Monero.";
       default = false;
@@ -25,7 +25,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.monero.enable {
+  config = lib.mkIf config.programs.monero.enable {
     users = {
       users = {
         monero = {
@@ -51,7 +51,7 @@
         port = 18081;
       };
       mining = {
-        inherit (config.modules.monero.mining) enable address;
+        inherit (config.programs.monero.mining) enable address;
         threads = 0;
       };
     };
