@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.bind = {
+  options.services.bind = {
     enable = lib.mkOption {
       description = "Whether to enable BIND.";
       default = false;
@@ -48,15 +48,15 @@
     };
   };
 
-  config = lib.mkIf config.modules.bind.enable {
+  config = lib.mkIf config.services.bind.enable {
     services.bind = {
       enable = true;
       package = pkgs.bind;
 
-      zones.${config.modules.bind.domain} = {
+      zones.${config.services.bind.domain} = {
         master = true;
         file =
-          config.modules.bind.records
+          config.services.bind.records
           |> builtins.map (
             {
               name,
@@ -66,7 +66,7 @@
               data,
             }:
             let
-              inherit (config.modules.bind) domain;
+              inherit (config.services.bind) domain;
               subdomain = if name != "@" then "${name}." else "";
             in
             [
@@ -79,7 +79,7 @@
             |> builtins.concatStringsSep " "
           )
           |> builtins.concatStringsSep "\n"
-          |> pkgs.writeText "${config.modules.bind.domain}";
+          |> pkgs.writeText "${config.services.bind.domain}";
       };
     };
 
