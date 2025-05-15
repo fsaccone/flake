@@ -13,8 +13,8 @@ let
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
 
   stagit = {
-    destDir = config.modules.quark.directory;
-    reposDir = config.modules.git.directory;
+    destDir = config.services.quark.directory;
+    reposDir = config.services.git.directory;
   };
 in
 {
@@ -22,7 +22,7 @@ in
     ./disk-config.nix
   ];
 
-  modules = {
+  services = {
     bind = {
       enable = true;
       domain = rootDomain;
@@ -51,8 +51,8 @@ in
 
             copyRepositories = pkgs.writeShellScript "copy-repositories" ''
               ${pkgs.sbase}/bin/cp -R \
-                ${config.modules.git.directory}/* \
-                ${config.modules.quark.directory}
+                ${config.services.git.directory}/* \
+                ${config.services.quark.directory}
             '';
           in
           [
@@ -69,7 +69,7 @@ in
         enable = true;
         pemFiles =
           let
-            inherit (config.modules.quark.acme) directory;
+            inherit (config.services.quark.acme) directory;
           in
           [
             "${directory}/${gitDomain}/fullchain.pem"
@@ -119,15 +119,16 @@ in
         enable = true;
       };
     };
-    openssh.listen = {
-      enable = true;
-      port = 22;
-      authorizedKeyFiles = rec {
-        root = [
-          "${mainServer}/ssh/francescosaccone.pub"
-        ];
-        git = root;
-      };
+  };
+
+  security.openssh.listen = {
+    enable = true;
+    port = 22;
+    authorizedKeyFiles = rec {
+      root = [
+        "${mainServer}/ssh/francescosaccone.pub"
+      ];
+      git = root;
     };
   };
 

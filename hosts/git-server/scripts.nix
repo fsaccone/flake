@@ -79,7 +79,7 @@ in
         inherit destDir reposDir;
       };
       createRepositories =
-        config.modules.git.repositories
+        config.services.git.repositories
         |> builtins.attrNames
         |> builtins.map (
           name:
