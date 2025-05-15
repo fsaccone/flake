@@ -6,30 +6,34 @@
   ...
 }:
 {
-  modules = {
-    doas = {
+  programs.monero = {
+    enable = true;
+    mining = {
       enable = true;
+      address = builtins.concatStringsSep "" [
+        "47y5LAtYdpZ4GAE7CMx1soEHjUKzpVQFYM5Pv836FcsZd6k3TFcdvHMAHDpwZgnx"
+        "4DdG2zkZkSewLgguU23FYJP7HacSVcx"
+      ];
     };
+  };
+
+  services = {
     ly = {
-      enable = true;
-    };
-    monero = {
-      enable = true;
-      mining = {
-        enable = true;
-        address = builtins.concatStringsSep "" [
-          "47y5LAtYdpZ4GAE7CMx1soEHjUKzpVQFYM5Pv836FcsZd6k3TFcdvHMAHDpwZgnx"
-          "4DdG2zkZkSewLgguU23FYJP7HacSVcx"
-        ];
-      };
-    };
-    openssh.agent = {
       enable = true;
     };
     sway = {
       enable = true;
     };
     tlp = {
+      enable = true;
+    };
+  };
+
+  security = {
+    doas = {
+      enable = true;
+    };
+    openssh.agent = {
       enable = true;
     };
   };
