@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.doas = {
+  options.security.doas = {
     enable = lib.mkOption {
       description = "Whether to enable the doas command.";
       default = false;
@@ -14,7 +14,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.doas.enable {
+  config = lib.mkIf config.security.doas.enable {
     security.doas = {
       enable = true;
       wheelNeedsPassword = true;
