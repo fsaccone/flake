@@ -23,10 +23,6 @@
         ];
       };
     };
-    networkmanager = {
-      enable = true;
-      randomiseMacAddress = true;
-    };
     openssh.agent = {
       enable = true;
     };
@@ -36,6 +32,12 @@
     tlp = {
       enable = true;
     };
+  };
+
+  networking.networkmanager = {
+    enable = true;
+    wifi.macAddress = "random";
+    ethernet.macAddress = "random";
   };
 
   services.flatpak.enable = true;
