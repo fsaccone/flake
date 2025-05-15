@@ -32,6 +32,7 @@
   security = {
     doas = {
       enable = true;
+      wheelNeedsPassword = true;
     };
     openssh.agent = {
       enable = true;

@@ -2,7 +2,6 @@
 {
   imports = [
     ./bind
-    ./doas
     ./git
     ./ly
     ./monero
