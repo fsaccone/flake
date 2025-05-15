@@ -7,7 +7,7 @@
 }:
 {
 
-  options.modules.agate = {
+  options.services.agate = {
     enable = lib.mkOption {
       description = "Whether to enable Agate.";
       default = false;
@@ -43,7 +43,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.agate.enable {
+  config = lib.mkIf config.services.agate.enable {
     users = {
       users = {
         agate = {
@@ -51,7 +51,7 @@
           isSystemUser = true;
           group = "agate";
           createHome = true;
-          home = config.modules.agate.directory;
+          home = config.services.agate.directory;
         };
       };
       groups = {
@@ -68,20 +68,20 @@
             let
               clean = pkgs.writeShellScriptBin "clean" ''
                 ${pkgs.sbase}/bin/rm -rf \
-                ${config.modules.agate.directory}/*
+                ${config.services.agate.directory}/*
 
                 ${pkgs.sbase}/bin/mkdir -p \
-                ${config.modules.agate.directory}/.certificates
+                ${config.services.agate.directory}/.certificates
               '';
               symlinks =
-                config.modules.agate.symlinks
+                config.services.agate.symlinks
                 |> builtins.mapAttrs (
                   name: target: ''
                     ${pkgs.sbase}/bin/mkdir -p \
-                    ${config.modules.agate.directory}/${builtins.dirOf name}
+                    ${config.services.agate.directory}/${builtins.dirOf name}
 
                     ${pkgs.sbase}/bin/ln -sf ${target} \
-                    ${config.modules.agate.directory}/${name}
+                    ${config.services.agate.directory}/${name}
                   ''
                 )
                 |> builtins.attrValues
@@ -89,7 +89,7 @@
                 |> pkgs.writeShellScriptBin "symlinks";
               permissions = pkgs.writeShellScriptBin "permissions" ''
                 ${pkgs.sbase}/bin/chmod -R g+rwx \
-                ${config.modules.agate.directory}
+                ${config.services.agate.directory}
               '';
             in
             {
@@ -105,7 +105,7 @@
         };
         agate =
           let
-            inherit (config.modules.agate) preStart;
+            inherit (config.services.agate) preStart;
           in
           rec {
             enable = true;
@@ -119,7 +119,7 @@
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
                   ${pkgs.agate}/bin/agate \
-                    --content ${config.modules.agate.directory} \
+                    --content ${config.services.agate.directory} \
                     --hostname ${config.networking.domain} \
                     --addr [::]:1965 \
                     --addr 0.0.0.0:1965
@@ -140,8 +140,8 @@
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
             PathModified = [
-              config.modules.agate.directory
-            ] ++ builtins.attrValues config.modules.agate.symlinks;
+              config.services.agate.directory
+            ] ++ builtins.attrValues config.services.agate.symlinks;
           };
         };
       };
