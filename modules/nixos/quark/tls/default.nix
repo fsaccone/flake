@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.quark.tls = {
+  options.services.quark.tls = {
     enable = lib.mkOption {
       description = "Whether to enable the Hitch reverse proxy.";
       default = false;
@@ -20,9 +20,9 @@
 
   config =
     let
-      inherit (config.modules.quark) tls;
+      inherit (config.services.quark) tls;
     in
-    lib.mkIf (tls.enable && config.modules.quark.enable) {
+    lib.mkIf (tls.enable && config.services.quark.enable) {
       users = {
         users = {
           hitch = {

@@ -11,7 +11,7 @@
     ./tls
   ];
 
-  options.modules.quark = {
+  options.services.quark = {
     enable = lib.mkOption {
       description = "Whether to enable Quark web server.";
       default = false;
@@ -43,7 +43,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.quark.enable {
+  config = lib.mkIf config.services.quark.enable {
     users = {
       users = {
         quark = {
@@ -63,7 +63,7 @@
       services = {
         quark =
           let
-            inherit (config.modules.quark) preStart;
+            inherit (config.services.quark) preStart;
           in
           rec {
             enable = true;
@@ -72,14 +72,14 @@
             path = preStart.packages;
             serviceConfig =
               let
-                inherit (config.modules.quark) customHeaderScripts tls;
+                inherit (config.services.quark) customHeaderScripts tls;
                 script = pkgs.writeShellScriptBin "script" ''
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
                   ${pkgs.quark}/bin/quark \
                     -p 80 \
-                    -d ${config.modules.quark.directory} \
-                    -u ${config.modules.quark.user} \
+                    -d ${config.services.quark.directory} \
+                    -u ${config.services.quark.user} \
                     -g quark \
                     -i index.html
                 '';
@@ -98,7 +98,7 @@
           enable = true;
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
-            PathModified = [ config.modules.quark.directory ];
+            PathModified = [ config.services.quark.directory ];
           };
         };
       };
