@@ -7,7 +7,6 @@
     ./git
     ./ly
     ./monero
-    ./networkmanager
     ./openssh
     ./quark
     ./sway
