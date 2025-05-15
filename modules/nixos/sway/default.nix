@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.sway = {
+  options.services.sway = {
     enable = lib.mkOption {
       description = "Whether to enable Sway.";
       default = false;
@@ -14,7 +14,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.sway.enable {
+  config = lib.mkIf config.services.sway.enable {
     services.displayManager = {
       defaultSession = "Sway";
     };
