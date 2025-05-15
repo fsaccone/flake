@@ -13,49 +13,6 @@ rec {
   ];
 
   services = {
-    agate = {
-      enable = true;
-      preStart = {
-        scripts =
-          let
-            generateAtom = builtins.concatStringsSep " " [
-              "${inputs.site}/scripts/generate-atom.sh"
-              "/var/tmp/site/gemini"
-              "\"Francesco Saccone's blog\""
-              "gemini://${domain}"
-            ];
-            generateSitemap = builtins.concatStringsSep " " [
-              "${inputs.site}/scripts/generate-sitemap.sh"
-              "/var/tmp/site/gemini"
-              "gemini://${domain}"
-            ];
-            generateGemini = builtins.concatStringsSep " " [
-              "${inputs.site}/scripts/generate-gemini.sh"
-              "/var/tmp/site/gemini"
-            ];
-          in
-          [
-            generateAtom
-            generateSitemap
-            generateGemini
-          ];
-        packages = [
-          pkgs.coreutils
-          pkgs.findutils
-          pkgs.gnused
-          pkgs.lowdown
-        ];
-      };
-      symlinks = {
-        "index.gmi" = "/var/tmp/site/gemini/index.gmi";
-        "blog" = "/var/tmp/site/gemini/blog";
-        "code" = "/var/tmp/site/gemini/code";
-        "public" = "${inputs.site}/public";
-        "robots.txt" = "${inputs.site}/robots.txt";
-        "atom.xml" = "/var/tmp/site/gemini/atom.xml";
-        "sitemap.xml" = "/var/tmp/site/gemini/sitemap.xml";
-      };
-    };
     bind = {
       enable = true;
       inherit (networking) domain;

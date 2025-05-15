@@ -1,7 +1,6 @@
 { ... }:
 {
   imports = [
-    ./agate
     ./bind
     ./doas
     ./git
