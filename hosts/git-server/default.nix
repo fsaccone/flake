@@ -23,7 +23,7 @@ in
   ];
 
   services = {
-    bind = {
+    dns = {
       enable = true;
       domain = rootDomain;
       records = import "${mainServer}/dns.nix" rootDomain;

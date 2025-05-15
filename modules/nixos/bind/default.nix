@@ -6,9 +6,9 @@
   ...
 }:
 {
-  options.services.bind = {
+  options.services.dns = {
     enable = lib.mkOption {
-      description = "Whether to enable BIND.";
+      description = "Whether to enable BIND DNS server.";
       default = false;
       type = lib.types.bool;
     };
@@ -48,15 +48,15 @@
     };
   };
 
-  config = lib.mkIf config.services.bind.enable {
+  config = lib.mkIf config.services.dns.enable {
     services.bind = {
       enable = true;
       package = pkgs.bind;
 
-      zones.${config.services.bind.domain} = {
+      zones.${config.services.dns.domain} = {
         master = true;
         file =
-          config.services.bind.records
+          config.services.dns.records
           |> builtins.map (
             {
               name,
@@ -66,7 +66,7 @@
               data,
             }:
             let
-              inherit (config.services.bind) domain;
+              inherit (config.services.dns) domain;
               subdomain = if name != "@" then "${name}." else "";
             in
             [
@@ -79,7 +79,7 @@
             |> builtins.concatStringsSep " "
           )
           |> builtins.concatStringsSep "\n"
-          |> pkgs.writeText "${config.services.bind.domain}";
+          |> pkgs.writeText "${config.services.dns.domain}";
       };
     };
 

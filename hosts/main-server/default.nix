@@ -13,7 +13,7 @@ rec {
   ];
 
   services = {
-    bind = {
+    dns = {
       enable = true;
       inherit (networking) domain;
       records = import ./dns.nix domain;
