@@ -1,12 +1,8 @@
 { ... }:
 {
   imports = [
-    ./bind
-    ./git
-    ./ly
-    ./monero
-    ./openssh
-    ./quark
-    ./sway
+    ./programs
+    ./security
+    ./services
   ];
 }
