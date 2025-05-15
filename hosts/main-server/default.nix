@@ -12,7 +12,7 @@ rec {
     ./disk-config.nix
   ];
 
-  modules = {
+  services = {
     agate = {
       enable = true;
       preStart = {
@@ -68,25 +68,25 @@ rec {
           let
             generateAtom = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-atom.sh"
-              config.modules.quark.directory
+              config.services.quark.directory
               "\"Francesco Saccone's blog\""
               "https://${domain}"
             ];
             generateSitemap = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-sitemap.sh"
-              config.modules.quark.directory
+              config.services.quark.directory
               "https://${domain}"
             ];
             generateHtml = builtins.concatStringsSep " " [
               "${inputs.site}/scripts/generate-html.sh"
-              config.modules.quark.directory
+              config.services.quark.directory
             ];
             copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
               ${pkgs.sbase}/bin/cp -r \
                 ${inputs.site}/public \
                 ${inputs.site}/favicon.ico \
                 ${inputs.site}/robots.txt \
-                ${config.modules.quark.directory}
+                ${config.services.quark.directory}
             '';
           in
           [
@@ -112,7 +112,7 @@ rec {
         enable = true;
         pemFiles =
           let
-            inherit (config.modules.quark.acme) directory;
+            inherit (config.services.quark.acme) directory;
           in
           [
             "${directory}/${domain}/fullchain.pem"
@@ -120,14 +120,15 @@ rec {
           ];
       };
     };
-    openssh.listen = {
-      enable = true;
-      port = 22;
-      authorizedKeyFiles = rec {
-        root = [
-          ./ssh/francescosaccone.pub
-        ];
-      };
+  };
+
+  security.openssh.listen = {
+    enable = true;
+    port = 22;
+    authorizedKeyFiles = rec {
+      root = [
+        ./ssh/francescosaccone.pub
+      ];
     };
   };
 
