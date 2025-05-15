@@ -54,10 +54,14 @@ in
                 ${config.services.git.directory}/* \
                 ${config.services.quark.directory}
             '';
+
+            fullScript = ''
+              ${copyRepositories}
+              ${stagitCreateAndChown}
+            '';
           in
           [
-            stagitCreateAndChown
-            copyRepositories
+            fullScript
           ];
       };
       acme = {
