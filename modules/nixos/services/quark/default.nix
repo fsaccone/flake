@@ -72,7 +72,6 @@
             path = preStart.packages;
             serviceConfig =
               let
-                inherit (config.services.quark) customHeaderScripts tls;
                 script = pkgs.writeShellScriptBin "script" ''
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
