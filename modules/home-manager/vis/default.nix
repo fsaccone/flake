@@ -17,9 +17,7 @@
 
   config = lib.mkIf config.modules.vis.enable {
     home = {
-      packages = [
-        pkgs.vis
-      ];
+      packages = [ pkgs.vis ];
       file = {
         ".mkshrc".text = "export EDITOR=${pkgs.vis}/bin/vis";
         ".config/vis/visrc.lua".source = ./visrc.lua;

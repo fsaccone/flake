@@ -8,9 +8,7 @@ let
   domain = import ./domain.nix;
 in
 rec {
-  imports = [
-    ./disk-config.nix
-  ];
+  imports = [ ./disk-config.nix ];
 
   services = {
     dns = {
@@ -83,13 +81,9 @@ rec {
     enable = true;
     port = 22;
     authorizedKeyFiles = rec {
-      root = [
-        ./ssh/francescosaccone.pub
-      ];
+      root = [ ./ssh/francescosaccone.pub ];
     };
   };
 
-  networking = {
-    inherit domain;
-  };
+  networking = { inherit domain; };
 }

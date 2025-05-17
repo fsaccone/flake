@@ -1,12 +1,8 @@
 { nixpkgs, inputs }:
-{
-  system,
-}:
+{ system }:
 import nixpkgs {
   inherit system;
-  overlays = [
-    inputs.self.outputs.overlays.default
-  ];
+  overlays = [ inputs.self.outputs.overlays.default ];
   config = {
     allowBroken = false;
     allowUnfree = false;

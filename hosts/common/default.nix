@@ -39,9 +39,7 @@
 
   environment = {
     defaultPackages = lib.mkForce [ ];
-    systemPackages = [
-      (lib.meta.hiPrio pkgs.sbase)
-    ];
+    systemPackages = [ (lib.meta.hiPrio pkgs.sbase) ];
   };
 
   i18n.defaultLocale = "en_GB.UTF-8";
@@ -55,9 +53,7 @@
         "flakes"
         "pipe-operators"
       ];
-      trusted-users = [
-        "root"
-      ];
+      trusted-users = [ "root" ];
     };
     gc = {
       automatic = true;

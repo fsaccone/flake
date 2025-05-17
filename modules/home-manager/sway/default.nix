@@ -6,9 +6,7 @@
   ...
 }:
 {
-  imports = [
-    ./bar
-  ];
+  imports = [ ./bar ];
 
   options.modules.sway = {
     enable = lib.mkOption {
@@ -121,9 +119,7 @@
         xwayland = true;
         config = {
           fonts = {
-            names = [
-              config.modules.sway.fonts.monospace
-            ];
+            names = [ config.modules.sway.fonts.monospace ];
             style = "Regular";
             size = 12.0;
           };
@@ -154,10 +150,7 @@
               focusedInactive = default;
               unfocused = default;
               urgent = {
-                inherit (default)
-                  background
-                  text
-                  ;
+                inherit (default) background text;
                 border = colors.red;
               };
             }

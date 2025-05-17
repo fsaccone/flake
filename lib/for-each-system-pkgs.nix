@@ -15,6 +15,4 @@ f:
     pkgs = getPkgs { inherit system; };
   }
 )
-|> forEachSystem {
-  inherit nixpkgs systems;
-}
+|> forEachSystem { inherit nixpkgs systems; }

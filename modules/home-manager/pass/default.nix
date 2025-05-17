@@ -29,9 +29,7 @@
   config = lib.mkIf config.modules.pass.enable {
     programs.password-store = {
       enable = true;
-      package = pkgs.pass.withExtensions (exts: [
-        exts.pass-otp
-      ]);
+      package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
       settings = {
         PASSWORD_STORE_DIR = config.modules.pass.directory;
         PASSWORD_STORE_CLIP_TIME = "15";

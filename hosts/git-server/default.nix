@@ -18,9 +18,7 @@ let
   };
 in
 {
-  imports = [
-    ./disk-config.nix
-  ];
+  imports = [ ./disk-config.nix ];
 
   services = {
     dns = {
@@ -60,9 +58,7 @@ in
               ${stagitCreateAndChown}
             '';
           in
-          [
-            fullScript
-          ];
+          [ fullScript ];
       };
       acme = {
         enable = true;
@@ -129,9 +125,7 @@ in
     enable = true;
     port = 22;
     authorizedKeyFiles = rec {
-      root = [
-        "${mainServer}/ssh/francescosaccone.pub"
-      ];
+      root = [ "${mainServer}/ssh/francescosaccone.pub" ];
       git = root;
     };
   };

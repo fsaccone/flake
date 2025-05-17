@@ -32,9 +32,7 @@
           extraConfig = "separator_symbol \"  \"";
 
           fonts = {
-            names = [
-              config.modules.sway.fonts.monospace
-            ];
+            names = [ config.modules.sway.fonts.monospace ];
             style = "Regular";
             size = 12.0;
           };

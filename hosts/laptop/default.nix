@@ -52,9 +52,7 @@
     jack.enable = true;
   };
 
-  fonts.packages = [
-    pkgs.ibm-plex
-  ];
+  fonts.packages = [ pkgs.ibm-plex ];
 
   users.users."francesco" = {
     description = "Francesco Saccone";
@@ -79,9 +77,7 @@
     useUserPackages = true;
     backupFileExtension = "bkp";
 
-    extraSpecialArgs = {
-      inherit inputs;
-    };
+    extraSpecialArgs = { inherit inputs; };
 
     users.francesco =
       { ... }:

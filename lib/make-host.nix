@@ -4,24 +4,17 @@ host:
   additionalModules ? [ ],
 }:
 nixpkgs.lib.nixosSystem {
-  specialArgs = {
-    inherit inputs;
-  };
+  specialArgs = { inherit inputs; };
   modules = [
     (../hosts + "/${host}")
     (../hardware + "/${host}")
     ../hosts/common
     inputs.self.outputs.nixosModules.default
     (
-      {
-        config,
-        ...
-      }:
+      { config, ... }:
       {
         networking.hostName = "fs-${host}";
-        nixpkgs.overlays = [
-          inputs.self.outputs.overlays.default
-        ];
+        nixpkgs.overlays = [ inputs.self.outputs.overlays.default ];
       }
     )
   ] ++ additionalModules;

@@ -41,9 +41,7 @@
       systemd.services.hitch = {
         enable = true;
         wantedBy = [ "multi-user.target" ];
-        after = [
-          "acme.service"
-        ];
+        after = [ "acme.service" ];
         serviceConfig =
           let
             script = pkgs.writeShellScriptBin "script" ''

@@ -40,10 +40,7 @@
 
   config =
     let
-      inherit (config.security.openssh)
-        agent
-        listen
-        ;
+      inherit (config.security.openssh) agent listen;
     in
     {
       programs.ssh = lib.mkIf agent.enable {
@@ -53,29 +50,19 @@
 
       services.openssh = lib.mkIf listen.enable {
         enable = true;
-        ports = [
-          listen.port
-        ];
+        ports = [ listen.port ];
         settings = {
           PasswordAuthentication = false;
         };
       };
 
-      networking.firewall.allowedTCPPorts = lib.mkIf listen.enable [
-        listen.port
-      ];
+      networking.firewall.allowedTCPPorts = lib.mkIf listen.enable [ listen.port ];
 
       users.users = lib.mkIf listen.enable (
         listen.authorizedKeyFiles
-        |> builtins.mapAttrs (
-          user: files: {
-            openssh.authorizedKeys.keyFiles = files;
-          }
-        )
+        |> builtins.mapAttrs (user: files: { openssh.authorizedKeys.keyFiles = files; })
       );
 
-      services.sshguard = lib.mkIf listen.enable {
-        enable = true;
-      };
+      services.sshguard = lib.mkIf listen.enable { enable = true; };
     };
 }

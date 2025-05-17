@@ -1,6 +1,4 @@
 { ... }:
 {
-  imports = [
-    ./monero
-  ];
+  imports = [ ./monero ];
 }

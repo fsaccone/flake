@@ -75,9 +75,7 @@ in
       httpBaseUrl,
     }:
     let
-      createIndex = stagit.createIndex {
-        inherit destDir reposDir;
-      };
+      createIndex = stagit.createIndex { inherit destDir reposDir; };
       createRepositories =
         config.services.git.repositories
         |> builtins.attrNames
@@ -109,9 +107,7 @@ in
       httpBaseUrl,
     }:
     let
-      createIndex = stagit.createIndex {
-        inherit destDir reposDir;
-      };
+      createIndex = stagit.createIndex { inherit destDir reposDir; };
       createRepositories = stagit.createRepository {
         inherit
           destDir

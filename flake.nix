@@ -73,17 +73,11 @@
       );
 
       packages = lib.forEachSystem (
-        {
-          system,
-        }:
-        import ./packages inputs.nixpkgs.legacyPackages.${system}
+        { system }: import ./packages inputs.nixpkgs.legacyPackages.${system}
       );
 
       formatter = lib.forEachSystem (
-        {
-          system,
-        }:
-        treefmtEval.${system}.config.build.wrapper
+        { system }: treefmtEval.${system}.config.build.wrapper
       );
 
       overlays.default = final: prev: import ./packages final.pkgs;
@@ -95,19 +89,13 @@
 
       nixosConfigurations = {
         "laptop" = lib.makeHost "laptop" {
-          additionalModules = [
-            inputs.home-manager.nixosModules.home-manager
-          ];
+          additionalModules = [ inputs.home-manager.nixosModules.home-manager ];
         };
         "git-server" = lib.makeHost "git-server" {
-          additionalModules = [
-            inputs.disko.nixosModules.disko
-          ];
+          additionalModules = [ inputs.disko.nixosModules.disko ];
         };
         "main-server" = lib.makeHost "main-server" {
-          additionalModules = [
-            inputs.disko.nixosModules.disko
-          ];
+          additionalModules = [ inputs.disko.nixosModules.disko ];
         };
       };
     };

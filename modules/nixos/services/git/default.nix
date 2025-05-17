@@ -6,9 +6,7 @@
   ...
 }:
 {
-  imports = [
-    ./daemon
-  ];
+  imports = [ ./daemon ];
 
   options.services.git = {
     enable = lib.mkOption {
@@ -95,10 +93,7 @@
                 repositories
                 |> builtins.mapAttrs (
                   name:
-                  {
-                    additionalFiles,
-                    hooks,
-                  }:
+                  { additionalFiles, hooks }:
                   ''
                     ${pkgs.git}/bin/git init -q --bare -b master \
                     ${directory}/${name}
