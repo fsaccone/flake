@@ -8,6 +8,7 @@
   programs = {
     nixfmt.enable = true;
     prettier.enable = true;
+    statix.enable = true;
   };
 
   settings = {
