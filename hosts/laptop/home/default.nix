@@ -167,6 +167,7 @@
       pkgs.sent
       pkgs.shotcut
       pkgs.timidity
+      pkgs.unzip
       pkgs.watchmate
       pkgs.zathura
     ];
