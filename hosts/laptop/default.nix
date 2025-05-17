@@ -6,37 +6,37 @@
   ...
 }:
 {
-  programs.monero = {
+  fs = {
+    programs.monero = {
+      enable = true;
+      mining = {
+        enable = true;
+        address = builtins.concatStringsSep "" [
+          "47y5LAtYdpZ4GAE7CMx1soEHjUKzpVQFYM5Pv836FcsZd6k3TFcdvHMAHDpwZgnx"
+          "4DdG2zkZkSewLgguU23FYJP7HacSVcx"
+        ];
+      };
+    };
+
+    services = {
+      ly = {
+        enable = true;
+      };
+      sway = {
+        enable = true;
+      };
+    };
+
+    security = {
+      openssh.agent = {
+        enable = true;
+      };
+    };
+  };
+
+  security.doas = {
     enable = true;
-    mining = {
-      enable = true;
-      address = builtins.concatStringsSep "" [
-        "47y5LAtYdpZ4GAE7CMx1soEHjUKzpVQFYM5Pv836FcsZd6k3TFcdvHMAHDpwZgnx"
-        "4DdG2zkZkSewLgguU23FYJP7HacSVcx"
-      ];
-    };
-  };
-
-  services = {
-    ly = {
-      enable = true;
-    };
-    sway = {
-      enable = true;
-    };
-    tlp = {
-      enable = true;
-    };
-  };
-
-  security = {
-    doas = {
-      enable = true;
-      wheelNeedsPassword = true;
-    };
-    openssh.agent = {
-      enable = true;
-    };
+    wheelNeedsPassword = true;
   };
 
   networking.networkmanager = {
@@ -51,6 +51,8 @@
     enable = true;
     jack.enable = true;
   };
+
+  services.tlp.enable = true;
 
   fonts.packages = [ pkgs.ibm-plex ];
 

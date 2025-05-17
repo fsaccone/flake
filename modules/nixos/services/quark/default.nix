@@ -11,7 +11,7 @@
     ./tls
   ];
 
-  options.services.quark = {
+  options.fs.services.quark = {
     enable = lib.mkOption {
       description = "Whether to enable Quark web server.";
       default = false;
@@ -43,7 +43,7 @@
     };
   };
 
-  config = lib.mkIf config.services.quark.enable {
+  config = lib.mkIf config.fs.services.quark.enable {
     users = {
       users = {
         quark = {
@@ -63,7 +63,7 @@
       services = {
         quark =
           let
-            inherit (config.services.quark) preStart;
+            inherit (config.fs.services.quark) preStart;
           in
           rec {
             enable = true;
@@ -77,8 +77,8 @@
 
                   ${pkgs.quark}/bin/quark \
                     -p 80 \
-                    -d ${config.services.quark.directory} \
-                    -u ${config.services.quark.user} \
+                    -d ${config.fs.services.quark.directory} \
+                    -u ${config.fs.services.quark.user} \
                     -g quark \
                     -i index.html
                 '';
@@ -97,7 +97,7 @@
           enable = true;
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
-            PathModified = [ config.services.quark.directory ];
+            PathModified = [ config.fs.services.quark.directory ];
           };
         };
       };

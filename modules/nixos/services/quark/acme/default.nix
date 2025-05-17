@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.services.quark.acme = {
+  options.fs.services.quark.acme = {
     enable = lib.mkOption {
       description = "Whether to enable the Certbot ACME client.";
       default = false;
@@ -37,9 +37,9 @@
 
   config =
     let
-      inherit (config.services.quark) acme;
+      inherit (config.fs.services.quark) acme;
     in
-    lib.mkIf (acme.enable && config.services.quark.enable) {
+    lib.mkIf (acme.enable && config.fs.services.quark.enable) {
       systemd = {
         services = {
           acme = {
@@ -54,7 +54,7 @@
                   | ${pkgs.gnugrep}/bin/grep -q "No certificates"; then
                     ${pkgs.certbot}/bin/certbot certonly --quiet --webroot \
                     --agree-tos --email ${acme.email} \
-                    -w ${config.services.quark.directory} \
+                    -w ${config.fs.services.quark.directory} \
                     -d ${builtins.concatStringsSep " -d " domains}
                   else
                     ${pkgs.certbot}/bin/certbot renew --quiet

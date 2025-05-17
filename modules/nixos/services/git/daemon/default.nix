@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.services.git.daemon = {
+  options.fs.services.git.daemon = {
     enable = lib.mkOption {
       description = "Whether to enable the Git daemon.";
       default = false;
@@ -16,9 +16,9 @@
 
   config =
     let
-      inherit (config.services.git) daemon;
+      inherit (config.fs.services.git) daemon;
     in
-    lib.mkIf (config.services.git.enable && daemon.enable) {
+    lib.mkIf (config.fs.services.git.enable && daemon.enable) {
       systemd = {
         services = {
           git-daemon = {
@@ -31,10 +31,10 @@
                   ${pkgs.git}/bin/git daemon \
                     --verbose \
                     --syslog \
-                    --base-path=${config.services.git.directory} \
+                    --base-path=${config.fs.services.git.directory} \
                     --port=9418 \
                     --export-all \
-                    ${config.services.git.directory}
+                    ${config.fs.services.git.directory}
                 '';
               in
               {

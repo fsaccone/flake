@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.services.dns = {
+  options.fs.services.dns = {
     enable = lib.mkOption {
       description = "Whether to enable BIND DNS server.";
       default = false;
@@ -48,15 +48,15 @@
     };
   };
 
-  config = lib.mkIf config.services.dns.enable {
+  config = lib.mkIf config.fs.services.dns.enable {
     services.bind = {
       enable = true;
       package = pkgs.bind;
 
-      zones.${config.services.dns.domain} = {
+      zones.${config.fs.services.dns.domain} = {
         master = true;
         file =
-          config.services.dns.records
+          config.fs.services.dns.records
           |> builtins.map (
             {
               name,
@@ -66,7 +66,7 @@
               data,
             }:
             let
-              inherit (config.services.dns) domain;
+              inherit (config.fs.services.dns) domain;
               subdomain = if name != "@" then "${name}." else "";
             in
             [
@@ -79,7 +79,7 @@
             |> builtins.concatStringsSep " "
           )
           |> builtins.concatStringsSep "\n"
-          |> pkgs.writeText "${config.services.dns.domain}";
+          |> pkgs.writeText "${config.fs.services.dns.domain}";
       };
     };
 

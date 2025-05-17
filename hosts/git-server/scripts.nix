@@ -77,7 +77,7 @@ in
     let
       createIndex = stagit.createIndex { inherit destDir reposDir; };
       createRepositories =
-        config.services.git.repositories
+        config.fs.services.git.repositories
         |> builtins.attrNames
         |> builtins.map (
           name:

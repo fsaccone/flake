@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.services.sway = {
+  options.fs.services.sway = {
     enable = lib.mkOption {
       description = "Whether to enable Sway.";
       default = false;
@@ -14,7 +14,7 @@
     };
   };
 
-  config = lib.mkIf config.services.sway.enable {
+  config = lib.mkIf config.fs.services.sway.enable {
     services.displayManager = {
       defaultSession = "Sway";
     };
