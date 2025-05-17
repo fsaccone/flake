@@ -18,6 +18,11 @@
         "--no-lambda-arg"
         "--no-lambda-pattern-names"
       ];
+      nixfmt.options = [
+        "--width=80"
+        "--verify"
+        "--strict"
+      ];
     };
     global.excludes = [
       ".editorconfig"
