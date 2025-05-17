@@ -41,25 +41,25 @@
 
           colors = {
             activeWorkspace = {
-              background = colors.background;
+              inherit (colors) background;
               border = colors.foreground;
               text = colors.foreground;
             };
-            background = colors.background;
+            inherit (colors) background;
             focusedWorkspace = {
               background = colors.foreground;
               border = colors.foreground;
               text = colors.background;
             };
             inactiveWorkspace = {
-              background = colors.background;
+              inherit (colors) background;
               border = colors.background;
               text = colors.foreground;
             };
             separator = colors.background;
             statusline = colors.foreground;
             urgentWorkspace = {
-              background = colors.background;
+              inherit (colors) background;
               border = colors.red;
               text = colors.foreground;
             };
