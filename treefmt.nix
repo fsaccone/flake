@@ -6,12 +6,19 @@
   projectRootFile = "flake.nix";
 
   programs = {
+    deadnix.enable = true;
     nixfmt.enable = true;
     prettier.enable = true;
     statix.enable = true;
   };
 
   settings = {
+    formatter = {
+      deadnix.options = [
+        "--no-lambda-arg"
+        "--no-lambda-pattern-names"
+      ];
+    };
     global.excludes = [
       ".editorconfig"
       "README"
