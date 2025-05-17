@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.git = {
+  options.fs.programs.git = {
     enable = lib.mkOption {
       description = "Whether to enable Git.";
       default = false;
@@ -22,15 +22,15 @@
     };
   };
 
-  config = lib.mkIf config.modules.git.enable {
+  config = lib.mkIf config.fs.programs.git.enable {
     programs.git = {
       enable = true;
       package = pkgs.git;
 
-      userName = config.modules.git.name;
-      userEmail = config.modules.git.email;
-      signing = lib.mkIf config.modules.gpg.enable {
-        key = config.modules.gpg.primaryKey.fingerprint;
+      userName = config.fs.programs.git.name;
+      userEmail = config.fs.programs.git.email;
+      signing = lib.mkIf config.fs.programs.gpg.enable {
+        key = config.fs.programs.gpg.primaryKey.fingerprint;
         signByDefault = true;
       };
 

@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.aerc = {
+  options.fs.programs.aerc = {
     enable = lib.mkOption {
       description = "Whether to enable aerc.";
       default = false;
@@ -69,7 +69,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.aerc.enable {
+  config = lib.mkIf config.fs.programs.aerc.enable {
     programs.aerc = {
       enable = true;
       package = pkgs.aerc;
@@ -88,10 +88,10 @@
     };
 
     accounts.email = {
-      accounts.${config.modules.aerc.email.address} = {
+      accounts.${config.fs.programs.aerc.email.address} = {
         aerc.enable = true;
 
-        inherit (config.modules.aerc.email)
+        inherit (config.fs.programs.aerc.email)
           address
           folders
           passwordCommand
@@ -99,13 +99,13 @@
           ;
 
         flavor = "plain";
-        gpg = lib.mkIf config.modules.gpg.enable {
-          key = config.modules.gpg.primaryKey.fingerprint;
+        gpg = lib.mkIf config.fs.programs.gpg.enable {
+          key = config.fs.programs.gpg.primaryKey.fingerprint;
           signByDefault = true;
         };
         imap = {
-          host = config.modules.aerc.email.imapHost;
-          port = config.modules.aerc.email.imapTlsPort;
+          host = config.fs.programs.aerc.email.imapHost;
+          port = config.fs.programs.aerc.email.imapTlsPort;
           tls = {
             enable = true;
             useStartTls = false;
@@ -113,14 +113,14 @@
         };
         primary = true;
         smtp = {
-          host = config.modules.aerc.email.smtpHost;
-          port = config.modules.aerc.email.smtpTlsPort;
+          host = config.fs.programs.aerc.email.smtpHost;
+          port = config.fs.programs.aerc.email.smtpTlsPort;
           tls = {
             enable = true;
             useStartTls = false;
           };
         };
-        userName = config.modules.aerc.email.username;
+        userName = config.fs.programs.aerc.email.username;
       };
     };
   };

@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.gpg = {
+  options.fs.programs.gpg = {
     enable = lib.mkOption {
       description = "Whether to enable GnuPG.";
       default = false;
@@ -24,7 +24,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.gpg.enable {
+  config = lib.mkIf config.fs.programs.gpg.enable {
     programs.gpg = {
       enable = true;
       package = pkgs.gnupg;
@@ -34,7 +34,7 @@
 
       publicKeys = [
         {
-          source = config.modules.gpg.primaryKey.file;
+          source = config.fs.programs.gpg.primaryKey.file;
           trust = "ultimate";
         }
       ];

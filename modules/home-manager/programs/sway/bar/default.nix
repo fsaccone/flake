@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.sway.bar = {
+  options.fs.programs.sway.bar = {
     enable = lib.mkOption {
       description = "Whether to enable Swaybar.";
       default = false;
@@ -16,9 +16,9 @@
 
   config =
     let
-      inherit (config.modules.sway) bar colors;
+      inherit (config.fs.programs.sway) bar colors;
     in
-    lib.mkIf (bar.enable && config.modules.sway.enable) {
+    lib.mkIf (bar.enable && config.fs.programs.sway.enable) {
       wayland.windowManager.sway.config.bars = [
         {
           command = "${pkgs.sway}/bin/swaybar";
@@ -32,7 +32,7 @@
           extraConfig = "separator_symbol \"  \"";
 
           fonts = {
-            names = [ config.modules.sway.fonts.monospace ];
+            names = [ config.fs.programs.sway.fonts.monospace ];
             style = "Regular";
             size = 12.0;
           };

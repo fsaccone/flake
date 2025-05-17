@@ -8,7 +8,7 @@
 {
   imports = [ ./bar ];
 
-  options.modules.sway = {
+  options.fs.programs.sway = {
     enable = lib.mkOption {
       description = "Whether to enable the configuration for Sway.";
       default = false;
@@ -64,7 +64,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.sway.enable {
+  config = lib.mkIf config.fs.programs.sway.enable {
     home = {
       packages = [
         pkgs.swaybg
@@ -80,7 +80,7 @@
 
     wayland.windowManager.sway =
       let
-        inherit (config.modules.sway) backgroundImage colors;
+        inherit (config.fs.programs.sway) backgroundImage colors;
         commands = {
           terminal =
             let
@@ -104,7 +104,7 @@
                 foreground=${foreground}
 
                 [main]
-                font=${config.modules.sway.fonts.monospace}:size=11
+                font=${config.fs.programs.sway.fonts.monospace}:size=11
                 title=Foot
                 locked-title=yes
               '';
@@ -119,7 +119,7 @@
         xwayland = true;
         config = {
           fonts = {
-            names = [ config.modules.sway.fonts.monospace ];
+            names = [ config.fs.programs.sway.fonts.monospace ];
             style = "Regular";
             size = 12.0;
           };

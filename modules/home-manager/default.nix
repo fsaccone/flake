@@ -1,12 +1,4 @@
 { ... }:
 {
-  imports = [
-    ./aerc
-    ./git
-    ./gpg
-    ./newsraft
-    ./pass
-    ./sway
-    ./vis
-  ];
+  imports = [ ./programs ];
 }

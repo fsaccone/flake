@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.modules.newsraft = {
+  options.fs.programs.newsraft = {
     enable = lib.mkOption {
       description = "Whether to enable Newsraft.";
       default = false;
@@ -33,7 +33,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.newsraft.enable {
+  config = lib.mkIf config.fs.programs.newsraft.enable {
     home = {
       packages = [ pkgs.newsraft ];
       file = {
@@ -41,7 +41,7 @@
           # Empty configuration as of now.
         '';
         ".config/newsraft/feeds".text =
-          config.modules.newsraft.feeds
+          config.fs.programs.newsraft.feeds
           |> builtins.mapAttrs (
             section: feeds: ''
               @ ${section}

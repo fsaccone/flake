@@ -5,7 +5,7 @@
   ...
 }:
 {
-  modules = rec {
+  fs.programs = rec {
     aerc = {
       enable = true;
       email = {

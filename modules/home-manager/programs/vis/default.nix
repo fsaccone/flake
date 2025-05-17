@@ -7,7 +7,7 @@
   ...
 }:
 {
-  options.modules.vis = {
+  options.fs.programs.vis = {
     enable = lib.mkOption {
       description = "Whether to enable Vis.";
       default = false;
@@ -15,7 +15,7 @@
     };
   };
 
-  config = lib.mkIf config.modules.vis.enable {
+  config = lib.mkIf config.fs.programs.vis.enable {
     home = {
       packages = [ pkgs.vis ];
       file = {
