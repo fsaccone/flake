@@ -60,7 +60,7 @@ rec {
         };
         acme = {
           enable = true;
-          email = "admin@${domain}";
+          email = "francesco@${domain}";
           inherit domain;
           extraDomains = [ "www.${domain}" ];
         };

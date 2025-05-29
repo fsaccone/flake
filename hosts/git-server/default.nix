@@ -65,7 +65,7 @@ in
         };
         acme = {
           enable = true;
-          email = "admin@${rootDomain}";
+          email = "francesco@${rootDomain}";
           domain = gitDomain;
         };
         tls = {
