@@ -88,9 +88,6 @@ in
             flake = {
               description = "Francesco Saccone's Nix flake.";
             };
-            hermes = {
-              description = "HTTP GET/HEAD-only web server for static content.";
-            };
             password-store = {
               description = "Francesco Saccone's password store.";
             };
