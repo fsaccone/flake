@@ -22,11 +22,6 @@
       default = "/var/www";
       type = lib.types.uniq lib.types.path;
     };
-    user = lib.mkOption {
-      description = "The user to drop privileges to.";
-      default = "darkhttpd";
-      type = lib.types.uniq lib.types.str;
-    };
     preStart = {
       scripts = lib.mkOption {
         description = ''
@@ -63,7 +58,7 @@
       services = {
         darkhttpd =
           let
-            inherit (config.fs.services.darkhttpd) user preStart tls;
+            inherit (config.fs.services.darkhttpd) preStart tls;
           in
           rec {
             enable = true;
@@ -80,7 +75,7 @@
                     --port 80 \
                     --index index.html \
                     --no-listing \
-                    --uid ${user} \
+                    --uid darkhttpd \
                     --gid darkhttpd \
                     --no-server-id \
                     --ipv6 ${if tls.enable then "--forward-https" else ""}

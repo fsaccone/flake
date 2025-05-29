@@ -31,7 +31,6 @@ in
 
       darkhttpd = {
         enable = true;
-        user = "git";
         preStart = {
           scripts =
             let
