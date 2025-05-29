@@ -160,7 +160,7 @@
       pkgs.mpv
       pkgs.nixos-anywhere
       pkgs.nmap
-      pkgs.noice
+      pkgs.nnn
       pkgs.openssl
       pkgs.qrcode
       pkgs.prismlauncher
