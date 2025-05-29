@@ -45,6 +45,8 @@
     ethernet.macAddress = "random";
   };
 
+  hardware.bluetooth.enable = true;
+  environment.systemPackages = [ pkgs.bluetui ];
 
   services.pipewire = {
     enable = true;
