@@ -45,7 +45,6 @@
     ethernet.macAddress = "random";
   };
 
-  services.flatpak.enable = true;
 
   services.pipewire = {
     enable = true;
