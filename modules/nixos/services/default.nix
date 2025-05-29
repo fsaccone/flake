@@ -2,9 +2,9 @@
 {
   imports = [
     ./bind
+    ./darkhttpd
     ./git
     ./ly
-    ./quark
     ./sway
   ];
 }

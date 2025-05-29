@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.fs.services.quark.tls = {
+  options.fs.services.darkhttpd.tls = {
     enable = lib.mkOption {
       description = "Whether to enable the Hitch reverse proxy.";
       default = false;
@@ -20,15 +20,15 @@
 
   config =
     let
-      inherit (config.fs.services.quark) tls;
+      inherit (config.fs.services.darkhttpd) tls;
     in
-    lib.mkIf (tls.enable && config.fs.services.quark.enable) {
+    lib.mkIf (tls.enable && config.fs.services.darkhttpd.enable) {
       users = {
         users = {
           hitch = {
             hashedPassword = "!";
             isSystemUser = true;
-            group = "quark";
+            group = "darkhttpd";
             createHome = true;
             home = "/var/lib/hitch";
           };

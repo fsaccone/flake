@@ -13,7 +13,7 @@ let
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
 
   stagit = {
-    destDir = config.fs.services.quark.directory;
+    destDir = config.fs.services.darkhttpd.directory;
     reposDir = config.fs.services.git.directory;
   };
 in
@@ -29,7 +29,7 @@ in
         records = import "${mainServer}/dns.nix" rootDomain;
       };
 
-      quark = {
+      darkhttpd = {
         enable = true;
         user = "git";
         preStart = {
@@ -53,7 +53,7 @@ in
               copyRepositories = pkgs.writeShellScript "copy-repositories" ''
                 ${pkgs.sbase}/bin/cp -R \
                   ${config.fs.services.git.directory}/* \
-                  ${config.fs.services.quark.directory}
+                  ${config.fs.services.darkhttpd.directory}
               '';
 
               fullScript = ''
@@ -72,7 +72,7 @@ in
           enable = true;
           pemFiles =
             let
-              inherit (config.fs.services.quark.acme) directory;
+              inherit (config.fs.services.darkhttpd.acme) directory;
             in
             [
               "${directory}/${gitDomain}/fullchain.pem"

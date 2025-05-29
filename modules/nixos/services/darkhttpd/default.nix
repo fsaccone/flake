@@ -11,9 +11,9 @@
     ./tls
   ];
 
-  options.fs.services.quark = {
+  options.fs.services.darkhttpd = {
     enable = lib.mkOption {
-      description = "Whether to enable Quark web server.";
+      description = "Whether to enable Darkhttpd web server.";
       default = false;
       type = lib.types.bool;
     };
@@ -24,7 +24,7 @@
     };
     user = lib.mkOption {
       description = "The user to drop privileges to.";
-      default = "quark";
+      default = "darkhttpd";
       type = lib.types.uniq lib.types.str;
     };
     preStart = {
@@ -43,27 +43,27 @@
     };
   };
 
-  config = lib.mkIf config.fs.services.quark.enable {
+  config = lib.mkIf config.fs.services.darkhttpd.enable {
     users = {
       users = {
-        quark = {
+        darkhttpd = {
           hashedPassword = "!";
           isSystemUser = true;
-          group = "quark";
+          group = "darkhttpd";
           createHome = true;
           home = "/var/www";
         };
       };
       groups = {
-        quark = { };
+        darkhttpd = { };
       };
     };
 
     systemd = {
       services = {
-        quark =
+        darkhttpd =
           let
-            inherit (config.fs.services.quark) preStart;
+            inherit (config.fs.services.darkhttpd) user preStart tls;
           in
           rec {
             enable = true;
@@ -75,12 +75,15 @@
                 script = pkgs.writeShellScriptBin "script" ''
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
-                  ${pkgs.quark}/bin/quark \
-                    -p 80 \
-                    -d ${config.fs.services.quark.directory} \
-                    -u ${config.fs.services.quark.user} \
-                    -g quark \
-                    -i index.html
+                  ${pkgs.darkhttpd}/bin/darkhttpd \
+                    ${config.fs.services.darkhttpd.directory} \
+                    --port 80 \
+                    --index index.html \
+                    --no-listing \
+                    --uid ${user} \
+                    --gid darkhttpd \
+                    --no-server-id \
+                    --ipv6 ${if tls.enable then "--forward-https" else ""}
                 '';
               in
               {
@@ -93,11 +96,11 @@
           };
       };
       paths = {
-        quark = {
+        darkhttpd = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
-            PathModified = [ config.fs.services.quark.directory ];
+            PathModified = [ config.fs.services.darkhttpd.directory ];
           };
         };
       };
