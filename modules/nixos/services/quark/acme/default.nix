@@ -74,7 +74,7 @@
             enable = true;
             wantedBy = [ "multi-user.target" ];
             timerConfig = {
-              OnCalendar = "weekly";
+              OnCalendar = "daily";
               Persistent = true;
             };
           };
