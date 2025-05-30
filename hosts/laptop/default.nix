@@ -46,6 +46,7 @@
   };
 
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = lib.mkForce false;
   environment.systemPackages = [ pkgs.bluetui ];
 
   services.pipewire = {
