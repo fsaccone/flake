@@ -152,7 +152,6 @@
       pkgs.gimp
       pkgs.helvum
       pkgs.imv
-      pkgs.itd
       pkgs.jre8
       pkgs.librewolf-bin
       pkgs.lilypond
