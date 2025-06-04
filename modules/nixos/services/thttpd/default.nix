@@ -11,9 +11,9 @@
     ./tls
   ];
 
-  options.fs.services.darkhttpd = {
+  options.fs.services.thttpd = {
     enable = lib.mkOption {
-      description = "Whether to enable Darkhttpd web server.";
+      description = "Whether to enable thttpd.";
       default = false;
       type = lib.types.bool;
     };
@@ -38,27 +38,27 @@
     };
   };
 
-  config = lib.mkIf config.fs.services.darkhttpd.enable {
+  config = lib.mkIf config.fs.services.thttpd.enable {
     users = {
       users = {
-        darkhttpd = {
+        thttpd = {
           hashedPassword = "!";
           isSystemUser = true;
-          group = "darkhttpd";
+          group = "thttpd";
           createHome = true;
           home = "/var/www";
         };
       };
       groups = {
-        darkhttpd = { };
+        thttpd = { };
       };
     };
 
     systemd = {
       services = {
-        darkhttpd =
+        thttpd =
           let
-            inherit (config.fs.services.darkhttpd) preStart tls;
+            inherit (config.fs.services.thttpd) preStart;
           in
           rec {
             enable = true;
@@ -70,15 +70,11 @@
                 script = pkgs.writeShellScriptBin "script" ''
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
-                  ${pkgs.darkhttpd}/bin/darkhttpd \
-                    ${config.fs.services.darkhttpd.directory} \
-                    --port 80 \
-                    --index index.html \
-                    --no-listing \
-                    --uid darkhttpd \
-                    --gid darkhttpd \
-                    --no-server-id \
-                    --ipv6 ${if tls.enable then "--forward-https" else ""}
+                  ${pkgs.thttpd}/bin/thttpd \
+                    -p 80 \
+                    -d ${config.fs.services.thttpd.directory} \
+                    -r \
+                    -u thttpd
                 '';
               in
               {
@@ -91,11 +87,11 @@
           };
       };
       paths = {
-        darkhttpd = {
+        thttpd = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
-            PathModified = [ config.fs.services.darkhttpd.directory ];
+            PathModified = [ config.fs.services.thttpd.directory ];
           };
         };
       };

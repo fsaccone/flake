@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.fs.services.darkhttpd.acme = {
+  options.fs.services.thttpd.acme = {
     enable = lib.mkOption {
       description = "Whether to enable the Certbot ACME client.";
       default = false;
@@ -37,9 +37,9 @@
 
   config =
     let
-      inherit (config.fs.services.darkhttpd) acme;
+      inherit (config.fs.services.thttpd) acme;
     in
-    lib.mkIf (acme.enable && config.fs.services.darkhttpd.enable) {
+    lib.mkIf (acme.enable && config.fs.services.thttpd.enable) {
       systemd = {
         services = {
           acme = {
@@ -54,7 +54,7 @@
                   | ${pkgs.gnugrep}/bin/grep -q "No certificates"; then
                     ${pkgs.certbot}/bin/certbot certonly --quiet --webroot \
                     --agree-tos --email ${acme.email} \
-                    -w ${config.fs.services.darkhttpd.directory} \
+                    -w ${config.fs.services.thttpd.directory} \
                     -d ${builtins.concatStringsSep " -d " domains}
                   else
                     ${pkgs.certbot}/bin/certbot renew --quiet

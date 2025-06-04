@@ -17,32 +17,32 @@ rec {
         inherit (networking) domain;
         records = import ./dns.nix domain;
       };
-      darkhttpd = {
+      thttpd = {
         enable = true;
         preStart = {
           scripts =
             let
               generateAtom = builtins.concatStringsSep " " [
                 "${inputs.site}/scripts/generate-atom.sh"
-                config.fs.services.darkhttpd.directory
+                config.fs.services.thttpd.directory
                 "\"Francesco Saccone's blog\""
                 "https://${domain}"
               ];
               generateSitemap = builtins.concatStringsSep " " [
                 "${inputs.site}/scripts/generate-sitemap.sh"
-                config.fs.services.darkhttpd.directory
+                config.fs.services.thttpd.directory
                 "https://${domain}"
               ];
               generateHtml = builtins.concatStringsSep " " [
                 "${inputs.site}/scripts/generate-html.sh"
-                config.fs.services.darkhttpd.directory
+                config.fs.services.thttpd.directory
               ];
               copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
                 ${pkgs.sbase}/bin/cp -r \
                   ${inputs.site}/public \
                   ${inputs.site}/favicon.ico \
                   ${inputs.site}/robots.txt \
-                  ${config.fs.services.darkhttpd.directory}
+                  ${config.fs.services.thttpd.directory}
               '';
             in
             [
@@ -67,7 +67,7 @@ rec {
           enable = true;
           pemFiles =
             let
-              inherit (config.fs.services.darkhttpd.acme) directory;
+              inherit (config.fs.services.thttpd.acme) directory;
             in
             [
               "${directory}/${domain}/fullchain.pem"

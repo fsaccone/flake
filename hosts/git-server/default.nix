@@ -13,7 +13,7 @@ let
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
 
   stagit = {
-    destDir = config.fs.services.darkhttpd.directory;
+    destDir = config.fs.services.thttpd.directory;
     reposDir = config.fs.services.git.directory;
   };
 in
@@ -27,57 +27,6 @@ in
         enable = true;
         domain = rootDomain;
         records = import "${mainServer}/dns.nix" rootDomain;
-      };
-
-      darkhttpd = {
-        enable = true;
-        preStart = {
-          scripts =
-            let
-              stagitCreate = scripts.stagitCreate {
-                inherit (stagit) destDir reposDir;
-                httpBaseUrl = "https://${gitDomain}";
-              };
-
-              stagitCreateAndChown =
-                let
-                  script = pkgs.writeShellScriptBin "stagit-create-and-chown" ''
-                    ${stagitCreate}
-                    ${pkgs.sbase}/bin/chown -RL git:git ${stagit.destDir}
-                    ${pkgs.sbase}/bin/chmod -R u+rw ${stagit.destDir}
-                  '';
-                in
-                "${script}/bin/stagit-create-and-chown";
-
-              copyRepositories = pkgs.writeShellScript "copy-repositories" ''
-                ${pkgs.sbase}/bin/cp -R \
-                  ${config.fs.services.git.directory}/* \
-                  ${config.fs.services.darkhttpd.directory}
-              '';
-
-              fullScript = ''
-                ${copyRepositories}
-                ${stagitCreateAndChown}
-              '';
-            in
-            [ fullScript ];
-        };
-        acme = {
-          enable = true;
-          email = "francesco@${rootDomain}";
-          domain = gitDomain;
-        };
-        tls = {
-          enable = true;
-          pemFiles =
-            let
-              inherit (config.fs.services.darkhttpd.acme) directory;
-            in
-            [
-              "${directory}/${gitDomain}/fullchain.pem"
-              "${directory}/${gitDomain}/privkey.pem"
-            ];
-        };
       };
 
       git = {
@@ -117,6 +66,57 @@ in
           );
         daemon = {
           enable = true;
+        };
+      };
+
+      thttpd = {
+        enable = true;
+        preStart = {
+          scripts =
+            let
+              stagitCreate = scripts.stagitCreate {
+                inherit (stagit) destDir reposDir;
+                httpBaseUrl = "https://${gitDomain}";
+              };
+
+              stagitCreateAndChown =
+                let
+                  script = pkgs.writeShellScriptBin "stagit-create-and-chown" ''
+                    ${stagitCreate}
+                    ${pkgs.sbase}/bin/chown -RL git:git ${stagit.destDir}
+                    ${pkgs.sbase}/bin/chmod -R u+rw ${stagit.destDir}
+                  '';
+                in
+                "${script}/bin/stagit-create-and-chown";
+
+              copyRepositories = pkgs.writeShellScript "copy-repositories" ''
+                ${pkgs.sbase}/bin/cp -R \
+                  ${config.fs.services.git.directory}/* \
+                  ${config.fs.services.thttpd.directory}
+              '';
+
+              fullScript = ''
+                ${copyRepositories}
+                ${stagitCreateAndChown}
+              '';
+            in
+            [ fullScript ];
+        };
+        acme = {
+          enable = true;
+          email = "francesco@${rootDomain}";
+          domain = gitDomain;
+        };
+        tls = {
+          enable = true;
+          pemFiles =
+            let
+              inherit (config.fs.services.thttpd.acme) directory;
+            in
+            [
+              "${directory}/${gitDomain}/fullchain.pem"
+              "${directory}/${gitDomain}/privkey.pem"
+            ];
         };
       };
     };

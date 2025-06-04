@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.fs.services.darkhttpd.tls = {
+  options.fs.services.thttpd.tls = {
     enable = lib.mkOption {
       description = "Whether to enable the Hitch reverse proxy.";
       default = false;
@@ -20,15 +20,15 @@
 
   config =
     let
-      inherit (config.fs.services.darkhttpd) tls;
+      inherit (config.fs.services.thttpd) tls;
     in
-    lib.mkIf (tls.enable && config.fs.services.darkhttpd.enable) {
+    lib.mkIf (tls.enable && config.fs.services.thttpd.enable) {
       users = {
         users = {
           hitch = {
             hashedPassword = "!";
             isSystemUser = true;
-            group = "darkhttpd";
+            group = "thttpd";
             createHome = true;
             home = "/var/lib/hitch";
           };
