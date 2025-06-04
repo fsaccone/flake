@@ -163,7 +163,6 @@
       pkgs.nnn
       pkgs.openssl
       pkgs.qrcode
-      pkgs.prismlauncher
       pkgs.sent
       pkgs.shotcut
       pkgs.timidity
