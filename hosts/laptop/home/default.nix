@@ -120,10 +120,10 @@
       fonts = {
         monospace = "IBM Plex Mono";
       };
-      backgroundImage = ../background.png;
+      backgroundImage = ./background.png;
       colors =
         let
-          colors = import ../colors.nix;
+          colors = import ./colors.nix;
         in
         {
           inherit (colors)
