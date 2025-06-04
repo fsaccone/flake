@@ -72,17 +72,17 @@
     "password-store": {
       "flake": false,
       "locked": {
-        "lastModified": 1748717089,
-        "narHash": "sha256-elPx7y7s1EdDjPnZ5xZpW/KkpuunM2XU7HR4ERnvgeg=",
+        "lastModified": 1748094937,
+        "narHash": "sha256-TKlJDyxgCpQHgKFjjv6RJp8QBpZCDOzux9mRj4TnIvw=",
         "ref": "refs/heads/master",
-        "rev": "d6f1832f393fc4693bfb76c17a96951da5fa6776",
-        "revCount": 16,
+        "rev": "31a29e055a21cf4dee1ab5f5ff8da2857988d7ea",
+        "revCount": 14,
         "type": "git",
-        "url": "git://git.francescosaccone.com/password-store"
+        "url": "https://git.francescosaccone.com/password-store"
       },
       "original": {
         "type": "git",
-        "url": "git://git.francescosaccone.com/password-store"
+        "url": "https://git.francescosaccone.com/password-store"
       }
     },
     "root": {
@@ -105,11 +105,11 @@
         "rev": "785af4cf5f56068f246ad653a59bede80af8afe4",
         "revCount": 80,
         "type": "git",
-        "url": "git://git.francescosaccone.com/site"
+        "url": "https://git.francescosaccone.com/site"
       },
       "original": {
         "type": "git",
-        "url": "git://git.francescosaccone.com/site"
+        "url": "https://git.francescosaccone.com/site"
       }
     },
     "treefmt-nix": {
