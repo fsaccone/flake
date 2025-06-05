@@ -70,6 +70,9 @@
                 script = pkgs.writeShellScriptBin "script" ''
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
+                  ${pkgs.sbase}/bin/chmod -R a+r \
+                    ${config.fs.services.thttpd.directory}
+
                   ${pkgs.thttpd}/bin/thttpd \
                     -p 80 \
                     -d ${config.fs.services.thttpd.directory} \
