@@ -90,7 +90,7 @@ in
                 "${script}/bin/stagit-create-and-chown";
 
               copyRepositories = pkgs.writeShellScript "copy-repositories" ''
-                ${pkgs.sbase}/bin/cp -R \
+                ${pkgs.sbase}/bin/cp -fRL \
                   ${config.fs.services.git.directory}/* \
                   ${config.fs.services.thttpd.directory}
               '';
