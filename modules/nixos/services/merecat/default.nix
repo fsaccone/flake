@@ -65,6 +65,9 @@
                   ${pkgs.sbase}/bin/chmod -R a+rw \
                     ${config.fs.services.merecat.directory}
 
+                  ${pkgs.sbase}/bin/chown nobody:nogroup \
+                    ${config.fs.services.merecat.directory}
+
                   for file in $(${pkgs.sbase}/bin/find \
                                 ${config.fs.services.merecat.directory} \
                                 -name '*.html' -o -name '*.css'); do
