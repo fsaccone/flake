@@ -62,6 +62,7 @@ rec {
           enable = true;
           email = "francesco@${domain}";
           inherit domain;
+          extraDomains = [ "www.${domain}" ];
         };
         tls = {
           enable = true;
