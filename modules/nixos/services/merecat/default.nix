@@ -73,6 +73,12 @@
                   ${pkgs.sbase}/bin/chmod -R a+r \
                     ${config.fs.services.merecat.directory}
 
+                  for file in $(${pkgs.sbase}/bin/find \
+                                ${config.fs.services.merecat.directory} \
+                                -name '*.html' -o -name '*.css'); do
+                    ${pkgs.gzip}/bin/gzip -c $file > $file.gz
+                  done
+
                   ${pkgs.merecat}/bin/merecat \
                     -n \
                     -p 80 \
