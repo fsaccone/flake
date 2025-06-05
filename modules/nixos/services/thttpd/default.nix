@@ -84,7 +84,7 @@
                 User = "root";
                 Group = "root";
                 Restart = "on-failure";
-                Type = "simple";
+                Type = "forking";
                 ExecStart = "${script}/bin/script";
               };
           };
