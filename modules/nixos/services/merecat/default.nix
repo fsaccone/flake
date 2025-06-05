@@ -20,6 +20,7 @@
     directory = lib.mkOption {
       description = "The root directory to statically host.";
       default = "/var/www";
+      readOnly = true;
       type = lib.types.uniq lib.types.path;
     };
     preStart = {
@@ -46,7 +47,7 @@
           isSystemUser = true;
           group = "merecat";
           createHome = true;
-          home = "/var/www";
+          home = config.fs.services.merecat.directory;
         };
       };
       groups = {
