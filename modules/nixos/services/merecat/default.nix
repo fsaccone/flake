@@ -70,7 +70,7 @@
                 script = pkgs.writeShellScriptBin "script" ''
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
-                  ${pkgs.sbase}/bin/chmod -R a+r \
+                  ${pkgs.sbase}/bin/chmod -R a+rw \
                     ${config.fs.services.merecat.directory}
 
                   for file in $(${pkgs.sbase}/bin/find \
