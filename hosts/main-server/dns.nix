@@ -17,6 +17,8 @@ in
     "@" = main;
     inherit git;
 
+    www = main;
+
     ns1 = main;
     ns2 = git;
   }
