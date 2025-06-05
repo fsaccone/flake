@@ -77,7 +77,8 @@
                     -p 80 \
                     -d ${config.fs.services.thttpd.directory} \
                     -r \
-                    -u thttpd
+                    -u thttpd \
+                    -h localhost
                 '';
               in
               {
