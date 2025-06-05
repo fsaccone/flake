@@ -11,9 +11,9 @@
     ./tls
   ];
 
-  options.fs.services.thttpd = {
+  options.fs.services.merecat = {
     enable = lib.mkOption {
-      description = "Whether to enable thttpd.";
+      description = "Whether to enable Merecat web server.";
       default = false;
       type = lib.types.bool;
     };
@@ -38,27 +38,27 @@
     };
   };
 
-  config = lib.mkIf config.fs.services.thttpd.enable {
+  config = lib.mkIf config.fs.services.merecat.enable {
     users = {
       users = {
-        thttpd = {
+        merecat = {
           hashedPassword = "!";
           isSystemUser = true;
-          group = "thttpd";
+          group = "merecat";
           createHome = true;
           home = "/var/www";
         };
       };
       groups = {
-        thttpd = { };
+        merecat = { };
       };
     };
 
     systemd = {
       services = {
-        thttpd =
+        merecat =
           let
-            inherit (config.fs.services.thttpd) preStart;
+            inherit (config.fs.services.merecat) preStart;
           in
           rec {
             enable = true;
@@ -71,31 +71,31 @@
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
                   ${pkgs.sbase}/bin/chmod -R a+r \
-                    ${config.fs.services.thttpd.directory}
+                    ${config.fs.services.merecat.directory}
 
-                  ${pkgs.thttpd}/bin/thttpd \
+                  ${pkgs.merecat}/bin/merecat \
+                    -n \
                     -p 80 \
-                    -d ${config.fs.services.thttpd.directory} \
                     -r \
-                    -u thttpd \
-                    -h localhost
+                    -u merecat \
+                    ${config.fs.services.merecat.directory}
                 '';
               in
               {
                 User = "root";
                 Group = "root";
                 Restart = "on-failure";
-                Type = "forking";
+                Type = "simple";
                 ExecStart = "${script}/bin/script";
               };
           };
       };
       paths = {
-        thttpd = {
+        merecat = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
-            PathModified = [ config.fs.services.thttpd.directory ];
+            PathModified = [ config.fs.services.merecat.directory ];
           };
         };
       };

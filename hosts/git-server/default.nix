@@ -13,7 +13,7 @@ let
   scripts = import ./scripts.nix { inherit config pkgs inputs; };
 
   stagit = {
-    destDir = config.fs.services.thttpd.directory;
+    destDir = config.fs.services.merecat.directory;
     reposDir = config.fs.services.git.directory;
   };
 in
@@ -69,7 +69,7 @@ in
         };
       };
 
-      thttpd = {
+      merecat = {
         enable = true;
         preStart = {
           scripts =
@@ -92,7 +92,7 @@ in
               copyRepositories = pkgs.writeShellScript "copy-repositories" ''
                 ${pkgs.sbase}/bin/cp -fRL \
                   ${config.fs.services.git.directory}/* \
-                  ${config.fs.services.thttpd.directory}
+                  ${config.fs.services.merecat.directory}
               '';
 
               fullScript = ''
@@ -111,7 +111,7 @@ in
           enable = true;
           pemFiles =
             let
-              inherit (config.fs.services.thttpd.acme) directory;
+              inherit (config.fs.services.merecat.acme) directory;
             in
             [
               "${directory}/${gitDomain}/fullchain.pem"

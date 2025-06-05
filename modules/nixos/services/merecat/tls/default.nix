@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.fs.services.thttpd.tls = {
+  options.fs.services.merecat.tls = {
     enable = lib.mkOption {
       description = "Whether to enable the Hitch reverse proxy.";
       default = false;
@@ -20,15 +20,15 @@
 
   config =
     let
-      inherit (config.fs.services.thttpd) tls;
+      inherit (config.fs.services.merecat) tls;
     in
-    lib.mkIf (tls.enable && config.fs.services.thttpd.enable) {
+    lib.mkIf (tls.enable && config.fs.services.merecat.enable) {
       users = {
         users = {
           hitch = {
             hashedPassword = "!";
             isSystemUser = true;
-            group = "thttpd";
+            group = "merecat";
             createHome = true;
             home = "/var/lib/hitch";
           };
