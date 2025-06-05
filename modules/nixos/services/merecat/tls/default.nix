@@ -23,21 +23,6 @@
       inherit (config.fs.services.merecat) tls;
     in
     lib.mkIf (tls.enable && config.fs.services.merecat.enable) {
-      users = {
-        users = {
-          hitch = {
-            hashedPassword = "!";
-            isSystemUser = true;
-            group = "merecat";
-            createHome = true;
-            home = "/var/lib/hitch";
-          };
-        };
-        groups = {
-          hitch = { };
-        };
-      };
-
       systemd.services.hitch = {
         enable = true;
         wantedBy = [ "multi-user.target" ];
@@ -55,8 +40,8 @@
                 --backend-connect-timeout 30 \
                 --ssl-handshake-timeout 30 \
                 --ocsp-dir /var/lib/hitch \
-                --user hitch \
-                --group hitch \
+                --user nobody \
+                --group nogroup \
                 /var/lib/hitch/full.pem
             '';
           in

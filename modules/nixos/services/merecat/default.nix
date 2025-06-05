@@ -40,21 +40,6 @@
   };
 
   config = lib.mkIf config.fs.services.merecat.enable {
-    users = {
-      users = {
-        merecat = {
-          hashedPassword = "!";
-          isSystemUser = true;
-          group = "merecat";
-          createHome = true;
-          home = config.fs.services.merecat.directory;
-        };
-      };
-      groups = {
-        merecat = { };
-      };
-    };
-
     systemd = {
       services = {
         merecat =
@@ -69,6 +54,12 @@
             serviceConfig =
               let
                 script = pkgs.writeShellScriptBin "script" ''
+                  ${pkgs.sbase}/bin/mkdir -p \
+                    ${config.fs.services.merecat.directory}
+
+                  ${pkgs.sbase}/bin/chmod a+rw \
+                    ${config.fs.services.merecat.directory}
+
                   ${builtins.concatStringsSep "\n" preStart.scripts}
 
                   ${pkgs.sbase}/bin/chmod -R a+rw \
@@ -84,7 +75,6 @@
                     -n \
                     -p 80 \
                     -r \
-                    -u merecat \
                     ${config.fs.services.merecat.directory}
                 '';
               in
