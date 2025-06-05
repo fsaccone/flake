@@ -79,28 +79,16 @@ in
                 httpBaseUrl = "https://${gitDomain}";
               };
 
-              stagitCreateAndChown =
-                let
-                  script = pkgs.writeShellScriptBin "stagit-create-and-chown" ''
-                    ${stagitCreate}
-                    ${pkgs.sbase}/bin/chown -RL git:git ${stagit.destDir}
-                    ${pkgs.sbase}/bin/chmod -R u+rw ${stagit.destDir}
-                  '';
-                in
-                "${script}/bin/stagit-create-and-chown";
-
               copyRepositories = pkgs.writeShellScript "copy-repositories" ''
                 ${pkgs.sbase}/bin/cp -fRL \
                   ${config.fs.services.git.directory}/* \
                   ${config.fs.services.merecat.directory}
               '';
-
-              fullScript = ''
-                ${copyRepositories}
-                ${stagitCreateAndChown}
-              '';
             in
-            [ fullScript ];
+            [
+              stagitCreate
+              copyRepositories
+            ];
         };
         acme = {
           enable = true;
