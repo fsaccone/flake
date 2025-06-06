@@ -14,6 +14,22 @@
       default = false;
       type = lib.types.bool;
     };
+    user = lib.mkOption {
+      description = ''
+        The user owning the directory containing the bare repositories.
+      '';
+      default = "git";
+      readOnly = true;
+      type = lib.types.uniq lib.types.str;
+    };
+    group = lib.mkOption {
+      description = ''
+        The group owning the directory containing the bare repositories.
+      '';
+      default = "git";
+      readOnly = true;
+      type = lib.types.uniq lib.types.str;
+    };
     directory = lib.mkOption {
       description = ''
         The directory where specified bare repositories are created.
@@ -62,17 +78,17 @@
   config = lib.mkIf config.fs.services.git.enable {
     users = {
       users = {
-        git = {
+        ${config.fs.services.git.user} = {
           hashedPassword = "!";
           isSystemUser = true;
-          group = "git";
+          inherit (config.fs.services.git) group;
           createHome = true;
           home = config.fs.services.git.directory;
           shell = "${pkgs.git}/bin/git-shell";
         };
       };
       groups = {
-        git = { };
+        ${config.fs.services.git.group} = { };
       };
     };
 
@@ -129,8 +145,8 @@
                 |> pkgs.writeShellScriptBin "script";
             in
             {
-              User = "git";
-              Group = "git";
+              User = config.fs.services.git.user;
+              Group = config.fs.services.git.group;
               Type = "oneshot";
               ExecStart = "${script}/bin/script";
             };
