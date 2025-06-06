@@ -81,7 +81,7 @@
 
                 preStartScriptsCall =
                   preStart.scripts
-                  |> builtins.map (s: "${pkgs.su}/bin/su - ${user} -c ${s}")
+                  |> builtins.map (s: "${pkgs.su}/bin/su -m -c ${s} ${user}")
                   |> builtins.concatStringsSep "\n";
 
                 script = pkgs.writeShellScriptBin "merecat" ''
