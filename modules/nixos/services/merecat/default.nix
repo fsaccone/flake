@@ -25,12 +25,12 @@
     };
     user = lib.mkOption {
       description = "The user who owns the directory.";
-      default = "nobody";
+      default = "merecat";
       type = lib.types.uniq lib.types.str;
     };
     group = lib.mkOption {
       description = "The group who owns the directory.";
-      default = "nogroup";
+      default = "merecat";
       type = lib.types.uniq lib.types.str;
     };
     preStart = {
@@ -50,6 +50,20 @@
   };
 
   config = lib.mkIf config.fs.services.merecat.enable {
+    users = {
+      users = {
+        merecat = {
+          hashedPassword = "!";
+          isNormalUser = true;
+          group = "merecat";
+          createHome = false;
+        };
+      };
+      groups = {
+        merecat = { };
+      };
+    };
+
     systemd = {
       services = {
         merecat =
