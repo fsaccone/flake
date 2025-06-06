@@ -92,6 +92,8 @@
 
                   ${preStartScriptsCall}
 
+                  ${pkgs.sbase}/bin/chmod -R 744 ${directory}
+
                   for file in $(${pkgs.sbase}/bin/find ${directory} \
                                 -name '*.html' -o -name '*.css'); do
                     ${pkgs.gzip}/bin/gzip -c $file > $file.gz
