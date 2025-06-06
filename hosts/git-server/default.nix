@@ -134,8 +134,7 @@ in
 
       merecat = {
         enable = true;
-        user = "git";
-        group = "git";
+        inherit (config.fs.services.git) user group;
         preStart = {
           scripts =
             let
