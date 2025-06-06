@@ -150,6 +150,7 @@ in
           enable = true;
           email = "francesco@${rootDomain}";
           domain = gitDomain;
+          extraDomains = [ "www.${gitDomain}" ];
         };
         tls = {
           enable = true;
