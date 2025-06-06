@@ -134,6 +134,8 @@ in
 
       merecat = {
         enable = true;
+        user = "git";
+        group = "git";
         preStart = {
           scripts =
             let
