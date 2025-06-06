@@ -144,7 +144,10 @@ in
                   ${config.fs.services.merecat.directory}
               '';
             in
-            [ copyRepositories ];
+            [ copyRepositories ]
+            ++ builtins.map generateStagitRepository (
+              builtins.attrNames config.fs.services.git.repositories
+            );
         };
         acme = {
           enable = true;
