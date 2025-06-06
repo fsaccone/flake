@@ -70,7 +70,7 @@
                   |> builtins.map (s: "${pkgs.su}/bin/su - ${user} -c ${s}")
                   |> builtins.concatStringsSep "\n";
 
-                script = pkgs.writeShellScriptBin "script" ''
+                script = pkgs.writeShellScriptBin "merecat" ''
                   ${pkgs.sbase}/bin/mkdir -p ${directory}
 
                   ${pkgs.sbase}/bin/chown -R ${user}:${group} ${directory}
@@ -96,7 +96,7 @@
                 Group = "root";
                 Restart = "on-failure";
                 Type = "simple";
-                ExecStart = "${script}/bin/script";
+                ExecStart = "${script}/bin/merecat";
               };
           };
       };
