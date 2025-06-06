@@ -80,7 +80,10 @@
         { system }: treefmtEval.${system}.config.build.wrapper
       );
 
-      overlays.default = final: prev: import ./packages final.pkgs;
+      overlays = {
+        additions = final: prev: import ./packages final.pkgs;
+        default = import ./overlays;
+      };
 
       nixosModules = {
         default = import ./modules/nixos;
