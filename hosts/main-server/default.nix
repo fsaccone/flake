@@ -22,21 +22,21 @@ rec {
         preStart = {
           scripts =
             let
-              generateAtom = builtins.concatStringsSep " " [
-                "${inputs.site}/scripts/generate-atom.sh"
-                config.fs.services.merecat.directory
-                "\"Francesco Saccone's blog\""
-                "https://${domain}"
-              ];
-              generateSitemap = builtins.concatStringsSep " " [
-                "${inputs.site}/scripts/generate-sitemap.sh"
-                config.fs.services.merecat.directory
-                "https://${domain}"
-              ];
-              generateHtml = builtins.concatStringsSep " " [
-                "${inputs.site}/scripts/generate-html.sh"
-                config.fs.services.merecat.directory
-              ];
+              generateAtom = pkgs.writeShellScript "generate-atom" ''
+                ${inputs.site}/scripts/generate-atom.sh \
+                  ${config.fs.services.merecat.directory} \
+                  "Francesco Saccone's blog" \
+                  "https://${domain}"
+              '';
+              generateSitemap = pkgs.writeShellScript "generate-sitemap" ''
+                ${inputs.site}/scripts/generate-sitemap.sh \
+                  ${config.fs.services.merecat.directory} \
+                  "https://${domain}"
+              '';
+              generateHtml = pkgs.writeShellScript "generate-html" ''
+                ${inputs.site}/scripts/generate-html.sh \
+                  ${config.fs.services.merecat.directory}
+              '';
               copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
                 ${pkgs.sbase}/bin/cp -r \
                   ${inputs.site}/public \
