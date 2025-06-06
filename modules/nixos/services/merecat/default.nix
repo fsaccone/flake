@@ -23,6 +23,16 @@
       readOnly = true;
       type = lib.types.uniq lib.types.path;
     };
+    user = lib.mkOption {
+      description = "The user who owns the directory.";
+      default = "nobody";
+      type = lib.types.uniq lib.types.str;
+    };
+    group = lib.mkOption {
+      description = "The group who owns the directory.";
+      default = "nogroup";
+      type = lib.types.uniq lib.types.str;
+    };
     preStart = {
       scripts = lib.mkOption {
         description = ''
@@ -53,23 +63,22 @@
             path = preStart.packages;
             serviceConfig =
               let
+                inherit (config.fs.services.merecat) directory user group;
+
+                preStartScriptsCall =
+                  preStart.scripts
+                  |> builtins.map (s: "${pkgs.su}/bin/su - ${user} -c ${s}")
+                  |> builtins.concatStringsSep "\n";
+
                 script = pkgs.writeShellScriptBin "script" ''
-                  ${pkgs.sbase}/bin/mkdir -p \
-                    ${config.fs.services.merecat.directory}
+                  ${pkgs.sbase}/bin/mkdir -p ${directory}
 
-                  ${pkgs.sbase}/bin/chmod a+rw \
-                    ${config.fs.services.merecat.directory}
+                  ${pkgs.sbase}/bin/chown -R ${user}:${group} ${directory}
+                  ${pkgs.sbase}/bin/chmod -R 744 ${directory}
 
-                  ${builtins.concatStringsSep "\n" preStart.scripts}
+                  ${preStartScriptsCall}
 
-                  ${pkgs.sbase}/bin/chmod -R a+rw \
-                    ${config.fs.services.merecat.directory}
-
-                  ${pkgs.sbase}/bin/chown nobody:nogroup \
-                    ${config.fs.services.merecat.directory}
-
-                  for file in $(${pkgs.sbase}/bin/find \
-                                ${config.fs.services.merecat.directory} \
+                  for file in $(${pkgs.sbase}/bin/find ${directory} \
                                 -name '*.html' -o -name '*.css'); do
                     ${pkgs.gzip}/bin/gzip -c $file > $file.gz
                   done
@@ -78,7 +87,8 @@
                     -n \
                     -p 80 \
                     -r \
-                    ${config.fs.services.merecat.directory}
+                    -u ${user} \
+                    ${directory}
                 '';
               in
               {
