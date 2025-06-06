@@ -8,7 +8,7 @@ let
   mainServer = ../main-server;
 
   rootDomain = import "${mainServer}/domain.nix";
-  gitDomain = "git.${rootDomain}";
+  domain = "git.${rootDomain}";
 
   generateStagitRepository =
     let
@@ -45,7 +45,7 @@ let
 
       ${pkgs.stagit}/bin/stagit \
         -l 100 \
-        -u https://${gitDomain} \
+        -u https://${domain} \
         ${git.directory}/${name}
 
       # Make log.html the default page
@@ -93,7 +93,7 @@ in
               additionalFiles = {
                 inherit description;
                 owner = "Francesco Saccone";
-                url = "https://${gitDomain}/${name}";
+                url = "https://${domain}/${name}";
               };
               hooks.postReceive =
                 let
@@ -149,8 +149,8 @@ in
         acme = {
           enable = true;
           email = "francesco@${rootDomain}";
-          domain = gitDomain;
-          extraDomains = [ "www.${gitDomain}" ];
+          inherit domain;
+          extraDomains = [ "www.${domain}" ];
         };
         tls = {
           enable = true;
@@ -159,8 +159,8 @@ in
               inherit (config.fs.services.merecat.acme) directory;
             in
             [
-              "${directory}/${gitDomain}/fullchain.pem"
-              "${directory}/${gitDomain}/privkey.pem"
+              "${directory}/${domain}/fullchain.pem"
+              "${directory}/${domain}/privkey.pem"
             ];
         };
       };
@@ -176,5 +176,5 @@ in
     };
   };
 
-  networking.domain = gitDomain;
+  networking.domain = domain;
 }
