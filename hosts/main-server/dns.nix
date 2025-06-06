@@ -15,9 +15,10 @@ in
   in
   {
     "@" = main;
-    inherit git;
-
     www = main;
+
+    inherit git;
+    "www.git" = git;
 
     ns1 = main;
     ns2 = git;
