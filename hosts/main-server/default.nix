@@ -38,7 +38,7 @@ rec {
                   ${config.fs.services.merecat.directory}
               '';
               copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
-                ${pkgs.sbase}/bin/cp -r \
+                ${pkgs.sbase}/bin/cp -R \
                   ${inputs.site}/public \
                   ${inputs.site}/favicon.ico \
                   ${inputs.site}/robots.txt \
