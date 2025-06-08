@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.fs.services.merecat.acme = {
+  options.fs.services.static-web-server.acme = {
     enable = lib.mkOption {
       description = "Whether to enable the Certbot ACME client.";
       default = false;
@@ -37,9 +37,9 @@
 
   config =
     let
-      inherit (config.fs.services.merecat) acme;
+      inherit (config.fs.services.static-web-server) acme;
     in
-    lib.mkIf (acme.enable && config.fs.services.merecat.enable) {
+    lib.mkIf (acme.enable && config.fs.services.static-web-server.enable) {
       systemd = {
         services = {
           acme = {
@@ -54,7 +54,7 @@
                   | ${pkgs.gnugrep}/bin/grep -q "No certificates"; then
                     ${pkgs.certbot}/bin/certbot certonly --quiet --webroot \
                     --agree-tos --email ${acme.email} \
-                    -w ${config.fs.services.merecat.directory} \
+                    -w ${config.fs.services.static-web-server.directory} \
                     -d ${builtins.concatStringsSep " -d " domains}
                   else
                     ${pkgs.certbot}/bin/certbot renew --quiet

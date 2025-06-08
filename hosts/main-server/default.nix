@@ -17,32 +17,32 @@ rec {
         inherit (networking) domain;
         records = import ./dns.nix domain;
       };
-      merecat = {
+      static-web-server = {
         enable = true;
         preStart = {
           scripts =
             let
               generateAtom = pkgs.writeShellScript "generate-atom" ''
                 ${inputs.site}/scripts/generate-atom.sh \
-                  ${config.fs.services.merecat.directory} \
+                  ${config.fs.services.static-web-server.directory} \
                   "Francesco Saccone's blog" \
                   "https://${domain}"
               '';
               generateSitemap = pkgs.writeShellScript "generate-sitemap" ''
                 ${inputs.site}/scripts/generate-sitemap.sh \
-                  ${config.fs.services.merecat.directory} \
+                  ${config.fs.services.static-web-server.directory} \
                   "https://${domain}"
               '';
               generateHtml = pkgs.writeShellScript "generate-html" ''
                 ${inputs.site}/scripts/generate-html.sh \
-                  ${config.fs.services.merecat.directory}
+                  ${config.fs.services.static-web-server.directory}
               '';
               copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
                 ${pkgs.sbase}/bin/cp -R \
                   ${inputs.site}/public \
                   ${inputs.site}/favicon.ico \
                   ${inputs.site}/robots.txt \
-                  ${config.fs.services.merecat.directory}
+                  ${config.fs.services.static-web-server.directory}
               '';
             in
             [
@@ -68,7 +68,7 @@ rec {
           enable = true;
           pemFiles =
             let
-              inherit (config.fs.services.merecat.acme) directory;
+              inherit (config.fs.services.static-web-server.acme) directory;
             in
             [
               "${directory}/${domain}/fullchain.pem"

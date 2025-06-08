@@ -4,7 +4,7 @@
     ./bind
     ./git
     ./ly
-    ./merecat
+    ./static-web-server
     ./sway
   ];
 }

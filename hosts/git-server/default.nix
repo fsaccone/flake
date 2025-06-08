@@ -12,7 +12,7 @@ let
 
   generateStagitRepository =
     let
-      inherit (config.fs.services) merecat git;
+      inherit (config.fs.services) static-web-server git;
     in
     name:
     pkgs.writeShellScript "generate-stagit" ''
@@ -20,28 +20,28 @@ let
 
       # Create index.html
       ${pkgs.stagit}/bin/stagit-index \
-        ${git.directory}/*/ > ${merecat.directory}/index.html
+        ${git.directory}/*/ > ${static-web-server.directory}/index.html
 
       # Copy favicon.png, logo.png, style.css from site repository
       ${pkgs.sbase}/bin/cp \
         ${inputs.site}/public/icon/256.png \
-        ${merecat.directory}/favicon.png
+        ${static-web-server.directory}/favicon.png
 
       ${pkgs.sbase}/bin/cp \
         ${inputs.site}/public/icon/32.png \
-        ${merecat.directory}/logo.png
+        ${static-web-server.directory}/logo.png
 
       ${pkgs.sbase}/bin/cp \
         ${inputs.site}/public/stagit.css \
-        ${merecat.directory}/style.css
+        ${static-web-server.directory}/style.css
 
       ${pkgs.sbase}/bin/echo \
         "Stagit index file generated: <www>/index.html".
 
       # Create repository pages
-      ${pkgs.sbase}/bin/mkdir -p ${merecat.directory}/${name}
+      ${pkgs.sbase}/bin/mkdir -p ${static-web-server.directory}/${name}
 
-      cd ${merecat.directory}/${name}
+      cd ${static-web-server.directory}/${name}
 
       ${pkgs.stagit}/bin/stagit \
         -l 100 \
@@ -97,7 +97,7 @@ in
               };
               hooks.postReceive =
                 let
-                  inherit (config.fs.services) merecat git;
+                  inherit (config.fs.services) static-web-server git;
                 in
                 pkgs.writeShellScript "post-receive" ''
                   set -e
@@ -120,7 +120,7 @@ in
 
                   # If is_force is 1, delete HTML commits
                   if ${pkgs.sbase}/bin/test $is_force = 1; then
-                    ${pkgs.sbase}/bin/rm -rf ${merecat.directory}/${name}/commit
+                    ${pkgs.sbase}/bin/rm -rf ${static-web-server.directory}/${name}/commit
                   fi
 
                   ${generateStagitRepository name}
@@ -132,7 +132,7 @@ in
         };
       };
 
-      merecat = {
+      static-web-server = {
         enable = true;
         inherit (config.fs.services.git) user group;
         preStart = {
@@ -141,7 +141,7 @@ in
               copyRepositories = pkgs.writeShellScript "copy-repositories" ''
                 ${pkgs.sbase}/bin/cp -fRL \
                   ${config.fs.services.git.directory}/* \
-                  ${config.fs.services.merecat.directory}
+                  ${config.fs.services.static-web-server.directory}
               '';
             in
             [ copyRepositories ]
@@ -159,7 +159,7 @@ in
           enable = true;
           pemFiles =
             let
-              inherit (config.fs.services.merecat.acme) directory;
+              inherit (config.fs.services.static-web-server.acme) directory;
             in
             [
               "${directory}/${domain}/fullchain.pem"
