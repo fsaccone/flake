@@ -19,32 +19,29 @@ let
       set -e
 
       # Create index.html
-      ${pkgs.stagit}/bin/stagit-index \
-        ${git.directory}/*/ > ${static-web-server.directory}/index.html
+      cd ${static-web-server.directory}
+
+      ${pkgs.stagit}/bin/stagit-index ${git.directory}/*/ > index.html
 
       # Copy favicon.png, logo.png, style.css from site repository
-      ${pkgs.sbase}/bin/cp \
-        ${inputs.site}/public/icon/256.png \
-        ${static-web-server.directory}/favicon.png
+      ${pkgs.sbase}/bin/cp ${inputs.site}/public/icon/32.png favicon.png
+      ${pkgs.sbase}/bin/cp favicon.png logo.png
+      ${pkgs.sbase}/bin/cp ${inputs.site}/public/stagit.css style.css
 
-      ${pkgs.sbase}/bin/cp \
-        ${inputs.site}/public/icon/32.png \
-        ${static-web-server.directory}/logo.png
-
-      ${pkgs.sbase}/bin/cp \
-        ${inputs.site}/public/stagit.css \
-        ${static-web-server.directory}/style.css
+      # This is needed because when the script is run one time after
+      # the other the copying of the static files brings a "Permission denied"
+      # error, since they only have read permission at creation.
+      ${pkgs.sbase}/bin/chmod -R u+w .
 
       ${pkgs.sbase}/bin/echo \
         "Stagit index file generated: <www>/index.html".
 
       # Create repository pages
       ${pkgs.sbase}/bin/mkdir -p ${static-web-server.directory}/${name}
-
       cd ${static-web-server.directory}/${name}
 
       ${pkgs.stagit}/bin/stagit \
-        -l 100 \
+        -l 128 \
         -u https://${domain} \
         ${git.directory}/${name}
 
@@ -52,9 +49,9 @@ let
       ${pkgs.sbase}/bin/cp log.html index.html
 
       # Copy the static files from the index page
-      ${pkgs.sbase}/bin/cp ../style.css style.css
       ${pkgs.sbase}/bin/cp ../favicon.png favicon.png
       ${pkgs.sbase}/bin/cp ../logo.png logo.png
+      ${pkgs.sbase}/bin/cp ../style.css style.css
 
       ${pkgs.sbase}/bin/echo \
         "Stagit page generated for ${name}: <www>/${name}."
