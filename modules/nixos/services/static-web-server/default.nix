@@ -149,7 +149,8 @@
 
                   ${preStartScriptsCall}
 
-                  ${pkgs.sbase}/bin/chmod -R 744 ${directory}
+                  ${pkgs.sbase}/bin/chmod -R u+rwx ${directory}
+                  ${pkgs.sbase}/bin/chmod -R a+r ${directory}
 
                   ${pkgs.static-web-server}/bin/static-web-server \
                     --config-file ${configuration}
