@@ -93,7 +93,7 @@ in
               additionalFiles = {
                 inherit description;
                 owner = "Francesco Saccone";
-                url = "https://${domain}/${name}";
+                url = "git://${domain}/${name}";
               };
               hooks.postReceive =
                 let
@@ -140,30 +140,9 @@ in
           inherit domain;
         };
         preStart = {
-          scripts =
-            let
-              copyRepositories =
-                let
-                  inherit (config.fs.services) git static-web-server;
-                in
-                pkgs.writeShellScript "copy-repositories" ''
-                  ${pkgs.sbase}/bin/cp -RL \
-                    ${git.directory}/* \
-                    ${static-web-server.directory}
-
-                  # Enable the dumb HTTP protocol
-                  for dir in ${static-web-server.directory}/*/; do
-                    ${pkgs.sbase}/bin/mkdir -p $dir/hooks
-                    ${pkgs.sbase}/bin/echo \
-                      "exec git update-server-info" > $dir/hooks/post-update
-                    ${pkgs.sbase}/bin/chmod a+x $dir/hooks/post-update
-                  done
-                '';
-            in
-            [ copyRepositories ]
-            ++ builtins.map generateStagitRepository (
-              builtins.attrNames config.fs.services.git.repositories
-            );
+          scripts = builtins.map generateStagitRepository (
+            builtins.attrNames config.fs.services.git.repositories
+          );
         };
         acme = {
           enable = true;
