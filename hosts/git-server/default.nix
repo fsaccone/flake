@@ -53,7 +53,7 @@ let
 
       # Copy the static files from the index page
       ${pkgs.sbase}/bin/cp ../style.css style.css
-      ${pkgs.sbase}/bin/cp ../favicon favicon
+      ${pkgs.sbase}/bin/cp ../favicon.png favicon.png
       ${pkgs.sbase}/bin/cp ../logo.png logo.png
 
       ${pkgs.sbase}/bin/echo \
