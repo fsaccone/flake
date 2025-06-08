@@ -162,6 +162,7 @@
       pkgs.nmap
       pkgs.nnn
       pkgs.openssl
+      pkgs.prismlauncher
       pkgs.qrcode
       pkgs.sent
       pkgs.shotcut
