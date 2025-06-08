@@ -19,6 +19,10 @@ rec {
       };
       static-web-server = {
         enable = true;
+        redirectWwwToNonWww = {
+          enable = true;
+          inherit domain;
+        };
         preStart = {
           scripts =
             let

@@ -135,6 +135,10 @@ in
       static-web-server = {
         enable = true;
         inherit (config.fs.services.git) user group;
+        redirectWwwToNonWww = {
+          enable = true;
+          inherit domain;
+        };
         preStart = {
           scripts =
             let
