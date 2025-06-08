@@ -147,7 +147,7 @@ in
                   inherit (config.fs.services) git static-web-server;
                 in
                 pkgs.writeShellScript "copy-repositories" ''
-                  ${pkgs.sbase}/bin/cp -fRL \
+                  ${pkgs.sbase}/bin/cp -RL \
                     ${git.directory}/* \
                     ${static-web-server.directory}
 
