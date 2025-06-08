@@ -49,12 +49,12 @@ let
         ${git.directory}/${name}
 
       # Make log.html the default page
-      ${pkgs.sbase}/bin/ln -sf log.html index.html
+      ${pkgs.sbase}/bin/cp log.html index.html
 
-      # Symlink the static files from the index page
-      ${pkgs.sbase}/bin/ln -sf ../style.css style.css
-      ${pkgs.sbase}/bin/ln -sf ../favicon favicon
-      ${pkgs.sbase}/bin/ln -sf ../logo.png logo.png
+      # Copy the static files from the index page
+      ${pkgs.sbase}/bin/cp ../style.css style.css
+      ${pkgs.sbase}/bin/cp ../favicon favicon
+      ${pkgs.sbase}/bin/cp ../logo.png logo.png
 
       ${pkgs.sbase}/bin/echo \
         "Stagit page generated for ${name}: <www>/${name}."
