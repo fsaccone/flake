@@ -33,6 +33,19 @@
       default = "static-web-server";
       type = lib.types.uniq lib.types.str;
     };
+    redirectWwwToNonWww = {
+      enable = lib.mkOption {
+        description = ''
+          Whether to redirect requests to the canonical non-www domain.
+        '';
+        default = false;
+        type = lib.types.bool;
+      };
+      domain = lib.mkOption {
+        description = "The canonical domain.";
+        type = lib.types.uniq lib.types.str;
+      };
+    };
     preStart = {
       scripts = lib.mkOption {
         description = ''
@@ -80,6 +93,7 @@
                 inherit (config.fs.services.static-web-server)
                   directory
                   group
+                  redirectWwwToNonWww
                   tls
                   user
                   ;
@@ -88,6 +102,20 @@
                   preStart.scripts
                   |> builtins.map (s: "${pkgs.su}/bin/su -m -c ${s} ${user}")
                   |> builtins.concatStringsSep "\n";
+
+                redirectConfig =
+                  let
+                    inherit (redirectWwwToNonWww) domain;
+                    protocol = if tls.enable then "https" else "http";
+                  in
+                  ''
+                    [advanced]
+                    [[advanced.redirects]]
+                    host = "www.${domain}"
+                    source = "/{*}"
+                    destination = "${protocol}://${domain}/$1"
+                    kind = 301
+                  '';
 
                 configuration = builtins.toFile "static-web-server.toml" ''
                   [general]
@@ -109,6 +137,8 @@
                   health = false
 
                   index-files = "index.html"
+
+                  ${if redirectWwwToNonWww.enable then redirectConfig else ""}
                 '';
 
                 script = pkgs.writeShellScriptBin "static-web-server" ''
