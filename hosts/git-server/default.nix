@@ -153,7 +153,7 @@ in
 
                   # Enable the dumb HTTP protocol
                   for dir in ${static-web-server.directory}/*/; do
-                    ${pkgs.sbase}/bin/mkdir $dir/hooks
+                    ${pkgs.sbase}/bin/mkdir -p $dir/hooks
                     ${pkgs.sbase}/bin/echo \
                       "exec git update-server-info" > $dir/hooks/post-update
                     ${pkgs.sbase}/bin/chmod a+x $dir/hooks/post-update
