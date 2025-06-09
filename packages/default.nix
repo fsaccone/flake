@@ -1,4 +1,1 @@
-pkgs: {
-  hermes = pkgs.callPackage ./hermes { };
-  sbase = pkgs.callPackage ./sbase { };
-}
+pkgs: { sbase = pkgs.callPackage ./sbase { }; }
