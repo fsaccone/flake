@@ -41,13 +41,22 @@ rec {
                 ${inputs.site}/scripts/generate-html.sh \
                   ${config.fs.services.static-web-server.directory}
               '';
-              copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
-                ${pkgs.sbase}/bin/cp -R \
-                  ${inputs.site}/public \
-                  ${inputs.site}/favicon.ico \
-                  ${inputs.site}/robots.txt \
-                  ${config.fs.services.static-web-server.directory}
-              '';
+              copyStaticContent =
+                let
+                  inherit (config.fs.services.static-web-server) directory;
+                in
+                pkgs.writeShellScript "copy-static-content" ''
+                  ${pkgs.sbase}/bin/mkdir -p ${directory}/public
+
+                  ${pkgs.sbase}/bin/cp -fR \
+                    ${inputs.site}/public/* \
+                    ${directory}/public
+
+                  ${pkgs.sbase}/bin/cp \
+                    ${inputs.site}/favicon.ico \
+                    ${inputs.site}/robots.txt \
+                    ${directory}
+                '';
             in
             [
               generateAtom
