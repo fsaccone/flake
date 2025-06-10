@@ -30,6 +30,8 @@
         serviceConfig =
           let
             script = pkgs.writeShellScriptBin "script" ''
+              mkdir -p /var/lib/hitch
+
               ${pkgs.sbase}/bin/cat \
               ${builtins.concatStringsSep " " tls.pemFiles} > \
                 /var/lib/hitch/full.pem
