@@ -153,7 +153,7 @@
       pkgs.helvum
       pkgs.imv
       pkgs.jre8
-      pkgs.librewolf-bin
+      pkgs.librewolf
       pkgs.lilypond
       pkgs.man-pages-posix
       pkgs.md2pdf
