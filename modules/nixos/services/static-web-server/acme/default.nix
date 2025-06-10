@@ -56,7 +56,7 @@
                     ${pkgs.certbot}/bin/certbot certonly --quiet --webroot \
                     --agree-tos --email ${acme.email} \
                     -w ${config.fs.services.static-web-server.directory} \
-                    -d ${builtins.concatStringsSep " -d " domains}
+                    -d ${builtins.concatStringsSep "," domains}
                   else
                     ${pkgs.certbot}/bin/certbot renew --quiet
                   fi
