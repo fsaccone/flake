@@ -112,8 +112,8 @@
                     [advanced]
                     [[advanced.redirects]]
                     host = "www.${domain}"
-                    source = "/{[!.]*}"
-                    destination = "${protocol}://${domain}/$1"
+                    source = "{/[!.]*,/}"
+                    destination = "${protocol}://${domain}$1"
                     kind = 301
                   '';
 
