@@ -147,6 +147,7 @@
     packages = [
       pkgs.alsa-utils
       pkgs.ardour
+      pkgs.bisq2
       pkgs.ffmpeg
       pkgs.dig
       pkgs.gimp
