@@ -142,15 +142,15 @@
                 '';
 
                 script = pkgs.writeShellScriptBin "static-web-server" ''
-                  ${pkgs.sbase}/bin/mkdir -p ${directory}
+                  mkdir -p ${directory}
 
-                  ${pkgs.sbase}/bin/chown -R ${user}:${group} ${directory}
-                  ${pkgs.sbase}/bin/chmod -R 744 ${directory}
+                  chown -R ${user}:${group} ${directory}
+                  chmod -R 744 ${directory}
 
                   ${preStartScriptsCall}
 
-                  ${pkgs.sbase}/bin/chmod -R u+rwx ${directory}
-                  ${pkgs.sbase}/bin/chmod -R a+r ${directory}
+                  chmod -R u+rwx ${directory}
+                  chmod -R a+r ${directory}
 
                   ${pkgs.static-web-server}/bin/static-web-server \
                     --config-file ${configuration}

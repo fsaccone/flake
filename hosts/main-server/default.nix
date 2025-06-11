@@ -46,13 +46,11 @@ rec {
                   inherit (config.fs.services.static-web-server) directory;
                 in
                 pkgs.writeShellScript "copy-static-content" ''
-                  ${pkgs.sbase}/bin/mkdir -p ${directory}/public
+                  mkdir -p ${directory}/public
 
-                  ${pkgs.sbase}/bin/cp -fR \
-                    ${inputs.site}/public/* \
-                    ${directory}/public
+                  cp -fR ${inputs.site}/public/* ${directory}/public
 
-                  ${pkgs.sbase}/bin/cp \
+                  cp \
                     ${inputs.site}/favicon.ico \
                     ${inputs.site}/robots.txt \
                     ${directory}

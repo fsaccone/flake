@@ -119,7 +119,7 @@
                         additionalFiles
                         |> builtins.mapAttrs (
                           fileName: content: ''
-                            ${pkgs.sbase}/bin/echo "${content}" > \
+                            echo "${content}" > \
                             ${directory}/${name}/${fileName}
                           ''
                         )
@@ -128,15 +128,15 @@
                       )
                     }
 
-                    ${pkgs.sbase}/bin/mkdir -p ${directory}/${name}/hooks
+                    mkdir -p ${directory}/${name}/hooks
 
-                    ${pkgs.sbase}/bin/ln -sf ${hooks.preReceive} \
+                    ln -sf ${hooks.preReceive} \
                     ${directory}/${name}/hooks/pre-receive
 
-                    ${pkgs.sbase}/bin/ln -sf ${hooks.update} \
+                    ln -sf ${hooks.update} \
                     ${directory}/${name}/hooks/update
 
-                    ${pkgs.sbase}/bin/ln -sf ${hooks.postReceive} \
+                    ln -sf ${hooks.postReceive} \
                     ${directory}/${name}/hooks/post-receive
                   ''
                 )
