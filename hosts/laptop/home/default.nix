@@ -120,6 +120,7 @@
       fonts = {
         monospace = "IBM Plex Mono";
       };
+      preferDarkTheme = true;
       backgroundImage = ./background.png;
       cursor = {
         package = pkgs.graphite-cursors;
