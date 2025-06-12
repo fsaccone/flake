@@ -14,6 +14,11 @@
       default = false;
       type = lib.types.bool;
     };
+    preferDarkTheme = lib.mkOption {
+      description = "Whether to prefer dark theme in GTK applications.";
+      type = lib.types.uniq lib.types.bool;
+      default = false;
+    };
     fonts = {
       monospace = lib.mkOption {
         type = lib.types.uniq lib.types.str;
@@ -86,6 +91,10 @@
         name = "cursor-theme";
         inherit (config.fs.programs.sway.cursor) package size;
       };
+    };
+
+    gtk.gtk4.extraConfig = lib.mkIf config.fs.programs.sway.preferDarkTheme {
+      gtk-application-prefer-dark-theme = true;
     };
 
     wayland.windowManager.sway =
