@@ -26,6 +26,17 @@
       description = "The image used as background.";
       type = lib.types.uniq lib.types.path;
     };
+    cursor = {
+      package = lib.mkOption {
+        description = "The package providing the cursor theme.";
+        type = lib.types.uniq lib.types.package;
+      };
+      size = lib.mkOption {
+        description = "The size of the cursor.";
+        type = lib.types.uniq lib.types.int;
+        default = 20;
+      };
+    };
     colors = lib.mkOption {
       description = "The hex colors, in '#rrggbb[aa]' format.";
       type = lib.types.submodule {
@@ -72,9 +83,8 @@
       ];
       pointerCursor = {
         gtk.enable = true;
-        name = "graphite-dark-nord";
-        package = pkgs.graphite-cursors;
-        size = 20;
+        name = "cursor-theme";
+        inherit (config.fs.programs.sway.cursor) package size;
       };
     };
 

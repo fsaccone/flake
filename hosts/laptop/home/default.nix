@@ -121,6 +121,9 @@
         monospace = "IBM Plex Mono";
       };
       backgroundImage = ./background.png;
+      cursor = {
+        package = pkgs.graphite-cursors;
+      };
       colors =
         let
           colors = import ./colors.nix;
