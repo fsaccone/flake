@@ -20,6 +20,11 @@ in
     inherit git;
     "www.git" = git;
 
+    mx = {
+      ipv4 = "83.228.199.68";
+      ipv6 = "2001:1600:13:101::aa0";
+    };
+
     ns1 = main;
     ns2 = git;
   }
