@@ -46,6 +46,18 @@
         type = lib.types.uniq lib.types.str;
       };
     };
+    errorPages = {
+      "404" = lib.mkOption {
+        description = "The HTML page used for 404 error responses.";
+        default = builtins.toFile "404.html" "Page Not Found";
+        type = lib.types.uniq lib.types.path;
+      };
+      "5xx" = lib.mkOption {
+        description = "The HTML page used for 5xx error responses.";
+        default = builtins.toFile "5xx.html" "Internal Server Error";
+        type = lib.types.uniq lib.types.path;
+      };
+    };
     preStart = {
       scripts = lib.mkOption {
         description = ''
@@ -92,6 +104,7 @@
               let
                 inherit (config.fs.services.web)
                   directory
+                  errorPages
                   group
                   redirectWwwToNonWww
                   tls
@@ -153,7 +166,9 @@
                   chmod -R a+r ${directory}
 
                   ${pkgs.static-web-server}/bin/static-web-server \
-                    --config-file ${configuration}
+                    --config-file ${configuration} \
+                    --page404 ${errorPages."404"} \
+                    --page50x ${errorPages."5xx"}
                 '';
               in
               {
