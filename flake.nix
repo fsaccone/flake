@@ -97,6 +97,9 @@
         "git-server" = lib.makeHost "git-server" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
         };
+        "mail-server" = lib.makeHost "mail-server" {
+          additionalModules = [ inputs.disko.nixosModules.disko ];
+        };
         "main-server" = lib.makeHost "main-server" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
         };
