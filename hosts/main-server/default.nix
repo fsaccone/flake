@@ -26,35 +26,32 @@ rec {
         preStart = {
           scripts =
             let
+              inherit (config.fs.services.web) directory;
+
               generateAtom = pkgs.writeShellScript "generate-atom" ''
                 ${inputs.site}/scripts/generate-atom.sh \
-                  ${config.fs.services.web.directory} \
+                  ${directory} \
                   "Francesco Saccone's blog" \
                   "https://${domain}"
               '';
               generateSitemap = pkgs.writeShellScript "generate-sitemap" ''
                 ${inputs.site}/scripts/generate-sitemap.sh \
-                  ${config.fs.services.web.directory} \
+                  ${directory} \
                   "https://${domain}"
               '';
               generateHtml = pkgs.writeShellScript "generate-html" ''
-                ${inputs.site}/scripts/generate-html.sh \
-                  ${config.fs.services.web.directory}
+                ${inputs.site}/scripts/generate-html.sh ${directory}
               '';
-              copyStaticContent =
-                let
-                  inherit (config.fs.services.web) directory;
-                in
-                pkgs.writeShellScript "copy-static-content" ''
-                  mkdir -p ${directory}/public
+              copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
+                mkdir -p ${directory}/public
 
-                  cp -fR ${inputs.site}/public/* ${directory}/public
+                cp -fR ${inputs.site}/public/* ${directory}/public
 
-                  cp \
-                    ${inputs.site}/favicon.ico \
-                    ${inputs.site}/robots.txt \
-                    ${directory}
-                '';
+                cp \
+                  ${inputs.site}/favicon.ico \
+                  ${inputs.site}/robots.txt \
+                  ${directory}
+              '';
             in
             [
               generateAtom
