@@ -23,6 +23,29 @@ rec {
           enable = true;
           inherit domain;
         };
+        errorPages =
+          let
+            pages = {
+              "404" = pkgs.stdenv.mkDerivation {
+                name = "404-page";
+                buildInputs = [ pkgs.lowdown ];
+                buildCommand = ''
+                  ${inputs.site}/scripts/generate-404.sh $out
+                '';
+              };
+              "5xx" = pkgs.stdenv.mkDerivation {
+                name = "5xx-page";
+                buildInputs = [ pkgs.lowdown ];
+                buildCommand = ''
+                  ${inputs.site}/scripts/generate-5xx.sh $out
+                '';
+              };
+            };
+          in
+          {
+            "404" = pages."404";
+            "5xx" = pages."5xx";
+          };
         preStart = {
           scripts =
             let
