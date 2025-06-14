@@ -42,6 +42,10 @@ rec {
               generateHtml = pkgs.writeShellScript "generate-html" ''
                 ${inputs.site}/scripts/generate-html.sh ${directory}
               '';
+              createRobotsTxt = pkgs.writeShellScript "create-robots-txt" ''
+                echo "User-agent: *" > ${directory}/robots.txt
+                echo "Disallow:" >> ${directory}/robots.txt
+              '';
               copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
                 mkdir -p ${directory}/public
 
@@ -57,6 +61,7 @@ rec {
               generateAtom
               generateSitemap
               generateHtml
+              createRobotsTxt
               copyStaticContent
             ];
           packages = [
