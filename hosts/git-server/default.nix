@@ -171,7 +171,6 @@ in
 
     security.openssh.listen = {
       enable = true;
-      port = 22;
       authorizedKeyFiles = rec {
         root = [ "${mainServer}/ssh/francescosaccone.pub" ];
         git = root;

@@ -16,17 +16,9 @@
     };
     listen = {
       enable = lib.mkOption {
-        description = ''
-          Where to listen for SSH connection requests at the given port.
-        '';
+        description = "Where to listen for SSH connection requests.";
         default = false;
         type = lib.types.bool;
-      };
-      port = lib.mkOption {
-        description = ''
-          The port which listens for the SSH connection requests.
-        '';
-        type = lib.types.uniq lib.types.int;
       };
       authorizedKeyFiles = lib.mkOption {
         description = ''
@@ -50,13 +42,13 @@
 
       services.openssh = lib.mkIf listen.enable {
         enable = true;
-        ports = [ listen.port ];
+        ports = [ 22 ];
         settings = {
           PasswordAuthentication = false;
         };
       };
 
-      networking.firewall.allowedTCPPorts = lib.mkIf listen.enable [ listen.port ];
+      networking.firewall.allowedTCPPorts = lib.mkIf listen.enable [ 22 ];
 
       users.users = lib.mkIf listen.enable (
         listen.authorizedKeyFiles

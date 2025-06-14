@@ -113,7 +113,6 @@ rec {
 
     security.openssh.listen = {
       enable = true;
-      port = 22;
       authorizedKeyFiles = rec {
         root = [ ./ssh/francescosaccone.pub ];
       };
