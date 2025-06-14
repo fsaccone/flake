@@ -51,10 +51,7 @@ rec {
 
                 cp -fR ${inputs.site}/public/* ${directory}/public
 
-                cp \
-                  ${inputs.site}/favicon.ico \
-                  ${inputs.site}/robots.txt \
-                  ${directory}
+                cp ${inputs.site}/favicon.ico ${directory}
               '';
             in
             [
