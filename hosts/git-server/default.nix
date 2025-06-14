@@ -135,9 +135,19 @@ in
           inherit domain;
         };
         preStart = {
-          scripts = builtins.map generateStagitRepository (
-            builtins.attrNames config.fs.services.git.repositories
-          );
+          scripts =
+            let
+              inherit (config.fs.services.web) directory;
+            in
+            [
+              (pkgs.writeShellScript "create-robots-txt" ''
+                echo "User-agent: *" > ${directory}/robots.txt
+                echo "Disallow: /" >> ${directory}/robots.txt
+              '')
+            ]
+            ++ builtins.map generateStagitRepository (
+              builtins.attrNames config.fs.services.git.repositories
+            );
         };
         acme = {
           enable = true;
