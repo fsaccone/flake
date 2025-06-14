@@ -11,9 +11,9 @@
     ./tls
   ];
 
-  options.fs.services.static-web-server = {
+  options.fs.services.web = {
     enable = lib.mkOption {
-      description = "Whether to enable Static Web Server.";
+      description = "Whether to enable the web server with Static Web Server.";
       default = false;
       type = lib.types.bool;
     };
@@ -25,12 +25,12 @@
     };
     user = lib.mkOption {
       description = "The user who owns the directory.";
-      default = "static-web-server";
+      default = "web";
       type = lib.types.uniq lib.types.str;
     };
     group = lib.mkOption {
       description = "The group who owns the directory.";
-      default = "static-web-server";
+      default = "web";
       type = lib.types.uniq lib.types.str;
     };
     redirectWwwToNonWww = {
@@ -62,26 +62,26 @@
     };
   };
 
-  config = lib.mkIf config.fs.services.static-web-server.enable {
+  config = lib.mkIf config.fs.services.web.enable {
     users = {
       users = {
-        static-web-server = {
+        web = {
           hashedPassword = "!";
           isNormalUser = true;
-          group = "static-web-server";
+          group = "web";
           createHome = false;
         };
       };
       groups = {
-        static-web-server = { };
+        web = { };
       };
     };
 
     systemd = {
       services = {
-        static-web-server =
+        web =
           let
-            inherit (config.fs.services.static-web-server) preStart;
+            inherit (config.fs.services.web) preStart;
           in
           rec {
             enable = true;
@@ -90,7 +90,7 @@
             path = preStart.packages;
             serviceConfig =
               let
-                inherit (config.fs.services.static-web-server)
+                inherit (config.fs.services.web)
                   directory
                   group
                   redirectWwwToNonWww
@@ -141,7 +141,7 @@
                   ${if redirectWwwToNonWww.enable then redirectConfig else ""}
                 '';
 
-                script = pkgs.writeShellScriptBin "static-web-server" ''
+                script = pkgs.writeShellScriptBin "web" ''
                   mkdir -p ${directory}
 
                   chown -R ${user}:${group} ${directory}
@@ -161,16 +161,16 @@
                 Group = "root";
                 Restart = "on-failure";
                 Type = "simple";
-                ExecStart = "${script}/bin/static-web-server";
+                ExecStart = "${script}/bin/web";
               };
           };
       };
       paths = {
-        static-web-server = {
+        web = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
-            PathModified = [ config.fs.services.static-web-server.directory ];
+            PathModified = [ config.fs.services.web.directory ];
           };
         };
       };

@@ -17,7 +17,7 @@ rec {
         inherit (networking) domain;
         records = import ./dns.nix domain;
       };
-      static-web-server = {
+      web = {
         enable = true;
         redirectWwwToNonWww = {
           enable = true;
@@ -28,22 +28,22 @@ rec {
             let
               generateAtom = pkgs.writeShellScript "generate-atom" ''
                 ${inputs.site}/scripts/generate-atom.sh \
-                  ${config.fs.services.static-web-server.directory} \
+                  ${config.fs.services.web.directory} \
                   "Francesco Saccone's blog" \
                   "https://${domain}"
               '';
               generateSitemap = pkgs.writeShellScript "generate-sitemap" ''
                 ${inputs.site}/scripts/generate-sitemap.sh \
-                  ${config.fs.services.static-web-server.directory} \
+                  ${config.fs.services.web.directory} \
                   "https://${domain}"
               '';
               generateHtml = pkgs.writeShellScript "generate-html" ''
                 ${inputs.site}/scripts/generate-html.sh \
-                  ${config.fs.services.static-web-server.directory}
+                  ${config.fs.services.web.directory}
               '';
               copyStaticContent =
                 let
-                  inherit (config.fs.services.static-web-server) directory;
+                  inherit (config.fs.services.web) directory;
                 in
                 pkgs.writeShellScript "copy-static-content" ''
                   mkdir -p ${directory}/public
@@ -79,7 +79,7 @@ rec {
           enable = true;
           pemFiles =
             let
-              inherit (config.fs.services.static-web-server.acme) directory;
+              inherit (config.fs.services.web.acme) directory;
             in
             [
               "${directory}/${domain}/fullchain.pem"

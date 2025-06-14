@@ -12,14 +12,14 @@ let
 
   generateStagitRepository =
     let
-      inherit (config.fs.services) static-web-server git;
+      inherit (config.fs.services) web git;
     in
     name:
     pkgs.writeShellScript "generate-stagit" ''
       set -e
 
       # Create index.html
-      cd ${static-web-server.directory}
+      cd ${web.directory}
 
       ${pkgs.stagit}/bin/stagit-index ${git.directory}/*/ > index.html
 
@@ -36,8 +36,8 @@ let
       echo "Stagit index file generated: <www>/index.html".
 
       # Create repository pages
-      mkdir -p ${static-web-server.directory}/${name}
-      cd ${static-web-server.directory}/${name}
+      mkdir -p ${web.directory}/${name}
+      cd ${web.directory}/${name}
 
       ${pkgs.stagit}/bin/stagit \
         -l 128 \
@@ -92,7 +92,7 @@ in
               };
               hooks.postReceive =
                 let
-                  inherit (config.fs.services) static-web-server git;
+                  inherit (config.fs.services) web git;
                 in
                 pkgs.writeShellScript "post-receive" ''
                   set -e
@@ -115,7 +115,7 @@ in
 
                   # If is_force is 1, delete HTML commits
                   if test $is_force = 1; then
-                    rm -rf ${static-web-server.directory}/${name}/commit
+                    rm -rf ${web.directory}/${name}/commit
                   fi
 
                   ${generateStagitRepository name}
@@ -127,7 +127,7 @@ in
         };
       };
 
-      static-web-server = {
+      web = {
         enable = true;
         inherit (config.fs.services.git) user group;
         redirectWwwToNonWww = {
@@ -149,7 +149,7 @@ in
           enable = true;
           pemFiles =
             let
-              inherit (config.fs.services.static-web-server.acme) directory;
+              inherit (config.fs.services.web.acme) directory;
             in
             [
               "${directory}/${domain}/fullchain.pem"

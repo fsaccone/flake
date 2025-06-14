@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.fs.services.static-web-server.tls = {
+  options.fs.services.web.tls = {
     enable = lib.mkOption {
       description = "Whether to enable the Hitch reverse proxy.";
       default = false;
@@ -20,9 +20,9 @@
 
   config =
     let
-      inherit (config.fs.services.static-web-server) tls;
+      inherit (config.fs.services.web) tls;
     in
-    lib.mkIf (tls.enable && config.fs.services.static-web-server.enable) {
+    lib.mkIf (tls.enable && config.fs.services.web.enable) {
       systemd.services.hitch = {
         enable = true;
         wantedBy = [ "multi-user.target" ];

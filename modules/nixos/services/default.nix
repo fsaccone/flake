@@ -4,7 +4,7 @@
     ./bind
     ./git
     ./ly
-    ./static-web-server
     ./sway
+    ./web
   ];
 }
