@@ -35,18 +35,31 @@
 
   config = lib.mkIf config.fs.services.smtp.enable {
     users = {
-      users = {
-        smtpd = {
-          hashedPassword = "!";
-          isSystemUser = true;
-          group = "smtpd";
+      users =
+        (
+          config.fs.services.smtp.users
+          |> builtins.mapAttrs (
+            user: hashedPassword: {
+              inherit hashedPassword;
+              isSystemUser = true;
+              group = "email";
+              createHome = true;
+              home = "/home/${user}";
+            }
+          )
+        )
+        // {
+          smtpd = {
+            hashedPassword = "!";
+            isSystemUser = true;
+            group = "smtpd";
+          };
+          smtpq = {
+            hashedPassword = "!";
+            isSystemUser = true;
+            group = "smtpq";
+          };
         };
-        smtpq = {
-          hashedPassword = "!";
-          isSystemUser = true;
-          group = "smtpq";
-        };
-      };
       groups = {
         email = { };
         smtpd = { };
