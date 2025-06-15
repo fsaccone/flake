@@ -72,7 +72,10 @@
         smtp = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
-          after = [ "network.target" ];
+          after = [
+            "network.target"
+            "acme.service"
+          ];
           serviceConfig =
             let
               inherit (config.fs.services.smtp) domain tls;
