@@ -39,8 +39,8 @@
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
 
-                listen on all smtps verify pki default
-                listen on all tls pki default
+                listen on localhost smtps verify pki default
+                listen on localhost tls pki default
               '';
             in
             {
