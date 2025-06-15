@@ -36,5 +36,10 @@
         listen on all smtps verify pki tls
         listen on all tls pki tls
       '';
+
+    networking.firewall.allowedTCPPorts = [
+      25
+      465
+    ];
   };
 }
