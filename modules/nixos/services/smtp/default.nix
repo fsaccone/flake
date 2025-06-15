@@ -12,6 +12,10 @@
       default = false;
       type = lib.types.bool;
     };
+    domain = lib.mkOption {
+      description = "The domain to host SMTP for.";
+      type = lib.types.uniq lib.types.str;
+    };
     tls = {
       certificate = lib.mkOption {
         description = "The path to the TLS certificate file.";
