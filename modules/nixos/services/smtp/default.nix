@@ -36,11 +36,11 @@
               inherit (config.fs.services.smtp) tls;
 
               configuration = builtins.toFile "smtpd.conf" ''
-                pki tls cert "${tls.certificate}"
-                pki tls key "${tls.key}"
+                pki default cert "${tls.certificate}"
+                pki default key "${tls.key}"
 
-                listen on all smtps verify pki tls
-                listen on all tls pki tls
+                listen on all smtps verify pki default
+                listen on all tls pki default
               '';
             in
             {
