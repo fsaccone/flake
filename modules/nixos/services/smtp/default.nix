@@ -37,6 +37,25 @@
         listen on all tls pki tls
       '';
 
+    systemd = {
+      services = {
+        smtp = {
+          enable = true;
+          wantedBy = [ "multi-user.target" ];
+          after = [ "network.target" ];
+          serviceConfig = {
+            User = "root";
+            Group = "root";
+            Restart = "on-failure";
+            Type = "simple";
+            ExecStart = pkgs.writeShellScript "smtp" ''
+              ${pkgs.opensmtpd}/bin/smtpd -d
+            '';
+          };
+        };
+      };
+    };
+
     networking.firewall.allowedTCPPorts = [
       25
       465
