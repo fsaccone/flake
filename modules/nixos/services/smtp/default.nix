@@ -16,6 +16,11 @@
       description = "The domain to host SMTP for.";
       type = lib.types.uniq lib.types.str;
     };
+    users = lib.mkOption {
+      description = "For each email user, its password hash.";
+      default = { };
+      type = lib.types.attrsOf lib.types.str;
+    };
     tls = {
       certificate = lib.mkOption {
         description = "The path to the TLS certificate file.";
