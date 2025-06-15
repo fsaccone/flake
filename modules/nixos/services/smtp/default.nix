@@ -98,7 +98,7 @@
               Restart = "on-failure";
               Type = "simple";
               ExecStart = pkgs.writeShellScript "smtp" ''
-                ${pkgs.opensmtpd}/bin/smtpd -df ${configuration}
+                ${pkgs.opensmtpd}/bin/smtpd -dvf ${configuration}
               '';
             };
         };
