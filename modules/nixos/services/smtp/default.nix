@@ -37,7 +37,7 @@
           after = [ "network.target" ];
           serviceConfig =
             let
-              inherit (config.fs.services.smtp) tls;
+              inherit (config.fs.services.smtp) domain tls;
 
               configuration = builtins.toFile "smtpd.conf" ''
                 pki default cert "${tls.certificate}"
@@ -45,6 +45,8 @@
 
                 action in mbox
                 action out relay
+
+                match from any for domain ${domain} action in
 
                 listen on localhost smtps verify pki default
                 listen on localhost tls pki default
