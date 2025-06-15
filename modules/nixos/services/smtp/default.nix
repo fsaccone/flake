@@ -39,6 +39,9 @@
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
 
+                action in mbox
+                action out relay
+
                 listen on localhost smtps verify pki default
                 listen on localhost tls pki default
               '';
