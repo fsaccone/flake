@@ -15,6 +15,18 @@ in
 
   fs = {
     services = {
+      smtp = {
+        enable = true;
+        domain = rootDomain;
+        tls =
+          let
+            inherit (config.fs.services.web.acme) directory;
+          in
+          {
+            certificate = "${directory}/${domain}/fullchain.pem";
+            key = "${directory}/${domain}/privkey.pem";
+          };
+      };
       web = {
         enable = true;
         acme = {
