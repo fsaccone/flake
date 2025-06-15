@@ -81,6 +81,9 @@
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
 
+                filter check-rdns phase connect \
+                  match !rdns disconnect "no rDNS"
+
                 action in maildir junk
                 action out relay
 
