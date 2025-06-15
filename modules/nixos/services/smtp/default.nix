@@ -43,7 +43,7 @@
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
 
-                action in mbox
+                action in maildir junk
                 action out relay
 
                 match from any for domain ${domain} action in
