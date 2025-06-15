@@ -47,6 +47,7 @@
                 action out relay
 
                 match from any for domain ${domain} action in
+                match for any action out
 
                 listen on localhost smtps verify pki default
                 listen on localhost tls pki default
