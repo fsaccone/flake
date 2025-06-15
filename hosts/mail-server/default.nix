@@ -8,7 +8,7 @@ let
   mainServer = ../main-server;
 
   rootDomain = import "${mainServer}/domain.nix";
-  domain = "mx.${rootDomain}";
+  domain = "mail.${rootDomain}";
 in
 {
   imports = [ ./disk-config.nix ];

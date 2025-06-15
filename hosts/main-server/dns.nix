@@ -20,7 +20,7 @@ in
     inherit git;
     "www.git" = git;
 
-    mx = {
+    mail = {
       ipv4 = "83.228.199.68";
       ipv6 = "2001:1600:13:101::aa0";
     };
