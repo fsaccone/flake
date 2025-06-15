@@ -24,5 +24,14 @@
     };
   };
 
-  config = lib.mkIf config.fs.services.smtp.enable { };
+  config = lib.mkIf config.fs.services.smtp.enable {
+    environment.etc."mail/smtpd.conf".text =
+      let
+        inherit (config.fs.services.smtp) tls;
+      in
+      ''
+        pki tls cert "${tls.certificate}"
+        pki tls key "${tls.key}"
+      '';
+  };
 }
