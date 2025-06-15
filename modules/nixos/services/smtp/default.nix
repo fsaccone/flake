@@ -32,6 +32,9 @@
       ''
         pki tls cert "${tls.certificate}"
         pki tls key "${tls.key}"
+
+        listen on all smtps verify pki tls
+        listen on all tls pki tls
       '';
   };
 }
