@@ -56,6 +56,7 @@
 
                 listen on localhost smtps verify pki default auth
                 listen on localhost tls pki default auth
+                listen on localhost port 587 tls-require pki default auth
               '';
             in
             {
@@ -74,6 +75,7 @@
     networking.firewall.allowedTCPPorts = [
       25
       465
+      587
     ];
   };
 }
