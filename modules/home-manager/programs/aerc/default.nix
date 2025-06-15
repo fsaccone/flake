@@ -82,7 +82,7 @@
         compose.editor = "${pkgs.nano}/bin/nano";
         filters = {
           "text/plain" = "${pkgs.ccze}/bin/ccze --mode=ansi --raw-ansi";
-          "text/html" = "${pkgs.pandoc}/bin/pandoc -f html -t plain";
+          "text/html" = "${pkgs.html2text}/bin/html2text -utf8 -links";
         };
       };
     };
