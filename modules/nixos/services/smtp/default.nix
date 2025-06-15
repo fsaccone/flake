@@ -83,6 +83,8 @@
 
                 filter check-rdns phase connect \
                   match !rdns disconnect "no rDNS"
+                filter check-fcrdns phase connect \
+                  match !fcrdns disconnect "no FCrDNS"
 
                 action in maildir junk
                 action out relay
