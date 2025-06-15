@@ -8,7 +8,7 @@
 {
   options.fs.services.smtp = {
     enable = lib.mkOption {
-      description = "Whether to enable the SMTP server.";
+      description = "Whether to enable the SMTP server using OpenSMTPD.";
       default = false;
       type = lib.types.bool;
     };
