@@ -34,6 +34,26 @@
   };
 
   config = lib.mkIf config.fs.services.smtp.enable {
+    users = {
+      users = {
+        smtpd = {
+          hashedPassword = "!";
+          isSystemUser = true;
+          group = "smtpd";
+        };
+        smtpq = {
+          hashedPassword = "!";
+          isSystemUser = true;
+          group = "smtpq";
+        };
+      };
+      groups = {
+        email = { };
+        smtpd = { };
+        smtpq = { };
+      };
+    };
+
     systemd = {
       services = {
         smtp = {
