@@ -92,8 +92,10 @@
                 match from any for domain ${domain} action in
                 match for any action out
 
-                listen on localhost smtps verify pki default auth
-                listen on localhost tls pki default auth
+                listen on localhost smtps verify pki default auth \
+                  filter { check-rdns, check-fcrdns }
+                listen on localhost tls pki default auth \
+                  filter { check-rdns, check-fcrdns }
                 listen on localhost port 587 tls-require pki default auth
               '';
             in
