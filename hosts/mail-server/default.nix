@@ -26,6 +26,12 @@ in
             certificate = "${directory}/${domain}/fullchain.pem";
             key = "${directory}/${domain}/privkey.pem";
           };
+        users = {
+          francesco = builtins.concatStringsSep "" [
+            "$y$j9T$tyLlnY2V/MmmQMIlMF/af/$CLmWrDsq77Z"
+            "Ri2GfI4VYsybk8aq/WJWpKiXN6BOXK12"
+          ];
+        };
       };
       web = {
         enable = true;
