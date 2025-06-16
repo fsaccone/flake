@@ -1,7 +1,7 @@
 { ... }:
 {
   imports = [
-    ./bind
+    ./dns
     ./git
     ./ly
     ./smtp
