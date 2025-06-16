@@ -12,6 +12,16 @@
       default = false;
       type = lib.types.bool;
     };
+    dkimDirectory = lib.mkOption {
+      description = ''
+        The directory that will contain the generated DKIM private key
+        'default.private' and DKIM TXT record 'default.txt'. The DKIM selector
+        is 'default'.
+      '';
+      default = "/etc/dkim";
+      readOnly = true;
+      type = lib.types.uniq lib.types.path;
+    };
     domain = lib.mkOption {
       description = "The domain to host SMTP for.";
       type = lib.types.uniq lib.types.str;
@@ -69,11 +79,37 @@
 
     systemd = {
       services = {
+        dkim = {
+          enable = true;
+          wantedBy = [ "multi-user.target" ];
+          serviceConfig = {
+            User = "root";
+            Group = "root";
+            Type = "oneshot";
+            ExecStart =
+              let
+                inherit (config.fs.services.smtp) dkimDirectory domain;
+              in
+              pkgs.writeShellScript "dkim" ''
+                mkdir -p ${dkimDirectory}
+
+                if [ ! -f "${dkimDirectory}/default.private" ]; then
+                  ${pkgs.opendkim}/bin/opendkim-genkey \
+                    -s default \
+                    -d ${domain} \
+                    -D ${dkimDirectory}
+
+                  echo "DKIM private key generated.";
+                fi
+              '';
+          };
+        };
         smtp = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           after = [
             "network.target"
+            "dkim.service"
             "acme.service"
           ];
           serviceConfig =
