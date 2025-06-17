@@ -201,11 +201,25 @@
           ];
           serviceConfig =
             let
-              inherit (config.fs.services.email) dkimDirectory domain tls;
+              inherit (config.fs.services.email)
+                dkimDirectory
+                domain
+                tls
+                users
+                ;
+
+              credentials =
+                users
+                |> builtins.mapAttrs (name: hash: "${name} ${hash}")
+                |> builtins.attrValues
+                |> builtins.concatStringsSep "\n"
+                |> builtins.toFile "credentials";
 
               configuration = pkgs.writeText "smtpd.conf" ''
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
+
+                table credentials file:${credentials}
 
                 filter check-rdns phase connect \
                   match !rdns disconnect "no rDNS"
@@ -222,9 +236,9 @@
                 match from any for domain ${domain} action in
                 match for any action out
 
-                listen on 0.0.0.0 smtps pki default auth \
+                listen on 0.0.0.0 smtps pki default auth <credentials> \
                   filter { check-rdns, check-fcrdns, dkimsign }
-                listen on :: smtps verify pki default auth \
+                listen on :: smtps verify pki default auth <credentials> \
                   filter { check-rdns, check-fcrdns, dkimsign }
 
                 listen on 0.0.0.0 tls pki default \
@@ -232,10 +246,10 @@
                 listen on :: tls pki default \
                   filter { check-rdns, check-fcrdns, dkimsign }
 
-                listen on 0.0.0.0 port 587 tls-require pki default auth \
-                  filter dkimsign
-                listen on :: port 587 tls-require pki default auth \
-                  filter dkimsign
+                listen on 0.0.0.0 port 587 tls-require pki default \
+                  auth <credentials> filter dkimsign
+                listen on :: port 587 tls-require pki default \
+                  auth <credentials> filter dkimsign
               '';
             in
             {
