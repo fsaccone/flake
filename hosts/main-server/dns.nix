@@ -93,7 +93,7 @@ in
     inherit ttl;
     class = "IN";
     type = "TXT";
-    data = "\"v=spf1 mail -all\"";
+    data = "\"v=spf1 mx -all\"";
   }
   {
     name = "default._domainkey";
