@@ -131,7 +131,10 @@
             Restart = "on-failure";
             ExecStart =
               let
-                configuration = pkgs.writeText "dovecot.conf" '''';
+                configuration = pkgs.writeText "dovecot.conf" ''
+                  protocols = imap
+                  listen = *, ::
+                '';
               in
               pkgs.writeShellScript "imap" ''
                 ${pkgs.dovecot}/bin/dovecot -Fc ${configuration}
