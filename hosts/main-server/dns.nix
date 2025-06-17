@@ -100,29 +100,14 @@ in
     inherit ttl;
     class = "IN";
     type = "TXT";
-    data =
-      let
-        key =
-          [
-            "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArLEUDzMAOlQaKm7Ov5hJ"
-            "4vgETJN7vMbwb2qr4mUI5nU6zpfH/609NV63mZfxTlqOKAan0zee9Yizrc1UgnGE"
-            "8Y8Hh34vwPo2D2rMA0xuhyDiOVoLvw7AQIp38WeT7Gj7idm3lPy0iDgYIxIZaoQQ"
-            "9u4GW3XnZmhbHUGURilSDp0kDW6m1i+fPxD0XEyrYLzwYr85KKeWKZJEn6qRk5og"
-            "d9n7p7xJa24gvNpMSZTZHvSG9C0EMnorLqlHw5i3HMA99IO6RjZK3Ntoo5YktTbu"
-            "q9NP+ecpDt3xHC7HOWAGetL8tPC7HZbOF+SCcFXp4LGZpruAEBnzbAbimz0B1va5"
-            "LQIDAQAB"
-          ]
-          |> builtins.map (s: "\"${s}\"")
-          |> builtins.concatStringsSep "\n";
-      in
-      ''
-        (
-          "v=DKIM1;"
-          "k=rsa;"
-          "p="
-          ${key}
-        )
-      '';
+    data = ''
+      (
+        "v=DKIM1;"
+        "k=rsa;"
+        "p="
+        ${builtins.readFile ./dkim-public.txt}
+      )
+    '';
   }
   {
     name = "_dmarc";
