@@ -4,11 +4,14 @@
   inputs,
   ...
 }:
+let
+  mainServerDomain = import ../../main-server/domain.nix;
+in
 {
   fs.programs = rec {
     aerc = {
       enable = true;
-      email = {
+      email = rec {
         address = "francesco@francescosaccone.com";
         folders = {
           drafts = "Drafts";
@@ -16,15 +19,15 @@
           sent = "Sent";
           trash = "Trash";
         };
-        imapHost = "glacier.mxrouting.net";
+        imapHost = "mail.${mainServerDomain}";
         imapTlsPort = 993;
         passwordCommand = ''
           ${pkgs.pass}/bin/pass show email/francesco/password
         '';
         realName = "Francesco Saccone";
-        smtpHost = "glacier.mxrouting.net";
+        smtpHost = imapHost;
         smtpTlsPort = 465;
-        username = "francesco%40francescosaccone.com";
+        username = "francesco";
       };
     };
     git = {
