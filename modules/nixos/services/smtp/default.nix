@@ -150,9 +150,9 @@
                 listen on :: smtps verify pki default auth \
                   filter { check-rdns, check-fcrdns, dkimsign }
 
-                listen on 0.0.0.0 tls pki default auth \
+                listen on 0.0.0.0 tls pki default \
                   filter { check-rdns, check-fcrdns, dkimsign }
-                listen on :: tls pki default auth \
+                listen on :: tls pki default \
                   filter { check-rdns, check-fcrdns, dkimsign }
 
                 listen on 0.0.0.0 port 587 tls-require pki default auth \
