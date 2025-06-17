@@ -208,6 +208,7 @@
               inherit (config.fs.services.email)
                 dkimDirectory
                 domain
+                hostDomain
                 tls
                 users
                 ;
@@ -235,25 +236,27 @@
                      -k ${dkimDirectory}/default.key"
 
                 action in maildir junk
-                action out relay
+                action out relay helo ${hostDomain}
 
                 match from any for domain ${domain} action in
                 match from auth for any action out
 
-                listen on 0.0.0.0 smtps pki default auth <credentials> \
+                listen on 0.0.0.0 smtps pki default hostname ${hostDomain} \
+                  auth <credentials> \
                   filter { check-rdns, check-fcrdns, dkimsign }
-                listen on :: smtps verify pki default auth <credentials> \
+                listen on :: smtps verify pki default hostname ${hostDomain} \
+                  auth <credentials> \
                   filter { check-rdns, check-fcrdns, dkimsign }
 
-                listen on 0.0.0.0 tls pki default \
+                listen on 0.0.0.0 tls pki default hostname ${hostDomain} \
                   filter { check-rdns, check-fcrdns, dkimsign }
-                listen on :: tls pki default \
+                listen on :: tls pki default hostname ${hostDomain} \
                   filter { check-rdns, check-fcrdns, dkimsign }
 
                 listen on 0.0.0.0 port 587 tls-require pki default \
-                  auth <credentials> filter dkimsign
+                  hostname ${hostDomain} auth <credentials> filter dkimsign
                 listen on :: port 587 tls-require pki default \
-                  auth <credentials> filter dkimsign
+                  hostname ${hostDomain} auth <credentials> filter dkimsign
               '';
             in
             {
