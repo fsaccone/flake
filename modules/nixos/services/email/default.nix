@@ -133,13 +133,25 @@
               let
                 confFiles = pkgs.stdenv.mkDerivation {
                   name = "dovecot-conf-files";
-                  buildCommand = ''
-                    mkdir -p $out/conf.d
+                  buildCommand =
+                    let
+                      inherit (config.fs.services.email) tls;
 
-                    cp -r \
-                      ${pkgs.dovecot}/share/doc/dovecot/example-config/conf.d/* \
-                      $out/conf.d
-                  '';
+                      ssl = builtins.toFile "10-ssl.conf" ''
+                        ssl = required
+                        ssl_cert = <${tls.certificate}
+                        ssl_key = <${tls.key}
+                      '';
+                    in
+                    ''
+                      mkdir -p $out/conf.d
+
+                      cp -r \
+                        ${pkgs.dovecot}/share/doc/dovecot/example-config/conf.d/* \
+                        $out/conf.d
+
+                      cp ${ssl} $out/conf.d/10-ssl.conf
+                    '';
                 };
 
                 configuration = pkgs.writeText "dovecot.conf" ''
