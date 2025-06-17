@@ -15,7 +15,7 @@
     dkimDirectory = lib.mkOption {
       description = ''
         The directory that will contain the generated DKIM private key
-        'default.private' and DKIM TXT record 'default.txt'. The DKIM selector
+        'default.key' and public key 'default.pub'. The DKIM selector
         is 'default'.
       '';
       default = "/etc/dkim";
@@ -93,13 +93,21 @@
               pkgs.writeShellScript "dkim" ''
                 mkdir -p ${dkimDirectory}
 
-                if [ ! -f "${dkimDirectory}/default.private" ]; then
-                  ${pkgs.opendkim}/bin/opendkim-genkey \
-                    -s default \
-                    -d ${domain} \
-                    -D ${dkimDirectory}
+                if [ ! -f "${dkimDirectory}/default.key" ]; then
+                  ${pkgs.openssl}/bin/openssl genrsa \
+                    -out ${dkimDirectory}/default.key \
+                    4096
 
                   echo "DKIM private key generated.";
+                fi
+
+                if [ ! -f "${dkimDirectory}/default.pub" ]; then
+                  ${pkgs.openssl}/bin/openssl rsa \
+                    -in ${dkimDirectory}/default.key \
+                    -pubout \
+                    -out ${dkimDirectory}/default.pub
+
+                  echo "DKIM public key generated.";
                 fi
               '';
           };
