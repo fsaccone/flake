@@ -122,7 +122,7 @@
           ];
           serviceConfig =
             let
-              inherit (config.fs.services.smtp) domain tls;
+              inherit (config.fs.services.smtp) dkimDirectory domain tls;
 
               configuration = builtins.toFile "smtpd.conf" ''
                 pki default cert "${tls.certificate}"
@@ -132,6 +132,10 @@
                   match !rdns disconnect "no rDNS"
                 filter check-fcrdns phase connect \
                   match !fcrdns disconnect "no FCrDNS"
+                filter dkimsign proc-exec \
+                  "${pkgs.opensmtpd-filter-dkimsign}/libexec/opensmtpd/filter-dkimsign \
+                     -t -d ${domain} -s default \
+                     -k ${dkimDirectory}/default.key"
 
                 action in maildir junk
                 action out relay
@@ -140,17 +144,19 @@
                 match for any action out
 
                 listen on 0.0.0.0 smtps verify pki default auth \
-                  filter { check-rdns, check-fcrdns }
+                  filter { check-rdns, check-fcrdns, dkimsign }
                 listen on :: smtps verify pki default auth \
-                  filter { check-rdns, check-fcrdns }
+                  filter { check-rdns, check-fcrdns, dkimsign }
 
                 listen on 0.0.0.0 tls pki default auth \
-                  filter { check-rdns, check-fcrdns }
+                  filter { check-rdns, check-fcrdns, dkimsign }
                 listen on :: tls pki default auth \
-                  filter { check-rdns, check-fcrdns }
+                  filter { check-rdns, check-fcrdns, dkimsign }
 
-                listen on 0.0.0.0 port 587 tls-require pki default auth
-                listen on :: port 587 tls-require pki default auth
+                listen on 0.0.0.0 port 587 tls-require pki default auth \
+                  filter-dkimsign
+                listen on :: port 587 tls-require pki default auth \
+                  filter dkimsign
               '';
             in
             {
