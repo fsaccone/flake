@@ -124,7 +124,7 @@
             let
               inherit (config.fs.services.smtp) dkimDirectory domain tls;
 
-              configuration = builtins.toFile "smtpd.conf" ''
+              configuration = pkgs.writeText "smtpd.conf" ''
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
 
