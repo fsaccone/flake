@@ -98,6 +98,8 @@
                     -out ${dkimDirectory}/default.key \
                     4096
 
+                  chown smtpd:smtpd ${dkimDirectory}/default.key
+
                   echo "DKIM private key generated.";
                 fi
 
