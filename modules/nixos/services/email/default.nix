@@ -222,7 +222,7 @@
                 match from any for domain ${domain} action in
                 match for any action out
 
-                listen on 0.0.0.0 smtps verify pki default auth \
+                listen on 0.0.0.0 smtps pki default auth \
                   filter { check-rdns, check-fcrdns, dkimsign }
                 listen on :: smtps verify pki default auth \
                   filter { check-rdns, check-fcrdns, dkimsign }
