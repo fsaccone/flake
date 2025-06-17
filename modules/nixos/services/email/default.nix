@@ -272,7 +272,7 @@
                 listen on 0.0.0.0 smtps pki default hostname ${hostDomain} \
                   auth <credentials> \
                   filter { check-rdns, check-fcrdns, dkimsign }
-                listen on :: smtps verify pki default hostname ${hostDomain} \
+                listen on :: smtps pki default hostname ${hostDomain} \
                   auth <credentials> \
                   filter { check-rdns, check-fcrdns, dkimsign }
 
