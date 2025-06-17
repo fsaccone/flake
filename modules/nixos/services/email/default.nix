@@ -174,6 +174,15 @@
                   default_login_user = dovenull
                   default_internal_user = dovecot
 
+                  userdb {
+                    driver = passwd
+                  }
+
+                  passdb {
+                    driver = pam
+                    args = failure_show_msg=yes dovecot
+                  }
+
                   !include ${confFiles}/conf.d/*.conf
                 '';
               in
@@ -241,6 +250,8 @@
         };
       };
     };
+
+    security.pam.services.dovecot = { };
 
     networking.firewall.allowedTCPPorts = [
       25
