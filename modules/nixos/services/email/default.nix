@@ -158,6 +158,31 @@
                         ssl_cert = <${tls.certificate}
                         ssl_key = <${tls.key}
                       '';
+
+                      mailboxes = builtins.toFile "15-mailboxes.conf" ''
+                        namespace inbox {
+                          mailbox Trash {
+                            auto = create
+                            special_use = \Trash
+                          }
+                          mailbox Drafts {
+                            auto = create
+                            special_use = \Drafts
+                          }
+                          mailbox Archive {
+                            auto = create
+                            special_use = \Archive
+                          }
+                          mailbox Sent {
+                            auto = create
+                            special_use = \Sent
+                          }
+                          mailbox Junk {
+                            auto = create
+                            special_use = \Junk
+                          }
+                        }
+                      '';
                     in
                     ''
                       mkdir -p $out/conf.d
@@ -168,6 +193,7 @@
                       chmod -R +w $out/conf.d
 
                       cp ${ssl} $out/conf.d/10-ssl.conf
+                      cp ${mailboxes} $out/conf.d/15-mailboxes.conf
                     '';
                 };
 
