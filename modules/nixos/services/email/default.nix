@@ -61,6 +61,16 @@
           )
         )
         // {
+          dovecot = {
+            hashedPassword = "!";
+            isSystemUser = true;
+            group = "dovecot";
+          };
+          dovenull = {
+            hashedPassword = "!";
+            isSystemUser = true;
+            group = "dovenull";
+          };
           smtpd = {
             hashedPassword = "!";
             isSystemUser = true;
@@ -73,6 +83,8 @@
           };
         };
       groups = {
+        dovecot = { };
+        dovenull = { };
         email = { };
         smtpd = { };
         smtpq = { };
@@ -158,6 +170,9 @@
                 configuration = pkgs.writeText "dovecot.conf" ''
                   protocols = imap
                   listen = *, ::
+
+                  default_login_user = dovenull
+                  default_internal_user = dovecot
 
                   !include ${confFiles}/conf.d/*.conf
                 '';
