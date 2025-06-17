@@ -251,7 +251,10 @@
       };
     };
 
-    security.pam.services.dovecot = { };
+    security.pam.services = {
+      dovecot = { };
+    } // builtins.mapAttrs (_: _: { }) config.fs.services.email.users;
+
     environment.etc."dovecot/modules".source =
       let
         env = pkgs.buildEnv {
