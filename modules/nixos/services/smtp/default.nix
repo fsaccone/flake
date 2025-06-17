@@ -134,7 +134,7 @@
                   match !fcrdns disconnect "no FCrDNS"
                 filter dkimsign proc-exec \
                   "${pkgs.opensmtpd-filter-dkimsign}/libexec/opensmtpd/filter-dkimsign \
-                     -t -d ${domain} -s default \
+                     -a rsa-sha256 -t -d ${domain} -s default \
                      -k ${dkimDirectory}/default.key"
 
                 action in maildir junk
