@@ -17,6 +17,7 @@ in
     services = {
       email = {
         enable = true;
+        hostDomain = domain;
         domain = rootDomain;
         tls =
           let

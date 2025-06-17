@@ -24,6 +24,10 @@
       readOnly = true;
       type = lib.types.uniq lib.types.path;
     };
+    hostDomain = lib.mkOption {
+      description = "The domain of the server.";
+      type = lib.types.uniq lib.types.str;
+    };
     domain = lib.mkOption {
       description = "The domain to host SMTP for.";
       type = lib.types.uniq lib.types.str;
