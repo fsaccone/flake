@@ -105,7 +105,7 @@ in
         "v=DKIM1;"
         "k=rsa;"
         "p="
-        "${builtins.readFile ./dkim-public.txt}"
+        "${import ./dkim.nix}"
       )
     '';
   }
