@@ -88,7 +88,7 @@
             Type = "oneshot";
             ExecStart =
               let
-                inherit (config.fs.services.smtp) dkimDirectory domain;
+                inherit (config.fs.services.smtp) dkimDirectory;
               in
               pkgs.writeShellScript "dkim" ''
                 mkdir -p ${dkimDirectory}
