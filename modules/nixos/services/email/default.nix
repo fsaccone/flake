@@ -234,7 +234,7 @@
                 action out relay
 
                 match from any for domain ${domain} action in
-                match for any action out
+                match from auth for any action out
 
                 listen on 0.0.0.0 smtps pki default auth <credentials> \
                   filter { check-rdns, check-fcrdns, dkimsign }
