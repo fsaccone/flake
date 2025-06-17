@@ -233,7 +233,7 @@
                   filter { check-rdns, check-fcrdns, dkimsign }
 
                 listen on 0.0.0.0 port 587 tls-require pki default auth \
-                  filter-dkimsign
+                  filter dkimsign
                 listen on :: port 587 tls-require pki default auth \
                   filter dkimsign
               '';
