@@ -86,14 +86,7 @@ in
     inherit ttl;
     class = "IN";
     type = "MX";
-    data = "10 glacier.mxrouting.net.";
-  }
-  {
-    name = "@";
-    inherit ttl;
-    class = "IN";
-    type = "MX";
-    data = "20 glacier-relay.mxrouting.net.";
+    data = "0 mail.${domain}.";
   }
   {
     name = "@";
