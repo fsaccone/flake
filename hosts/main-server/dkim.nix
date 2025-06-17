@@ -1,4 +1,4 @@
-builtins.concatStringsSep "" [
+''
   "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyUs68GMADAJ4xa63DFbJ"
   "VIUUdjzaISK07LOvBTphcVQptCLsU77e5+vO5oloJSzFlrgh3zQO8nEgULUrB/Kr"
   "Fke5deiHrcvAAjzgv2I/gMaglvjPvVJfxuGRfJmcV+MfBrwgdvkx01JyZ5geyaE6"
@@ -11,4 +11,4 @@ builtins.concatStringsSep "" [
   "I3R2m88gfrQ+6tkfyKjb3L8sjU8kMxj3sXO/1lIte8DpqrYPnRYdYKZT46zwK6FA"
   "YlIVjH5MiU2Tr9NnJw1GZND8YPksGD2XUKg/tN9OVaGG72hs7vyBCjvuNMBctU8Z"
   "EglixnQ2wFDAbZX61o+GJFkCAwEAAQ=="
-]
+''
