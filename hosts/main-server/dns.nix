@@ -120,7 +120,7 @@ in
         "v=DMARC1;"
         "p=reject;"
         "pct=100;"
-        "rua=mailto:francesco@${domain};";
+        "rua=mailto:francesco@${domain};"
       )
     '';
   }
