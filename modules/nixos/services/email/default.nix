@@ -149,6 +149,7 @@
                       cp -r \
                         ${pkgs.dovecot}/share/doc/dovecot/example-config/conf.d/* \
                         $out/conf.d
+                      chmod -R +w $out/conf.d
 
                       cp ${ssl} $out/conf.d/10-ssl.conf
                     '';
