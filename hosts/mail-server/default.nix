@@ -29,8 +29,8 @@ in
           };
         users = {
           francesco = builtins.concatStringsSep "" [
-            "$y$j9T$tyLlnY2V/MmmQMIlMF/af/$CLmWrDsq77Z"
-            "Ri2GfI4VYsybk8aq/WJWpKiXN6BOXK12"
+            "$y$j9T$bijM0Sx8zmb63dV6WnzJP1$L7AflYFAk"
+            "K.joHgsnE8OqgzOTiry1UpbX5xcbj5V7.."
           ];
         };
       };
