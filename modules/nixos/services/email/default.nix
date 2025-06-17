@@ -252,6 +252,14 @@
     };
 
     security.pam.services.dovecot = { };
+    environment.etc."dovecot/modules".source =
+      let
+        env = pkgs.buildEnv {
+          name = "dovecot-modules";
+          paths = [ pkgs.dovecot ];
+        };
+      in
+      "${env}/lib/dovecot";
 
     networking.firewall.allowedTCPPorts = [
       25
