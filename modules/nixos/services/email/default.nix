@@ -161,25 +161,25 @@
 
                       mailboxes = builtins.toFile "15-mailboxes.conf" ''
                         namespace inbox {
-                          mailbox Trash {
+                          mailbox Archive {
                             auto = create
-                            special_use = \Trash
+                            special_use = \Archive
                           }
                           mailbox Drafts {
                             auto = create
                             special_use = \Drafts
                           }
-                          mailbox Archive {
+                          mailbox Junk {
                             auto = create
-                            special_use = \Archive
+                            special_use = \Junk
                           }
                           mailbox Sent {
                             auto = create
                             special_use = \Sent
                           }
-                          mailbox Junk {
+                          mailbox Trash {
                             auto = create
-                            special_use = \Junk
+                            special_use = \Trash
                           }
                         }
                       '';
