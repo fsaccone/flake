@@ -116,6 +116,28 @@
               '';
           };
         };
+        imap = {
+          enable = true;
+          wantedBy = [ "multi-user.target" ];
+          after = [
+            "network.target"
+            "dkim.service"
+            "acme.service"
+          ];
+          serviceConfig = {
+            User = "root";
+            Group = "root";
+            Type = "simple";
+            Restart = "on-failure";
+            ExecStart =
+              let
+                configuration = pkgs.writeText "dovecot.conf" '''';
+              in
+              pkgs.writeShellScript "imap" ''
+                ${pkgs.dovecot}/bin/dovecot -Fc ${configuration}
+              '';
+          };
+        };
         smtp = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
