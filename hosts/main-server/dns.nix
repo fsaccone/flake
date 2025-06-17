@@ -96,7 +96,7 @@ in
     data = "\"v=spf1 mail -all\"";
   }
   {
-    name = "x._domainkey";
+    name = "default._domainkey";
     inherit ttl;
     class = "IN";
     type = "TXT";
