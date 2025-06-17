@@ -134,6 +134,8 @@
                 configuration = pkgs.writeText "dovecot.conf" ''
                   protocols = imap
                   listen = *, ::
+
+                  !include ${pkgs.dovecot}/share/doc/dovecot/example-config/conf.d/*.conf
                 '';
               in
               pkgs.writeShellScript "imap" ''
