@@ -131,11 +131,22 @@
             Restart = "on-failure";
             ExecStart =
               let
+                confFiles = pkgs.stdenv.mkDerivation {
+                  name = "dovecot-conf-files";
+                  buildCommand = ''
+                    mkdir -p $out/conf.d
+
+                    cp -r \
+                      ${pkgs.dovecot}/share/doc/dovecot/example-config/conf.d/* \
+                      $out/conf.d
+                  '';
+                };
+
                 configuration = pkgs.writeText "dovecot.conf" ''
                   protocols = imap
                   listen = *, ::
 
-                  !include ${pkgs.dovecot}/share/doc/dovecot/example-config/conf.d/*.conf
+                  !include ${confFiles}/conf.d/*.conf
                 '';
               in
               pkgs.writeShellScript "imap" ''
