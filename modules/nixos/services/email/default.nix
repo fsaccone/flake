@@ -8,7 +8,9 @@
 {
   options.fs.services.email = {
     enable = lib.mkOption {
-      description = "Whether to enable the SMTP server using OpenSMTPD.";
+      description = ''
+        Whether to enable a OpenSMTPD SMTP server and a Dovecot IMAP server.
+      '';
       default = false;
       type = lib.types.bool;
     };
