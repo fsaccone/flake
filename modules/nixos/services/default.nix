@@ -2,9 +2,9 @@
 {
   imports = [
     ./dns
+    ./email
     ./git
     ./ly
-    ./smtp
     ./sway
     ./web
   ];

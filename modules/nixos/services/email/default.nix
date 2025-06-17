@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.fs.services.smtp = {
+  options.fs.services.email = {
     enable = lib.mkOption {
       description = "Whether to enable the SMTP server using OpenSMTPD.";
       default = false;
@@ -43,11 +43,11 @@
     };
   };
 
-  config = lib.mkIf config.fs.services.smtp.enable {
+  config = lib.mkIf config.fs.services.email.enable {
     users = {
       users =
         (
-          config.fs.services.smtp.users
+          config.fs.services.email.users
           |> builtins.mapAttrs (
             user: hashedPassword: {
               inherit hashedPassword;
@@ -88,7 +88,7 @@
             Type = "oneshot";
             ExecStart =
               let
-                inherit (config.fs.services.smtp) dkimDirectory;
+                inherit (config.fs.services.email) dkimDirectory;
               in
               pkgs.writeShellScript "dkim" ''
                 mkdir -p ${dkimDirectory}
@@ -124,7 +124,7 @@
           ];
           serviceConfig =
             let
-              inherit (config.fs.services.smtp) dkimDirectory domain tls;
+              inherit (config.fs.services.email) dkimDirectory domain tls;
 
               configuration = pkgs.writeText "smtpd.conf" ''
                 pki default cert "${tls.certificate}"

@@ -15,7 +15,7 @@ in
 
   fs = {
     services = {
-      smtp = {
+      email = {
         enable = true;
         domain = rootDomain;
         tls =
