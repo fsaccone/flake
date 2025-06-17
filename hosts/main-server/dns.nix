@@ -105,7 +105,7 @@ in
         "v=DKIM1;"
         "k=rsa;"
         "p="
-        "${import ./dkim.nix}"
+        "${import ./dkim.nix};"
       )
     '';
   }
