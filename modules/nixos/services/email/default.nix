@@ -187,6 +187,8 @@
                     args = failure_show_msg=yes dovecot
                   }
 
+                  disable_plaintext_auth = yes
+
                   !include ${confFiles}/conf.d/*.conf
                 '';
               in
