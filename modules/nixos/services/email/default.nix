@@ -314,7 +314,7 @@
                      -a rsa-sha256 -t -d ${domain} -s default \
                      -k ${dkimDirectory}/default.key"
 
-                action in maildir junk
+                action in maildir junk alias <aliases>
                 action out relay helo ${hostDomain}
 
                 match from any for domain ${domain} action in
