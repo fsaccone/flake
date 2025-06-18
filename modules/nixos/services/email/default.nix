@@ -319,7 +319,7 @@
                 action out relay helo ${hostDomain}
 
                 match from any for rcpt-to <addresses> action in
-                match from mail-from <addresses> for any action out
+                match from auth for any action out
 
                 listen on 0.0.0.0 smtps pki default hostname ${hostDomain} \
                   auth <credentials> \
