@@ -283,12 +283,27 @@
                 |> builtins.concatStringsSep "\n"
                 |> builtins.toFile "aliases";
 
+              addresses =
+                users
+                |> builtins.mapAttrs (
+                  name:
+                  { aliases, ... }:
+                  ''
+                    ${name}
+                    ${builtins.concatStringsSep "\n" aliases}
+                  ''
+                )
+                |> builtins.attrValues
+                |> builtins.concatStringsSep "\n"
+                |> builtins.toFile "addresses";
+
               configuration = pkgs.writeText "smtpd.conf" ''
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
 
                 table credentials file:${credentials}
                 table aliases file:${aliases}
+                table addresses file:${addresses}
 
                 filter check-rdns phase connect \
                   match !rdns disconnect "no rDNS"
