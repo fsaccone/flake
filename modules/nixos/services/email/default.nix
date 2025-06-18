@@ -185,6 +185,17 @@
 
                   disable_plaintext_auth = yes
 
+                  service imap-login {
+                    inet_listener imaps {
+                      port = 993
+                      ssl = yes
+                    }
+
+                    service_count = 1
+                  }
+
+                  imap_hibernate_timeout·=·120
+
                   namespace inbox {
                     inbox = yes
                     mailbox Archive {
