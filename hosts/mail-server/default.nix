@@ -28,10 +28,12 @@ in
             key = "${directory}/${domain}/privkey.pem";
           };
         users = {
-          francesco = builtins.concatStringsSep "" [
-            "$y$j9T$bijM0Sx8zmb63dV6WnzJP1$L7AflYFAk"
-            "K.joHgsnE8OqgzOTiry1UpbX5xcbj5V7.."
-          ];
+          francesco = {
+            hashedPassword = builtins.concatStringsSep "" [
+              "$y$j9T$bijM0Sx8zmb63dV6WnzJP1$L7AflYFAk"
+              "K.joHgsnE8OqgzOTiry1UpbX5xcbj5V7.."
+            ];
+          };
         };
       };
       web = {

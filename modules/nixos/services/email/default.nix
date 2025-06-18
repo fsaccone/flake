@@ -33,9 +33,18 @@
       type = lib.types.uniq lib.types.str;
     };
     users = lib.mkOption {
-      description = "For each email user, its password hash.";
+      description = "For each email user, its configuration.";
       default = { };
-      type = lib.types.attrsOf lib.types.str;
+      type =
+        lib.types.submodule {
+          options = {
+            hashedPassword = lib.mkOption {
+              description = "The password hash.";
+              type = lib.types.uniq lib.types.str;
+            };
+          };
+        }
+        |> lib.types.attrsOf;
     };
     tls = {
       certificate = lib.mkOption {
@@ -55,7 +64,9 @@
         (
           config.fs.services.email.users
           |> builtins.mapAttrs (
-            user: hashedPassword: {
+            user:
+            { hashedPassword }:
+            {
               inherit hashedPassword;
               isSystemUser = true;
               group = "email";
@@ -243,7 +254,13 @@
 
               credentials =
                 users
-                |> builtins.mapAttrs (name: hash: "${name} ${hash}")
+                |> builtins.mapAttrs (
+                  name:
+                  { hashedPassword }:
+                  ''
+                    ${name} ${hashedPassword}
+                  ''
+                )
                 |> builtins.attrValues
                 |> builtins.concatStringsSep "\n"
                 |> builtins.toFile "credentials";
