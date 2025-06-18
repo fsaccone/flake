@@ -196,7 +196,7 @@
                     service_count = 1
                   }
 
-                  imap_hibernate_timeout = 120
+                  imap_hibernate_timeout = 1h
 
                   namespace inbox {
                     inbox = yes
