@@ -163,57 +163,11 @@
             Restart = "on-failure";
             ExecStart =
               let
-                confFiles = pkgs.stdenv.mkDerivation {
-                  name = "dovecot-conf-files";
-                  buildCommand =
-                    let
-                      inherit (config.fs.services.email) tls;
-
-                      ssl = builtins.toFile "10-ssl.conf" ''
-                        ssl = required
-                        ssl_cert = <${tls.certificate}
-                        ssl_key = <${tls.key}
-                      '';
-
-                      mailboxes = builtins.toFile "15-mailboxes.conf" ''
-                        namespace inbox {
-                          mailbox Archive {
-                            auto = create
-                            special_use = \Archive
-                          }
-                          mailbox Drafts {
-                            auto = create
-                            special_use = \Drafts
-                          }
-                          mailbox Junk {
-                            auto = create
-                            special_use = \Junk
-                          }
-                          mailbox Sent {
-                            auto = create
-                            special_use = \Sent
-                          }
-                          mailbox Trash {
-                            auto = create
-                            special_use = \Trash
-                          }
-                        }
-                      '';
-                    in
-                    ''
-                      mkdir -p $out/conf.d
-
-                      cp -r \
-                        ${pkgs.dovecot}/share/doc/dovecot/example-config/conf.d/* \
-                        $out/conf.d
-                      chmod -R +w $out/conf.d
-
-                      cp ${ssl} $out/conf.d/10-ssl.conf
-                      cp ${mailboxes} $out/conf.d/15-mailboxes.conf
-                    '';
-                };
-
                 configuration = pkgs.writeText "dovecot.conf" ''
+                  ssl = required
+                  ssl_cert = <${tls.certificate}
+                  ssl_key = <${tls.key}
+
                   protocols = imap
                   listen = *, ::
 
@@ -231,7 +185,29 @@
 
                   disable_plaintext_auth = yes
 
-                  !include ${confFiles}/conf.d/*.conf
+                  namespace inbox {
+                    inbox = yes
+                    mailbox Archive {
+                      auto = create
+                      special_use = \Archive
+                    }
+                    mailbox Drafts {
+                      auto = create
+                      special_use = \Drafts
+                    }
+                    mailbox Junk {
+                      auto = create
+                      special_use = \Junk
+                    }
+                    mailbox Sent {
+                      auto = create
+                      special_use = \Sent
+                    }
+                    mailbox Trash {
+                      auto = create
+                      special_use = \Trash
+                    }
+                  }
                 '';
               in
               pkgs.writeShellScript "imap" ''
