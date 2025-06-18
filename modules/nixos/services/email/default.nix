@@ -278,6 +278,7 @@
                   builtins.map (alias: ''
                     ${alias} ${name}
                   '') aliases
+                  |> builtins.concatStringsSep "\n"
                 )
                 |> builtins.attrValues
                 |> builtins.concatStringsSep "\n"
