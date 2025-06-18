@@ -3,12 +3,13 @@
   stdenv,
   fetchgit,
 }:
-stdenv.mkDerivation {
-  name = "sbase";
+stdenv.mkDerivation rec {
+  pname = "sbase";
+  version = "0.1";
 
   src = fetchgit {
     url = "git://git.suckless.org/sbase";
-    rev = "0.1";
+    rev = version;
     sha256 = "sha256-v+73ERFDtpL7bP9gC9zXndLn4HDxTuryTTQboFERduk=";
   };
 
