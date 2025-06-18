@@ -33,6 +33,11 @@ in
               "$y$j9T$bijM0Sx8zmb63dV6WnzJP1$L7AflYFAk"
               "K.joHgsnE8OqgzOTiry1UpbX5xcbj5V7.."
             ];
+            aliases = [
+              "abuse"
+              "admin"
+              "postmaster"
+            ];
           };
         };
       };
