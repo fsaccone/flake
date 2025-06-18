@@ -42,6 +42,11 @@
               description = "The password hash.";
               type = lib.types.uniq lib.types.str;
             };
+            aliases = lib.mkOption {
+              description = "The list of alternative usernames of the user.";
+              default = [ ];
+              type = lib.types.listOf lib.types.str;
+            };
           };
         }
         |> lib.types.attrsOf;
@@ -65,7 +70,7 @@
           config.fs.services.email.users
           |> builtins.mapAttrs (
             user:
-            { hashedPassword }:
+            { hashedPassword, ... }:
             {
               inherit hashedPassword;
               isSystemUser = true;
@@ -256,7 +261,7 @@
                 users
                 |> builtins.mapAttrs (
                   name:
-                  { hashedPassword }:
+                  { hashedPassword, ... }:
                   ''
                     ${name} ${hashedPassword}
                   ''
@@ -265,11 +270,25 @@
                 |> builtins.concatStringsSep "\n"
                 |> builtins.toFile "credentials";
 
+              aliases =
+                users
+                |> builtins.mapAttrs (
+                  name:
+                  { aliases, ... }:
+                  builtins.map (alias: ''
+                    ${alias} ${name}
+                  '') aliases
+                )
+                |> builtins.attrValues
+                |> builtins.concatStringsSep "\n"
+                |> builtins.toFile "aliases";
+
               configuration = pkgs.writeText "smtpd.conf" ''
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
 
                 table credentials file:${credentials}
+                table aliases file:${aliases}
 
                 filter check-rdns phase connect \
                   match !rdns disconnect "no rDNS"
