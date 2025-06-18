@@ -290,8 +290,8 @@
                   name:
                   { aliases, ... }:
                   ''
-                    ${name}
-                    ${builtins.concatStringsSep "\n" aliases}
+                    ${name}@${domain}
+                    ${builtins.concatStringsSep "\n" aliases}@${domain}
                   ''
                 )
                 |> builtins.attrValues
