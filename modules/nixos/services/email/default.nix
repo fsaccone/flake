@@ -163,6 +163,8 @@
             Restart = "on-failure";
             ExecStart =
               let
+                inherit (config.fs.services.email) tls;
+
                 configuration = pkgs.writeText "dovecot.conf" ''
                   ssl = required
                   ssl_cert = <${tls.certificate}
