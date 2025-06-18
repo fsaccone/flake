@@ -318,9 +318,8 @@
                 action in maildir junk alias <aliases>
                 action out relay helo ${hostDomain}
 
-                match from any for domain ${domain} for rcpt-to <addresses> \
-                  action in
-                match from auth from mail-from <addresses> for any action out
+                match from any for rcpt-to <addresses> action in
+                match from mail-from <addresses> for any action out
 
                 listen on 0.0.0.0 smtps pki default hostname ${hostDomain} \
                   auth <credentials> \
