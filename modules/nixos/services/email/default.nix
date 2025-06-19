@@ -275,7 +275,9 @@
                   name:
                   { aliases, ... }:
                   builtins.map (alias: ''
-                    ${alias} ${name}
+                    ${alias}@${domain} ${name}
+                    ${alias}@${host.ipv4} ${name}
+                    ${alias}@${host.ipv6} ${name}
                   '') aliases
                   |> builtins.concatStringsSep "\n"
                 )
@@ -293,11 +295,15 @@
                       aliases
                       |> builtins.map (alias: ''
                         ${alias}@${domain}
+                        ${alias}@${host.ipv4}
+                        ${alias}@${host.ipv6}
                       '')
                       |> builtins.concatStringsSep "\n";
                   in
                   ''
                     ${name}@${domain}
+                    ${name}@${host.ipv4}
+                    ${name}@${host.ipv6}
                     ${aliasAddresses}
                   ''
                 )
