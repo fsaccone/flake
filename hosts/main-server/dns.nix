@@ -3,30 +3,17 @@ let
   ttl = 3600;
 in
 (
-  let
-    main = {
-      ipv4 = "193.108.52.52";
-      ipv6 = "2001:1600:13:101::16e3";
-    };
-    git = {
-      ipv4 = "83.228.193.236";
-      ipv6 = "2001:1600:13:101::1a12";
-    };
-  in
   {
-    "@" = main;
-    www = main;
+    "@" = import ../main-server/ip.nix;
+    www = import ../main-server/ip.nix;
 
-    inherit git;
-    "www.git" = git;
+    git = import ../git-server/ip.nix;
+    "www.git" = import ../git-server/ip.nix;
 
-    mail = {
-      ipv4 = "83.228.199.68";
-      ipv6 = "2001:1600:13:101::aa0";
-    };
+    mail = import ../mail-server/ip.nix;
 
-    ns1 = main;
-    ns2 = git;
+    ns1 = import ../main-server/ip.nix;
+    ns2 = import ../git-server/ip.nix;
   }
   |> builtins.mapAttrs (
     name:
