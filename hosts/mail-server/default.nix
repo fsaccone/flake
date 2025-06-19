@@ -5,9 +5,7 @@
   ...
 }:
 let
-  mainServer = ../main-server;
-
-  rootDomain = import "${mainServer}/domain.nix";
+  rootDomain = import ../main-server/domain.nix;
   domain = "mail.${rootDomain}";
 in
 {
@@ -57,7 +55,7 @@ in
     security.openssh.listen = {
       enable = true;
       authorizedKeyFiles = rec {
-        root = [ "${mainServer}/ssh/francescosaccone.pub" ];
+        root = [ ../main-server/ssh/francescosaccone.pub ];
       };
     };
   };

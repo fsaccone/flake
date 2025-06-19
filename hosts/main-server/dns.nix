@@ -4,8 +4,8 @@ let
 in
 (
   {
-    "@" = import ../main-server/ip.nix;
-    www = import ../main-server/ip.nix;
+    "@" = import ./ip.nix;
+    www = import ./ip.nix;
 
     git = import ../git-server/ip.nix;
     "www.git" = import ../git-server/ip.nix;
