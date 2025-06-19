@@ -278,9 +278,17 @@
                 |> builtins.mapAttrs (
                   name:
                   { aliases, ... }:
+                  let
+                    aliasAddresses =
+                      aliases
+                      |> builtins.map (alias: ''
+                        ${alias}@${domain}
+                      '')
+                      |> builtins.concatStringsSep "\n";
+                  in
                   ''
                     ${name}@${domain}
-                    ${builtins.concatStringsSep "\n" aliases}@${domain}
+                    ${aliasAddresses}
                   ''
                 )
                 |> builtins.attrValues
