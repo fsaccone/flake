@@ -24,9 +24,19 @@
       readOnly = true;
       type = lib.types.uniq lib.types.path;
     };
-    hostDomain = lib.mkOption {
-      description = "The domain of the server.";
-      type = lib.types.uniq lib.types.str;
+    host = {
+      domain = lib.mkOption {
+        description = "The domain of the server.";
+        type = lib.types.uniq lib.types.str;
+      };
+      ipv4 = lib.mkOption {
+        description = "The IPv4 of the server.";
+        type = lib.types.uniq lib.types.str;
+      };
+      ipv6 = lib.mkOption {
+        description = "The IPv6 of the server.";
+        type = lib.types.uniq lib.types.str;
+      };
     };
     domain = lib.mkOption {
       description = "The domain to host SMTP for.";
@@ -241,7 +251,7 @@
               inherit (config.fs.services.email)
                 dkimDirectory
                 domain
-                hostDomain
+                host
                 tls
                 users
                 ;
@@ -313,27 +323,27 @@
                      -k ${dkimDirectory}/default.key"
 
                 action in maildir junk alias <aliases>
-                action out relay helo ${hostDomain}
+                action out relay helo ${host.domain}
 
                 match from any for rcpt-to <addresses> action in
                 match from auth for any action out
 
-                listen on 0.0.0.0 smtps pki default hostname ${hostDomain} \
+                listen on 0.0.0.0 smtps pki default hostname ${host.domain} \
                   auth <credentials> \
                   filter { check-rdns, check-fcrdns, dkimsign }
-                listen on :: smtps pki default hostname ${hostDomain} \
+                listen on :: smtps pki default hostname ${host.domain} \
                   auth <credentials> \
                   filter { check-rdns, check-fcrdns, dkimsign }
 
-                listen on 0.0.0.0 tls pki default hostname ${hostDomain} \
+                listen on 0.0.0.0 tls pki default hostname ${host.domain} \
                   filter { check-rdns, check-fcrdns, dkimsign }
-                listen on :: tls pki default hostname ${hostDomain} \
+                listen on :: tls pki default hostname ${host.domain} \
                   filter { check-rdns, check-fcrdns, dkimsign }
 
                 listen on 0.0.0.0 port 587 tls-require pki default \
-                  hostname ${hostDomain} auth <credentials> filter dkimsign
+                  hostname ${host.domain} auth <credentials> filter dkimsign
                 listen on :: port 587 tls-require pki default \
-                  hostname ${hostDomain} auth <credentials> filter dkimsign
+                  hostname ${host.domain} auth <credentials> filter dkimsign
               '';
             in
             {

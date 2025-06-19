@@ -17,7 +17,10 @@ in
     services = {
       email = {
         enable = true;
-        hostDomain = domain;
+        host = {
+          inherit domain;
+          inherit (import ./ip.nix) ipv4 ipv6;
+        };
         domain = rootDomain;
         tls =
           let
