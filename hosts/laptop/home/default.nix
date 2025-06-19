@@ -161,6 +161,7 @@ in
       pkgs.helvum
       pkgs.imv
       pkgs.jre8
+      pkgs.libressl
       pkgs.librewolf
       pkgs.lilypond
       pkgs.man-pages-posix
@@ -169,7 +170,6 @@ in
       pkgs.nixos-anywhere
       pkgs.nmap
       pkgs.nnn
-      pkgs.openssl
       pkgs.prismlauncher
       pkgs.qrcode
       pkgs.sent
