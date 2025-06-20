@@ -67,7 +67,7 @@
               --non-interactive \
               --log-file /dev/stdout \
               --data-dir /var/lib/monero \
-              --rcp-bind-port 18081 \
+              --rpc-bind-port 18081 \
               ${if mining.enable then miningOptions else ""}
           '';
       };
