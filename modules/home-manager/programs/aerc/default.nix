@@ -39,10 +39,6 @@
         description = "The POP3 server name.";
         type = lib.types.uniq lib.types.str;
       };
-      popTlsPort = lib.mkOption {
-        description = "The POP port. If null then the default port is used.";
-        type = lib.types.nullOr lib.types.int;
-      };
       passwordScript = lib.mkOption {
         description = ''
           The script which returns the password to login to the email
@@ -57,10 +53,6 @@
       smtpHost = lib.mkOption {
         description = "The SMTP server name.";
         type = lib.types.uniq lib.types.str;
-      };
-      smtpTlsPort = lib.mkOption {
-        description = "The SMTP port. If null then the default port is used.";
-        type = lib.types.nullOr lib.types.int;
       };
       username = lib.mkOption {
         description = "The username used to login to the email account.";
@@ -100,7 +92,6 @@
               inherit (config.fs.programs.aerc.email)
                 passwordScript
                 popHost
-                popTlsPort
                 username
                 ;
 
@@ -109,7 +100,7 @@
 
                 ${pkgs.mpop}/bin/mpop \
                   --host=${popHost} \
-                  --port=${builtins.toString popTlsPort} \
+                  --port=995 \
                   --user=${username} \
                   --passwordeval='${passwordScript}' \
                   --tls=on \
@@ -135,7 +126,7 @@
         primary = true;
         smtp = {
           host = config.fs.programs.aerc.email.smtpHost;
-          port = config.fs.programs.aerc.email.smtpTlsPort;
+          port = 465;
           tls = {
             enable = true;
             useStartTls = false;
