@@ -91,15 +91,10 @@
           )
         )
         // {
-          dovecot = {
+          popa3d = {
             hashedPassword = "!";
             isSystemUser = true;
-            group = "dovecot";
-          };
-          dovenull = {
-            hashedPassword = "!";
-            isSystemUser = true;
-            group = "dovenull";
+            group = "popa3d";
           };
           smtpd = {
             hashedPassword = "!";
@@ -113,9 +108,8 @@
           };
         };
       groups = {
-        dovecot = { };
-        dovenull = { };
         email = { };
+        popa3d = { };
         smtpd = { };
         smtpq = { };
       };
@@ -158,14 +152,28 @@
               '';
           };
         };
-        imap = {
+        pop3 = {
+          enable = true;
+          wantedBy = [ "multi-user.target" ];
+          after = [ "network.target" ];
+          serviceConfig = {
+            User = "root";
+            Group = "root";
+            Type = "simple";
+            Restart = "on-failure";
+            ExecStart = pkgs.writeShellScript "pop3" ''
+              ${pkgs.popa3d}/bin/popa3d
+            '';
+          };
+        };
+        pop3-tls = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           after = [
             "network.target"
-            "dkim.service"
-            "acme.service"
+            "pop3.service"
           ];
+          requires = [ "pop3.service" ];
           serviceConfig = {
             User = "root";
             Group = "root";
@@ -174,67 +182,18 @@
             ExecStart =
               let
                 inherit (config.fs.services.email) tls;
-
-                configuration = pkgs.writeText "dovecot.conf" ''
-                  ssl = required
-                  ssl_cert = <${tls.certificate}
-                  ssl_key = <${tls.key}
-
-                  protocols = imap
-                  listen = *, ::
-
-                  default_login_user = dovenull
-                  default_internal_user = dovecot
-
-                  userdb {
-                    driver = passwd
-                  }
-
-                  passdb {
-                    driver = pam
-                    args = failure_show_msg=yes dovecot
-                  }
-
-                  disable_plaintext_auth = yes
-
-                  service imap-login {
-                    inet_listener imaps {
-                      port = 993
-                      ssl = yes
-                    }
-
-                    service_count = 1
-                  }
-
-                  imap_hibernate_timeout = 1h
-
-                  namespace inbox {
-                    inbox = yes
-                    mailbox Archive {
-                      auto = create
-                      special_use = \Archive
-                    }
-                    mailbox Drafts {
-                      auto = create
-                      special_use = \Drafts
-                    }
-                    mailbox Junk {
-                      auto = create
-                      special_use = \Junk
-                    }
-                    mailbox Sent {
-                      auto = create
-                      special_use = \Sent
-                    }
-                    mailbox Trash {
-                      auto = create
-                      special_use = \Trash
-                    }
-                  }
-                '';
               in
-              pkgs.writeShellScript "imap" ''
-                ${pkgs.dovecot}/bin/dovecot -Fc ${configuration}
+              pkgs.writeShellScript "pop3-tls" ''
+                mkdir -p /var/lib/hitch
+
+                cat ${tls.certificate} ${tls.key} > /var/lib/hitch/full.pem
+                ${pkgs.hitch}/bin/hitch \
+                  --backend [localhost]:110 \
+                  --frontend [*]:995 \
+                  --ocsp-dir /var/lib/hitch \
+                  --user nobody \
+                  --group nogroup \
+                  /var/lib/hitch/full.pem
               '';
           };
         };
@@ -365,24 +324,11 @@
       };
     };
 
-    security.pam.services = {
-      dovecot = { };
-    } // builtins.mapAttrs (_: _: { }) config.fs.services.email.users;
-
-    environment.etc."dovecot/modules".source =
-      let
-        env = pkgs.buildEnv {
-          name = "dovecot-modules";
-          paths = [ pkgs.dovecot ];
-        };
-      in
-      "${env}/lib/dovecot";
-
     networking.firewall.allowedTCPPorts = [
       25
       465
       587
-      993
+      995
     ];
   };
 }
