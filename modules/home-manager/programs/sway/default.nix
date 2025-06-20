@@ -14,6 +14,11 @@
       default = false;
       type = lib.types.bool;
     };
+    sizeMultiplier = lib.mkOption {
+      description = "The multiplier applied to the size of elements.";
+      type = lib.types.uniq lib.types.float;
+      default = 1.0;
+    };
     preferDarkTheme = lib.mkOption {
       description = "Whether to prefer dark theme in GTK applications.";
       type = lib.types.uniq lib.types.bool;
@@ -109,6 +114,9 @@
               background = parseColor colors.background;
               foreground = parseColor colors.foreground;
 
+              font = config.fs.programs.sway.fonts.monospace;
+              fontSize = 11 * config.fs.programs.sway.sizeMultiplier;
+
               configFile = pkgs.writeText "foot.ini" ''
                 [cursor]
                 color=${background} ${foreground}
@@ -123,7 +131,7 @@
                 foreground=${foreground}
 
                 [main]
-                font=${config.fs.programs.sway.fonts.monospace}:size=11
+                font=${font}:size=${builtins.toString fontSize}
                 title=Foot
                 locked-title=yes
               '';
@@ -140,7 +148,7 @@
           fonts = {
             names = [ config.fs.programs.sway.fonts.monospace ];
             style = "Regular";
-            size = 12.0;
+            size = 12.0 * config.fs.programs.sway.sizeMultiplier;
           };
 
           defaultWorkspace = "workspace number \"1\"";
@@ -206,14 +214,19 @@
             };
           };
 
-          modes.resize = {
-            "Up" = "resize grow height 7 px or 7 ppt";
-            "Right" = "resize grow width 7 px or 7 ppt";
-            "Left" = "resize shrink width 7 px or 7 ppt";
-            "Down" = "resize shring height 7 px or 7 ppt";
+          modes.resize =
+            let
+              px = 7 * config.fs.programs.sway.sizeMultiplier;
+              pxStr = builtins.toString px;
+            in
+            {
+              "Up" = "resize grow height ${pxStr} px or ${pxStr} ppt";
+              "Right" = "resize grow width ${pxStr} px or ${pxStr} ppt";
+              "Left" = "resize shrink width ${pxStr} px or ${pxStr} ppt";
+              "Down" = "resize shring height ${pxStr} px or ${pxStr} ppt";
 
-            "Mod4+r" = "mode \"default\"";
-          };
+              "Mod4+r" = "mode \"default\"";
+            };
 
           keybindings = {
             "Mod4+Return" = "exec ${commands.terminal}";

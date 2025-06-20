@@ -34,7 +34,7 @@
           fonts = {
             names = [ config.fs.programs.sway.fonts.monospace ];
             style = "Regular";
-            size = 12.0;
+            size = 12.0 * config.fs.programs.sway.sizeMultiplier;
           };
 
           colors = {
