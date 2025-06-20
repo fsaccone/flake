@@ -19,13 +19,13 @@ in
           sent = "Sent";
           trash = "Trash";
         };
-        imapHost = "mail.${mainServerDomain}";
-        imapTlsPort = 993;
+        popHost = "mail.${mainServerDomain}";
+        popTlsPort = 995;
         passwordScript = pkgs.writeShellScript "password" ''
           ${pkgs.pass}/bin/pass show email/francesco/password
         '';
         realName = "Francesco Saccone";
-        smtpHost = imapHost;
+        smtpHost = popHost;
         smtpTlsPort = 465;
         username = "francesco";
       };

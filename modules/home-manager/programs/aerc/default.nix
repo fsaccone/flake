@@ -35,12 +35,12 @@
           type = lib.types.uniq lib.types.str;
         };
       };
-      imapHost = lib.mkOption {
-        description = "The IMAP server name.";
+      popHost = lib.mkOption {
+        description = "The POP3 server name.";
         type = lib.types.uniq lib.types.str;
       };
-      imapTlsPort = lib.mkOption {
-        description = "The IMAP port. If null then the default port is used.";
+      popTlsPort = lib.mkOption {
+        description = "The POP port. If null then the default port is used.";
         type = lib.types.nullOr lib.types.int;
       };
       passwordScript = lib.mkOption {
@@ -70,6 +70,10 @@
   };
 
   config = lib.mkIf config.fs.programs.aerc.enable {
+    home.activation.createMaildir = ''
+      mkdir -p ~/mail/{cur,new,tmp}
+    '';
+
     programs.aerc = {
       enable = true;
       package = pkgs.aerc;
@@ -89,7 +93,35 @@
 
     accounts.email = {
       accounts.${config.fs.programs.aerc.email.address} = {
-        aerc.enable = true;
+        aerc = {
+          enable = true;
+          extraAccounts =
+            let
+              inherit (config.fs.programs.aerc.email)
+                passwordScript
+                popHost
+                popTlsPort
+                username
+                ;
+
+              mpop = pkgs.writeShellScriptBin "mpop" ''
+                mkdir -p ~/mail/{cur,new,tmp}
+
+                ${pkgs.mpop}/bin/mpop \
+                  --host=${popHost} \
+                  --port=${builtins.toString popTlsPort} \
+                  --user=${username} \
+                  --passwordeval='${passwordScript}' \
+                  --tls=on \
+                  --delivery=maildir,~/mail
+              '';
+            in
+            {
+              check-mail-cmd = "${mpop}/bin/mpop";
+              check-mail-timeout = "10s";
+              source = "maildir://~/mail";
+            };
+        };
 
         passwordCommand = "${config.fs.programs.aerc.email.passwordScript}";
 
@@ -99,14 +131,6 @@
         gpg = lib.mkIf config.fs.programs.gpg.enable {
           key = config.fs.programs.gpg.primaryKey.fingerprint;
           signByDefault = true;
-        };
-        imap = {
-          host = config.fs.programs.aerc.email.imapHost;
-          port = config.fs.programs.aerc.email.imapTlsPort;
-          tls = {
-            enable = true;
-            useStartTls = false;
-          };
         };
         primary = true;
         smtp = {
