@@ -43,12 +43,12 @@
         description = "The IMAP port. If null then the default port is used.";
         type = lib.types.nullOr lib.types.int;
       };
-      passwordCommand = lib.mkOption {
+      passwordScript = lib.mkOption {
         description = ''
-          The command which returns the password to login to the email
+          The script which returns the password to login to the email
           account.
         '';
-        type = lib.types.uniq lib.types.str;
+        type = lib.types.uniq lib.types.path;
       };
       realName = lib.mkOption {
         description = "The name used as recipient.";
@@ -91,12 +91,9 @@
       accounts.${config.fs.programs.aerc.email.address} = {
         aerc.enable = true;
 
-        inherit (config.fs.programs.aerc.email)
-          address
-          folders
-          passwordCommand
-          realName
-          ;
+        passwordCommand = "${config.fs.programs.aerc.email.passwordScript}";
+
+        inherit (config.fs.programs.aerc.email) address folders realName;
 
         flavor = "plain";
         gpg = lib.mkIf config.fs.programs.gpg.enable {
