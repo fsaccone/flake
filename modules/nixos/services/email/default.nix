@@ -82,7 +82,7 @@
             { sshKeys, ... }:
             {
               hashedPassword = "!";
-              isSystemUser = true;
+              isNormalUser = true;
               group = "email";
               createHome = true;
               home = "/home/${user}";
