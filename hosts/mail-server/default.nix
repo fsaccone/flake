@@ -29,13 +29,17 @@ in
             key = "${directory}/${domain}/privkey.pem";
           };
         users = {
+          abuse = {
+            sshKeys = [ ../main-server/ssh/francescosaccone.pub ];
+          };
+          admin = {
+            sshKeys = [ ../main-server/ssh/francescosaccone.pub ];
+          };
           francesco = {
             sshKeys = [ ../main-server/ssh/francescosaccone.pub ];
-            aliases = [
-              "abuse"
-              "admin"
-              "postmaster"
-            ];
+          };
+          postmaster = {
+            sshKeys = [ ../main-server/ssh/francescosaccone.pub ];
           };
         };
       };
