@@ -71,18 +71,18 @@
             default = Inbox
             from = ${realName} <${address}>
             outgoing = smtps+plain://${username}@${smtpHost}:465
-            ${
-              if gpg.enable then
-                ''
-                  pgp-auto-sign = ${if gpg.enable then "true" else "false"}
-                  pgp-key-id = ${gpg.primaryKey.fingerprint}
-                  pgp-opportunistic-encrypt = false
-                ''
-              else
-                ""
-            }
             postpone = Drafts
-          '';
+          ''
+          + (
+            if gpg.enable then
+              ''
+                pgp-auto-sign = true
+                pgp-key-id = ${gpg.primaryKey.fingerprint}
+                pgp-opportunistic-encrypt = false
+              ''
+            else
+              ""
+          );
       };
     };
   };
