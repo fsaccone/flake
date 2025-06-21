@@ -91,7 +91,7 @@
 
             check-mail = 10s
             check-mail-cmd = ${retrieve}
-            check-mail-timeout = 10s
+            check-mail-timeout = 30s
             source = maildir://~/mail
 
             outgoing = ${sendmailCommandBase}
