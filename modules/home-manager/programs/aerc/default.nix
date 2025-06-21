@@ -89,6 +89,7 @@
             from = ${realName} <${address}>
             postpone = Drafts
 
+            check-mail = 10s
             check-mail-cmd = ${retrieve}
             check-mail-timeout = 10s
             source = maildir://~/mail
