@@ -66,12 +66,12 @@
             inherit (config.fs.programs) gpg;
 
             retrieve = pkgs.writeShellScript "retrieve" ''
-              mkdir -p ~/mail
+              mkdir -p ~/mail/Inbox
 
               ${pkgs.rsync}/bin/rsync -rz \
                 --remove-source-files \
                 ${username}@${smtpHost}:~/* \
-                ~/mail
+                ~/mail/Inbox
             '';
 
             sendmailCommandBase = builtins.concatStringsSep " " [
