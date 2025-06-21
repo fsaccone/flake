@@ -112,6 +112,8 @@
       };
     };
 
+    environment.systemPackages = [ pkgs.opensmtpd ];
+
     systemd = {
       services = {
         dkim = {
