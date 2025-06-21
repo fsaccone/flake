@@ -69,7 +69,7 @@
               mkdir -p ~/mail
 
               ${pkgs.rsync}/bin/rsync -rz \
-                ${username}@${smtpHost}:~/Maildir/* \
+                ${username}@${smtpHost}:~/* \
                 ~/mail
             '';
 
