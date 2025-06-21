@@ -46,9 +46,10 @@
       type =
         lib.types.submodule {
           options = {
-            hashedPassword = lib.mkOption {
-              description = "The password hash.";
-              type = lib.types.uniq lib.types.str;
+            sshKeys = lib.mkOption {
+              description = "The public SSH keys used for authentication.";
+              default = [ ];
+              type = lib.types.listOf lib.types.path;
             };
             aliases = lib.mkOption {
               description = "The list of alternative usernames of the user.";
@@ -78,13 +79,14 @@
           config.fs.services.email.users
           |> builtins.mapAttrs (
             user:
-            { hashedPassword, ... }:
+            { sshKeys, ... }:
             {
-              inherit hashedPassword;
+              hashedPassword = "!";
               isSystemUser = true;
               group = "email";
               createHome = true;
               home = "/home/${user}";
+              openssh.authorizedKeys.keyFiles = sshKeys;
             }
           )
         )
@@ -162,19 +164,6 @@
                 users
                 ;
 
-              credentials =
-                users
-                |> builtins.mapAttrs (
-                  name:
-                  { hashedPassword, ... }:
-                  ''
-                    ${name} ${hashedPassword}
-                  ''
-                )
-                |> builtins.attrValues
-                |> builtins.concatStringsSep "\n"
-                |> builtins.toFile "credentials";
-
               aliases =
                 users
                 |> builtins.mapAttrs (
@@ -221,7 +210,6 @@
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
 
-                table credentials file:${credentials}
                 table aliases file:${aliases}
                 table addresses file:${addresses}
 
@@ -241,11 +229,9 @@
                 match from auth for any action out
 
                 listen on 0.0.0.0 smtps pki default hostname ${host.domain} \
-                  auth <credentials> \
-                  filter { check-rdns, check-fcrdns, dkimsign }
+                  auth filter { check-rdns, check-fcrdns, dkimsign }
                 listen on :: smtps pki default hostname ${host.domain} \
-                  auth <credentials> \
-                  filter { check-rdns, check-fcrdns, dkimsign }
+                  auth filter { check-rdns, check-fcrdns, dkimsign }
 
                 listen on 0.0.0.0 tls pki default hostname ${host.domain} \
                   filter { check-rdns, check-fcrdns, dkimsign }
@@ -253,9 +239,9 @@
                   filter { check-rdns, check-fcrdns, dkimsign }
 
                 listen on 0.0.0.0 port 587 tls-require pki default \
-                  hostname ${host.domain} auth <credentials> filter dkimsign
+                  hostname ${host.domain} auth filter dkimsign
                 listen on :: port 587 tls-require pki default \
-                  hostname ${host.domain} auth <credentials> filter dkimsign
+                  hostname ${host.domain} auth filter dkimsign
               '';
             in
             {
