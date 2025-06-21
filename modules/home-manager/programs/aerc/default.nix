@@ -79,6 +79,7 @@
 
                 ${pkgs.rsync}/bin/rsync -rz \
                   --remove-source-files \
+                  --ignore-missing-args \
                   ${username}@${smtpHost}:~/* \
                   ~/mail/Inbox
               '';
