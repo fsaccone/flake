@@ -66,6 +66,8 @@
             inherit (config.fs.programs) gpg;
 
             retrieve = pkgs.writeShellScript "retrieve" ''
+              mkdir -p ~/mail
+
               ${pkgs.rsync}/bin/rsync -rz \
                 ${username}@${smtpHost}:~/Maildir/* \
                 ~/mail
