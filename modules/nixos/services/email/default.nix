@@ -233,7 +233,7 @@
                      -a rsa-sha256 -t -d ${domain} -s default \
                      -k ${dkimDirectory}/default.key"
 
-                action in maildir junk alias <aliases>
+                action in maildir "~/" alias <aliases>
                 action out relay helo ${host.domain}
 
                 match from any for rcpt-to <addresses> action in
