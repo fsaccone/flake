@@ -17,13 +17,6 @@
         description = "The email address.";
         type = lib.types.uniq lib.types.str;
       };
-      passwordScript = lib.mkOption {
-        description = ''
-          The script which returns the password to login to the email
-          account.
-        '';
-        type = lib.types.uniq lib.types.path;
-      };
       realName = lib.mkOption {
         description = "The name used as recipient.";
         type = lib.types.uniq lib.types.str;
@@ -64,8 +57,6 @@
     accounts.email = {
       accounts.${config.fs.programs.aerc.email.address} = {
         aerc.enable = true;
-
-        passwordCommand = "${config.fs.programs.aerc.email.passwordScript}";
 
         inherit (config.fs.programs.aerc.email) address realName;
 
