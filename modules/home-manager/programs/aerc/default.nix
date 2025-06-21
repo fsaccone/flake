@@ -86,6 +86,7 @@
             [${address}]
             from = ${realName} <${address}>
 
+            archive = Archive
             copy-to = Sent
             default = Inbox
             postpone = Drafts
