@@ -8,9 +8,7 @@
 {
   options.fs.services.email = {
     enable = lib.mkOption {
-      description = ''
-        Whether to enable a OpenSMTPD SMTP server and a Dovecot IMAP server.
-      '';
+      description = "Whether to enable a OpenSMTPD SMTP.";
       default = false;
       type = lib.types.bool;
     };
@@ -91,11 +89,6 @@
           )
         )
         // {
-          popa3d = {
-            hashedPassword = "!";
-            isSystemUser = true;
-            group = "popa3d";
-          };
           smtpd = {
             hashedPassword = "!";
             isSystemUser = true;
@@ -109,7 +102,6 @@
         };
       groups = {
         email = { };
-        popa3d = { };
         smtpd = { };
         smtpq = { };
       };
@@ -149,51 +141,6 @@
 
                   echo "DKIM public key generated.";
                 fi
-              '';
-          };
-        };
-        pop3 = {
-          enable = true;
-          wantedBy = [ "multi-user.target" ];
-          after = [ "network.target" ];
-          serviceConfig = {
-            User = "root";
-            Group = "root";
-            Type = "simple";
-            Restart = "on-failure";
-            ExecStart = pkgs.writeShellScript "pop3" ''
-              ${pkgs.popa3d}/bin/popa3d
-            '';
-          };
-        };
-        pop3-tls = {
-          enable = true;
-          wantedBy = [ "multi-user.target" ];
-          after = [
-            "network.target"
-            "pop3.service"
-          ];
-          requires = [ "pop3.service" ];
-          serviceConfig = {
-            User = "root";
-            Group = "root";
-            Type = "simple";
-            Restart = "on-failure";
-            ExecStart =
-              let
-                inherit (config.fs.services.email) tls;
-              in
-              pkgs.writeShellScript "pop3-tls" ''
-                mkdir -p /var/lib/hitch
-
-                cat ${tls.certificate} ${tls.key} > /var/lib/hitch/full.pem
-                ${pkgs.hitch}/bin/hitch \
-                  --backend [localhost]:110 \
-                  --frontend [*]:995 \
-                  --ocsp-dir /var/lib/hitch \
-                  --user nobody \
-                  --group nogroup \
-                  /var/lib/hitch/full.pem
               '';
           };
         };
@@ -328,7 +275,6 @@
       25
       465
       587
-      995
     ];
   };
 }
