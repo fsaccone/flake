@@ -112,7 +112,13 @@
       };
     };
 
-    environment.systemPackages = [ pkgs.opensmtpd ];
+    environment.systemPackages = [
+      (pkgs.opensmtpd.overrideAttrs {
+        postInstall = ''
+          ln -sf $out/bin/smtpctl $out/bin/sendmail
+        '';
+      })
+    ];
 
     systemd = {
       services = {
