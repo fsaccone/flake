@@ -66,8 +66,8 @@
             inherit (config.fs.programs) gpg;
 
             retrieve = pkgs.writeShellScript "retrieve" ''
-              ${pkgs.openssh}/bin/scp -r \
-                ${username}@${smtpHost}:Maildir \
+              ${pkgs.rsync}/bin/rsync -rz \
+                ${username}@${smtpHost}:~/Maildir/* \
                 ~/mail
             '';
           in
