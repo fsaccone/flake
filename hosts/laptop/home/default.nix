@@ -23,8 +23,20 @@ in
           )
           [
             ({
+              realName = "Abuse Report";
+              username = "abuse";
+            })
+            ({
+              realName = "Admin";
+              username = "admin";
+            })
+            ({
               realName = "Francesco Saccone";
               username = "francesco";
+            })
+            ({
+              realName = "Postmaster";
+              username = "postmaster";
             })
           ];
     };
