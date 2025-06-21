@@ -217,11 +217,6 @@
                   filter { check-rdns, check-fcrdns, dkimsign }
                 listen on :: tls pki default hostname ${host.domain} \
                   filter { check-rdns, check-fcrdns, dkimsign }
-
-                listen on 0.0.0.0 port 587 tls-require pki default \
-                  hostname ${host.domain} auth filter dkimsign
-                listen on :: port 587 tls-require pki default \
-                  hostname ${host.domain} auth filter dkimsign
               '';
             in
             {
@@ -240,7 +235,6 @@
     networking.firewall.allowedTCPPorts = [
       25
       465
-      587
     ];
   };
 }
