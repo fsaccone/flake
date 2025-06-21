@@ -83,7 +83,7 @@
             {
               hashedPassword = "!";
               isNormalUser = true;
-              group = "email";
+              group = "smtpq";
               createHome = true;
               home = "/home/${user}";
               openssh.authorizedKeys.keyFiles = sshKeys;
@@ -107,7 +107,6 @@
           };
         };
       groups = {
-        email = { };
         smtpd = { };
         smtpq = { };
       };
