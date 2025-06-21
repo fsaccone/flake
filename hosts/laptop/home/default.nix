@@ -11,12 +11,14 @@ in
   fs.programs = rec {
     aerc = {
       enable = true;
-      email = rec {
-        address = "${username}@${mainServerDomain}";
-        realName = "Francesco Saccone";
-        smtpHost = "mail.${mainServerDomain}";
-        username = "francesco";
-      };
+      accounts = [
+        (rec {
+          address = "${username}@${mainServerDomain}";
+          realName = "Francesco Saccone";
+          smtpHost = "mail.${mainServerDomain}";
+          username = "francesco";
+        })
+      ];
     };
     git = {
       enable = true;

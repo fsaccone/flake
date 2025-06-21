@@ -12,23 +12,31 @@
       default = false;
       type = lib.types.bool;
     };
-    email = {
-      address = lib.mkOption {
-        description = "The email address.";
-        type = lib.types.uniq lib.types.str;
-      };
-      realName = lib.mkOption {
-        description = "The name used as recipient.";
-        type = lib.types.uniq lib.types.str;
-      };
-      smtpHost = lib.mkOption {
-        description = "The SMTP server name.";
-        type = lib.types.uniq lib.types.str;
-      };
-      username = lib.mkOption {
-        description = "The username used to login to the email account.";
-        type = lib.types.uniq lib.types.str;
-      };
+    accounts = lib.mkOption {
+      description = "The list of account configurations.";
+      default = { };
+      type =
+        lib.types.submodule {
+          options = {
+            address = lib.mkOption {
+              description = "The email address.";
+              type = lib.types.uniq lib.types.str;
+            };
+            realName = lib.mkOption {
+              description = "The name used as recipient.";
+              type = lib.types.uniq lib.types.str;
+            };
+            smtpHost = lib.mkOption {
+              description = "The SMTP server name.";
+              type = lib.types.uniq lib.types.str;
+            };
+            username = lib.mkOption {
+              description = "The username used to login to the email account.";
+              type = lib.types.uniq lib.types.str;
+            };
+          };
+        }
+        |> lib.types.listOf;
     };
   };
 
@@ -55,60 +63,63 @@
         '';
 
         ".config/aerc/accounts.conf".text =
-          let
-            inherit (config.fs.programs.aerc.email)
-              address
-              realName
-              smtpHost
-              username
-              ;
+          config.fs.programs.aerc.accounts
+          |> builtins.map (
+            {
+              address,
+              realName,
+              smtpHost,
+              username,
+            }:
+            let
+              inherit (config.fs.programs) gpg;
 
-            inherit (config.fs.programs) gpg;
+              retrieve = pkgs.writeShellScript "retrieve" ''
+                mkdir -p ~/mail/Inbox
 
-            retrieve = pkgs.writeShellScript "retrieve" ''
-              mkdir -p ~/mail/Inbox
+                ${pkgs.rsync}/bin/rsync -rz \
+                  --remove-source-files \
+                  ${username}@${smtpHost}:~/* \
+                  ~/mail/Inbox
+              '';
 
-              ${pkgs.rsync}/bin/rsync -rz \
-                --remove-source-files \
-                ${username}@${smtpHost}:~/* \
-                ~/mail/Inbox
-            '';
+              sendmailCommandBase = builtins.concatStringsSep " " [
+                "${pkgs.openssh}/bin/ssh"
+                "${username}@${smtpHost}"
+                "sendmail"
+                "-v"
+                "-F \"${realName}\""
+                "-f ${address}"
+              ];
+            in
+            ''
+              [${address}]
+              from = ${realName} <${address}>
 
-            sendmailCommandBase = builtins.concatStringsSep " " [
-              "${pkgs.openssh}/bin/ssh"
-              "${username}@${smtpHost}"
-              "sendmail"
-              "-v"
-              "-F \"${realName}\""
-              "-f ${address}"
-            ];
-          in
-          ''
-            [${address}]
-            from = ${realName} <${address}>
+              archive = Archive
+              copy-to = Sent
+              default = Inbox
+              postpone = Drafts
 
-            archive = Archive
-            copy-to = Sent
-            default = Inbox
-            postpone = Drafts
+              check-mail = 10s
+              check-mail-cmd = ${retrieve}
+              check-mail-timeout = 30s
+              source = maildir://~/mail
 
-            check-mail = 10s
-            check-mail-cmd = ${retrieve}
-            check-mail-timeout = 30s
-            source = maildir://~/mail
-
-            outgoing = ${sendmailCommandBase}
-          ''
-          + (
-            if gpg.enable then
-              ''
-                pgp-auto-sign = true
-                pgp-key-id = ${gpg.primaryKey.fingerprint}
-                pgp-opportunistic-encrypt = false
-              ''
-            else
-              ""
-          );
+              outgoing = ${sendmailCommandBase}
+            ''
+            + (
+              if gpg.enable then
+                ''
+                  pgp-auto-sign = true
+                  pgp-key-id = ${gpg.primaryKey.fingerprint}
+                  pgp-opportunistic-encrypt = false
+                ''
+              else
+                ""
+            )
+          )
+          |> builtins.concatStringsSep "\n";
       };
     };
   };
