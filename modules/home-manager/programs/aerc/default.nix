@@ -84,9 +84,10 @@
           in
           ''
             [${address}]
+            from = ${realName} <${address}>
+
             copy-to = Sent
             default = Inbox
-            from = ${realName} <${address}>
             postpone = Drafts
 
             check-mail = 10s
