@@ -17,10 +17,6 @@
         description = "The email address.";
         type = lib.types.uniq lib.types.str;
       };
-      popHost = lib.mkOption {
-        description = "The POP3 server name.";
-        type = lib.types.uniq lib.types.str;
-      };
       passwordScript = lib.mkOption {
         description = ''
           The script which returns the password to login to the email
@@ -67,30 +63,7 @@
 
     accounts.email = {
       accounts.${config.fs.programs.aerc.email.address} = {
-        aerc = {
-          enable = true;
-          extraAccounts =
-            let
-              inherit (config.fs.programs.aerc.email) passwordScript popHost username;
-
-              mpop = pkgs.writeShellScriptBin "mpop" ''
-                mkdir -p ~/mail/{cur,new,tmp}
-
-                ${pkgs.mpop}/bin/mpop \
-                  --host=${popHost} \
-                  --port=995 \
-                  --user=${username} \
-                  --passwordeval='${passwordScript}' \
-                  --tls=on \
-                  --delivery=maildir,~/mail
-              '';
-            in
-            {
-              check-mail-cmd = "${mpop}/bin/mpop";
-              check-mail-timeout = "10s";
-              source = "maildir://~/mail";
-            };
-        };
+        aerc.enable = true;
 
         passwordCommand = "${config.fs.programs.aerc.email.passwordScript}";
 
