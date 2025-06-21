@@ -209,9 +209,9 @@
                 match from auth for any action out
 
                 listen on 0.0.0.0 smtps pki default hostname ${host.domain} \
-                  auth filter { check-rdns, check-fcrdns, dkimsign }
+                  filter { check-rdns, check-fcrdns, dkimsign }
                 listen on :: smtps pki default hostname ${host.domain} \
-                  auth filter { check-rdns, check-fcrdns, dkimsign }
+                  filter { check-rdns, check-fcrdns, dkimsign }
 
                 listen on 0.0.0.0 tls pki default hostname ${host.domain} \
                   filter { check-rdns, check-fcrdns, dkimsign }
