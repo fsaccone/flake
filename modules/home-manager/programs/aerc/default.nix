@@ -69,6 +69,7 @@
               mkdir -p ~/mail
 
               ${pkgs.rsync}/bin/rsync -rz \
+                --remove-source-files \
                 ${username}@${smtpHost}:~/* \
                 ~/mail
             '';
