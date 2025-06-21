@@ -12,19 +12,9 @@ in
     aerc = {
       enable = true;
       email = rec {
-        address = "francesco@francescosaccone.com";
-        folders = {
-          drafts = "Drafts";
-          inbox = "INBOX";
-          sent = "Sent";
-          trash = "Trash";
-        };
-        popHost = "mail.${mainServerDomain}";
-        passwordScript = pkgs.writeShellScript "password" ''
-          ${pkgs.pass}/bin/pass show email/francesco/password
-        '';
+        address = "${username}@${mainServerDomain}";
         realName = "Francesco Saccone";
-        smtpHost = popHost;
+        smtpHost = "mail.${mainServerDomain}";
         username = "francesco";
       };
     };
