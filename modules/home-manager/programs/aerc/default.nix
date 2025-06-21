@@ -33,48 +33,56 @@
   };
 
   config = lib.mkIf config.fs.programs.aerc.enable {
-    home.activation.createMaildir = ''
-      mkdir -p ~/mail/{cur,new,tmp}
-    '';
+    home = {
+      activation.createMaildir = ''
+        mkdir -p ~/mail/{cur,new,tmp}
+      '';
+      packages = [ pkgs.aerc ];
+      file = {
+        ".config/aerc/aerc.conf".text = ''
+          [compose]
+          editor = ${pkgs.nano}/bin/nano
 
-    programs.aerc = {
-      enable = true;
-      package = pkgs.aerc;
+          [filters]
+          text/html = ${pkgs.html2text}/bin/html2text -utf8 -links
+          text/plain = fold -sw 80
 
-      extraConfig = {
-        general = {
-          unsafe-accounts-conf = true;
-        };
-        viewer.pager = "${pkgs.less}/bin/less --clear-screen";
-        compose.editor = "${pkgs.nano}/bin/nano";
-        filters = {
-          "text/plain" = "fold -sw 80";
-          "text/html" = "${pkgs.html2text}/bin/html2text -utf8 -links";
-        };
-      };
-    };
+          [general]
+          unsafe-accounts-conf = true
 
-    accounts.email = {
-      accounts.${config.fs.programs.aerc.email.address} = {
-        aerc.enable = true;
+          [viewer]
+          pager = ${pkgs.less}/bin/less --clear-screen
+        '';
 
-        inherit (config.fs.programs.aerc.email) address realName;
+        ".config/aerc/accounts.conf".text =
+          let
+            inherit (config.fs.programs.aerc.email)
+              address
+              realName
+              smtpHost
+              username
+              ;
 
-        flavor = "plain";
-        gpg = lib.mkIf config.fs.programs.gpg.enable {
-          key = config.fs.programs.gpg.primaryKey.fingerprint;
-          signByDefault = true;
-        };
-        primary = true;
-        smtp = {
-          host = config.fs.programs.aerc.email.smtpHost;
-          port = 465;
-          tls = {
-            enable = true;
-            useStartTls = false;
-          };
-        };
-        userName = config.fs.programs.aerc.email.username;
+            inherit (config.fs.programs) gpg;
+          in
+          ''
+            [${address}]
+            copy-to = Sent
+            default = Inbox
+            from = ${realName} <${address}>
+            outgoing = smtps+plain://${username}@${smtpHost}:465
+            ${
+              if gpg.enable then
+                ''
+                  pgp-auto-sign = ${if gpg.enable then "true" else "false"}
+                  pgp-key-id = ${gpg.primaryKey.fingerprint}
+                  pgp-opportunistic-encrypt = false
+                ''
+              else
+                ""
+            }
+            postpone = Drafts
+          '';
       };
     };
   };
