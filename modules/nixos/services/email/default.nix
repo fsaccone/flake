@@ -74,14 +74,13 @@
           config.fs.services.email.users
           |> builtins.mapAttrs (
             user:
-            { sshKeys, ... }:
+            { ... }:
             {
               hashedPassword = "!";
               isNormalUser = true;
               group = "smtpq";
               createHome = true;
               home = "/home/${user}";
-              openssh.authorizedKeys.keyFiles = sshKeys;
               packages = [
                 pkgs.rsync
                 pkgs.system-sendmail
@@ -105,6 +104,13 @@
         smtpd = { };
         smtpq = { };
       };
+    };
+
+    fs.security.openssh.listen = {
+      enable = true;
+      authorizedKeyFiles =
+        config.fs.services.email.users
+        |> builtins.mapAttrs (name: { sshKeys, ... }: sshKeys);
     };
 
     environment.systemPackages = [
