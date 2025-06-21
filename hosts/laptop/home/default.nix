@@ -11,14 +11,22 @@ in
   fs.programs = rec {
     aerc = {
       enable = true;
-      accounts = [
-        (rec {
-          address = "${username}@${mainServerDomain}";
-          realName = "Francesco Saccone";
-          smtpHost = "mail.${mainServerDomain}";
-          username = "francesco";
-        })
-      ];
+      accounts =
+        builtins.map
+          (
+            { username, realName }:
+            {
+              inherit username realName;
+              address = "${username}@${mainServerDomain}";
+              smtpHost = "mail.${mainServerDomain}";
+            }
+          )
+          [
+            ({
+              realName = "Francesco Saccone";
+              username = "francesco";
+            })
+          ];
     };
     git = {
       enable = true;
