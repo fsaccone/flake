@@ -30,10 +30,7 @@ in
           };
         users = {
           francesco = {
-            hashedPassword = builtins.concatStringsSep "" [
-              "$y$j9T$bijM0Sx8zmb63dV6WnzJP1$L7AflYFAk"
-              "K.joHgsnE8OqgzOTiry1UpbX5xcbj5V7.."
-            ];
+            sshKeys = [ ../main-server/ssh/francescosaccone.pub ];
             aliases = [
               "abuse"
               "admin"
