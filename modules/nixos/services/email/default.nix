@@ -87,6 +87,7 @@
               createHome = true;
               home = "/home/${user}";
               openssh.authorizedKeys.keyFiles = sshKeys;
+              packages = [ pkgs.rsync ];
             }
           )
         )
