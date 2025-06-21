@@ -72,18 +72,28 @@
                 ${username}@${smtpHost}:~/Maildir/* \
                 ~/mail
             '';
+
+            sendmailCommandBase = builtins.concatStringsSep " " [
+              "${pkgs.openssh}/bin/ssh"
+              "${username}@${smtpHost}"
+              "sendmail"
+              "-v"
+              "-F \"${realName}\""
+              "-f ${address}"
+            ];
           in
           ''
             [${address}]
             copy-to = Sent
             default = Inbox
             from = ${realName} <${address}>
-            outgoing = smtps+plain://${username}@${smtpHost}:465
             postpone = Drafts
 
             check-mail-cmd = ${retrieve}
             check-mail-timeout = 10s
             source = maildir://~/mail
+
+            outgoing = ${sendmailCommandBase}
           ''
           + (
             if gpg.enable then
