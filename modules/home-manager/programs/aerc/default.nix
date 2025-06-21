@@ -64,6 +64,12 @@
               ;
 
             inherit (config.fs.programs) gpg;
+
+            retrieve = pkgs.writeShellScript "retrieve" ''
+              ${pkgs.openssh}/bin/scp -r \
+                ${username}@${smtpHost}:Maildir \
+                ~/mail
+            '';
           in
           ''
             [${address}]
@@ -72,6 +78,10 @@
             from = ${realName} <${address}>
             outgoing = smtps+plain://${username}@${smtpHost}:465
             postpone = Drafts
+
+            check-mail-cmd = ${retrieve}
+            check-mail-timeout = 10s
+            source = maildir://~/mail
           ''
           + (
             if gpg.enable then
