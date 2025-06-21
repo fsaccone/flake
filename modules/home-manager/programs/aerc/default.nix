@@ -17,24 +17,6 @@
         description = "The email address.";
         type = lib.types.uniq lib.types.str;
       };
-      folders = {
-        drafts = lib.mkOption {
-          description = "The drafts folder.";
-          type = lib.types.uniq lib.types.str;
-        };
-        inbox = lib.mkOption {
-          description = "The inbox folder.";
-          type = lib.types.uniq lib.types.str;
-        };
-        sent = lib.mkOption {
-          description = "The sent folder.";
-          type = lib.types.uniq lib.types.str;
-        };
-        trash = lib.mkOption {
-          description = "The spam folder.";
-          type = lib.types.uniq lib.types.str;
-        };
-      };
       popHost = lib.mkOption {
         description = "The POP3 server name.";
         type = lib.types.uniq lib.types.str;
@@ -89,11 +71,7 @@
           enable = true;
           extraAccounts =
             let
-              inherit (config.fs.programs.aerc.email)
-                passwordScript
-                popHost
-                username
-                ;
+              inherit (config.fs.programs.aerc.email) passwordScript popHost username;
 
               mpop = pkgs.writeShellScriptBin "mpop" ''
                 mkdir -p ~/mail/{cur,new,tmp}
@@ -116,7 +94,7 @@
 
         passwordCommand = "${config.fs.programs.aerc.email.passwordScript}";
 
-        inherit (config.fs.programs.aerc.email) address folders realName;
+        inherit (config.fs.programs.aerc.email) address realName;
 
         flavor = "plain";
         gpg = lib.mkIf config.fs.programs.gpg.enable {
