@@ -51,11 +51,6 @@
               default = [ ];
               type = lib.types.listOf lib.types.path;
             };
-            aliases = lib.mkOption {
-              description = "The list of alternative usernames of the user.";
-              default = [ ];
-              type = lib.types.listOf lib.types.str;
-            };
           };
         }
         |> lib.types.attrsOf;
@@ -175,45 +170,14 @@
                 users
                 ;
 
-              aliases =
-                users
-                |> builtins.mapAttrs (
-                  name:
-                  { aliases, ... }:
-                  builtins.map (alias: ''
-                    ${alias}@${domain} ${name}
-                    ${alias}@${host.ipv4} ${name}
-                    ${alias}@${host.ipv6} ${name}
-                  '') aliases
-                  |> builtins.concatStringsSep "\n"
-                )
-                |> builtins.attrValues
-                |> builtins.concatStringsSep "\n"
-                |> builtins.toFile "aliases";
-
               addresses =
                 users
-                |> builtins.mapAttrs (
-                  name:
-                  { aliases, ... }:
-                  let
-                    aliasAddresses =
-                      aliases
-                      |> builtins.map (alias: ''
-                        ${alias}@${domain}
-                        ${alias}@${host.ipv4}
-                        ${alias}@${host.ipv6}
-                      '')
-                      |> builtins.concatStringsSep "\n";
-                  in
-                  ''
-                    ${name}@${domain}
-                    ${name}@${host.ipv4}
-                    ${name}@${host.ipv6}
-                    ${aliasAddresses}
-                  ''
-                )
-                |> builtins.attrValues
+                |> builtins.attrNames
+                |> builtins.map (name: ''
+                  ${name}@${domain}
+                  ${name}@${host.ipv4}
+                  ${name}@${host.ipv6}
+                '')
                 |> builtins.concatStringsSep "\n"
                 |> builtins.toFile "addresses";
 
@@ -221,7 +185,6 @@
                 pki default cert "${tls.certificate}"
                 pki default key "${tls.key}"
 
-                table aliases file:${aliases}
                 table addresses file:${addresses}
 
                 filter check-rdns phase connect \
@@ -233,7 +196,7 @@
                      -a rsa-sha256 -t -d ${domain} -s default \
                      -k ${dkimDirectory}/default.key"
 
-                action in maildir "~/" alias <aliases>
+                action in maildir "~/"
                 action out relay helo ${host.domain}
 
                 match from any for rcpt-to <addresses> action in
