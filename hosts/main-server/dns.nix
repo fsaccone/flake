@@ -125,4 +125,11 @@ in
     type = "TXT";
     data = "\"v=STSv1; id=2025062201;\"";
   }
+  {
+    name = "_smtp._tls";
+    inherit ttl;
+    class = "IN";
+    type = "TXT";
+    data = "\"v=TLSRPTv1; rua=mailto:admin@${domain};\"";
+  }
 ]
