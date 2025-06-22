@@ -62,6 +62,23 @@ in
               "${directory}/${domain}/privkey.pem"
             ];
         };
+        preStart.scripts =
+          let
+            inherit (config.fs.services.web) directory;
+            mtaStsTxt = builtins.toFile "mta-sts.txt" ''
+              version: STSv1
+              mode: enforce
+              max_age: 604800
+              mx: ${domain}
+            '';
+          in
+          [
+            (pkgs.writeShellScript "create-mta-sts-txt" ''
+              mkdir -p ${directory}/.well-known
+
+              cp ${mtaStsTxt} ${directory}/.well-known/mta-sts.txt
+            '')
+          ];
       };
     };
 
