@@ -12,7 +12,7 @@ in
 
     mail = import ../mail-server/ip.nix;
 
-    ns1 = import ../main-server/ip.nix;
+    ns1 = import ./ip.nix;
     ns2 = import ../git-server/ip.nix;
   }
   |> builtins.mapAttrs (

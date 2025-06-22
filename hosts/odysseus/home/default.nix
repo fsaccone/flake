@@ -5,7 +5,7 @@
   ...
 }:
 let
-  mainServerDomain = import ../../main-server/domain.nix;
+  emailDomain = import ../../hades/domain.nix;
 in
 {
   fs.programs = rec {
@@ -17,8 +17,8 @@ in
             { username, realName }:
             {
               inherit username realName;
-              address = "${username}@${mainServerDomain}";
-              smtpHost = "mail.${mainServerDomain}";
+              address = "${username}@${emailDomain}";
+              smtpHost = "mail.${emailDomain}";
             }
           )
           [

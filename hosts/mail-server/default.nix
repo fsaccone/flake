@@ -5,7 +5,7 @@
   ...
 }:
 let
-  rootDomain = import ../main-server/domain.nix;
+  rootDomain = import ../hades/domain.nix;
   domain = "mail.${rootDomain}";
 in
 {
@@ -30,16 +30,16 @@ in
           };
         users = {
           abuse = {
-            sshKeys = [ ../main-server/ssh/francescosaccone.pub ];
+            sshKeys = [ ../hades/ssh/francescosaccone.pub ];
           };
           admin = {
-            sshKeys = [ ../main-server/ssh/francescosaccone.pub ];
+            sshKeys = [ ../hades/ssh/francescosaccone.pub ];
           };
           francesco = {
-            sshKeys = [ ../main-server/ssh/francescosaccone.pub ];
+            sshKeys = [ ../hades/ssh/francescosaccone.pub ];
           };
           postmaster = {
-            sshKeys = [ ../main-server/ssh/francescosaccone.pub ];
+            sshKeys = [ ../hades/ssh/francescosaccone.pub ];
           };
         };
       };
@@ -85,7 +85,7 @@ in
     security.openssh.listen = {
       enable = true;
       authorizedKeyFiles = rec {
-        root = [ ../main-server/ssh/francescosaccone.pub ];
+        root = [ ../hades/ssh/francescosaccone.pub ];
       };
     };
   };

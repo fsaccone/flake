@@ -5,7 +5,7 @@
   ...
 }:
 let
-  rootDomain = import ../main-server/domain.nix;
+  rootDomain = import ../hades/domain.nix;
   domain = "git.${rootDomain}";
 
   generateStagitRepository =
@@ -62,7 +62,7 @@ in
       dns = {
         enable = true;
         domain = rootDomain;
-        records = import ../main-server/dns.nix rootDomain;
+        records = import ../hades/dns.nix rootDomain;
       };
 
       git = {
@@ -170,7 +170,7 @@ in
     security.openssh.listen = {
       enable = true;
       authorizedKeyFiles = rec {
-        root = [ ../main-server/ssh/francescosaccone.pub ];
+        root = [ ../hades/ssh/francescosaccone.pub ];
         git = root;
       };
     };
