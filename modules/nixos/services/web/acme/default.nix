@@ -54,7 +54,7 @@
                 User = "root";
                 Group = "root";
                 Type = "oneshot";
-                ExecStart = pkgs.writeShellScript "acme" ''
+                ExecStart = pkgs.writeShellScript "acme.sh" ''
                   if ${pkgs.certbot}/bin/certbot certificates \
                   | ${pkgs.gnugrep}/bin/grep -q "No certificates"; then
                     ${pkgs.certbot}/bin/certbot certonly --quiet --webroot \

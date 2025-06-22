@@ -29,7 +29,7 @@
               User = "git";
               Group = "git";
               Type = "simple";
-              ExecStart = pkgs.writeShellScript "git-daemon" ''
+              ExecStart = pkgs.writeShellScript "git-daemon.sh" ''
                 ${pkgs.git}/bin/git daemon \
                   --verbose \
                   --syslog \

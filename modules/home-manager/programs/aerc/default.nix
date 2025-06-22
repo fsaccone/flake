@@ -80,7 +80,7 @@
             let
               inherit (config.fs.programs) gpg;
 
-              retrieve = pkgs.writeShellScript "retrieve" ''
+              retrieve = pkgs.writeShellScript "retrieve.sh" ''
                 mkdir -p ~/mail/${address}/Inbox
 
                 ${pkgs.rsync}/bin/rsync -rz \

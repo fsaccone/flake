@@ -55,17 +55,17 @@
             hooks = {
               preReceive = lib.mkOption {
                 description = "The pre-receive hook script.";
-                default = pkgs.writeShellScript "pre-receive" "";
+                default = pkgs.writeShellScript "pre-receive.sh" "";
                 type = lib.types.uniq lib.types.path;
               };
               update = lib.mkOption {
                 description = "The update hook script.";
-                default = pkgs.writeShellScript "update" "";
+                default = pkgs.writeShellScript "update.sh" "";
                 type = lib.types.uniq lib.types.path;
               };
               postReceive = lib.mkOption {
                 description = "The post-receive hook script.";
-                default = pkgs.writeShellScript "post-receive" "";
+                default = pkgs.writeShellScript "post-receive.sh" "";
                 type = lib.types.uniq lib.types.path;
               };
             };
@@ -147,7 +147,7 @@
                 )
                 |> builtins.attrValues
                 |> builtins.concatStringsSep "\n"
-                |> pkgs.writeShellScript "git";
+                |> pkgs.writeShellScript "git.sh";
             };
         };
       };

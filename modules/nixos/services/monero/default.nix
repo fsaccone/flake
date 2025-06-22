@@ -62,7 +62,7 @@
               "--bg-mining-enable"
             ];
           in
-          pkgs.writeShellScript "monero" ''
+          pkgs.writeShellScript "monero.sh" ''
             ${pkgs.monero-cli}/bin/monerod \
               --non-interactive \
               --log-file /dev/stdout \

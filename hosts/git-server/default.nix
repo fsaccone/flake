@@ -13,7 +13,7 @@ let
       inherit (config.fs.services) web git;
     in
     name:
-    pkgs.writeShellScript "generate-stagit" ''
+    pkgs.writeShellScript "generate-stagit.sh" ''
       set -e
 
       # Create index.html
@@ -92,7 +92,7 @@ in
                 let
                   inherit (config.fs.services) web git;
                 in
-                pkgs.writeShellScript "post-receive" ''
+                pkgs.writeShellScript "post-receive.sh" ''
                   set -e
 
                   # Define is_force=1 if 'git push -f' was used
@@ -138,7 +138,7 @@ in
               inherit (config.fs.services.web) directory;
             in
             [
-              (pkgs.writeShellScript "create-robots-txt" ''
+              (pkgs.writeShellScript "create-robots-txt.sh" ''
                 echo "User-agent: *" > ${directory}/robots.txt
                 echo "Disallow: /" >> ${directory}/robots.txt
               '')

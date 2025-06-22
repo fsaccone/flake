@@ -73,7 +73,7 @@ in
             '';
           in
           [
-            (pkgs.writeShellScript "create-mta-sts-txt" ''
+            (pkgs.writeShellScript "create-mta-sts-txt.sh" ''
               mkdir -p ${directory}/.well-known
 
               cp ${mtaStsTxt} ${directory}/.well-known/mta-sts.txt

@@ -159,7 +159,7 @@
                 Group = "root";
                 Restart = "on-failure";
                 Type = "simple";
-                ExecStart = pkgs.writeShellScript "web" ''
+                ExecStart = pkgs.writeShellScript "web.sh" ''
                   mkdir -p ${directory}
 
                   chown -R ${user}:${group} ${directory}

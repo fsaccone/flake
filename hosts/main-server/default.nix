@@ -51,25 +51,25 @@ rec {
             let
               inherit (config.fs.services.web) directory;
 
-              generateAtom = pkgs.writeShellScript "generate-atom" ''
+              generateAtom = pkgs.writeShellScript "generate-atom.sh" ''
                 ${inputs.site}/scripts/generate-atom.sh \
                   ${directory} \
                   "Francesco Saccone's blog" \
                   "https://${domain}"
               '';
-              generateSitemap = pkgs.writeShellScript "generate-sitemap" ''
+              generateSitemap = pkgs.writeShellScript "generate-sitemap.sh" ''
                 ${inputs.site}/scripts/generate-sitemap.sh \
                   ${directory} \
                   "https://${domain}"
               '';
-              generateHtml = pkgs.writeShellScript "generate-html" ''
+              generateHtml = pkgs.writeShellScript "generate-html.sh" ''
                 ${inputs.site}/scripts/generate-html.sh ${directory}
               '';
-              createRobotsTxt = pkgs.writeShellScript "create-robots-txt" ''
+              createRobotsTxt = pkgs.writeShellScript "create-robots-txt.sh" ''
                 echo "User-agent: *" > ${directory}/robots.txt
                 echo "Disallow:" >> ${directory}/robots.txt
               '';
-              copyStaticContent = pkgs.writeShellScript "copy-static-content" ''
+              copyStaticContent = pkgs.writeShellScript "copy-static-content.sh" ''
                 mkdir -p ${directory}/public
 
                 cp -fR ${inputs.site}/public/* ${directory}/public

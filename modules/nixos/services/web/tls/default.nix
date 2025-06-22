@@ -32,7 +32,7 @@
           Group = "root";
           Type = "simple";
           Restart = "on-failure";
-          ExecStart = pkgs.writeShellScript "hitch" ''
+          ExecStart = pkgs.writeShellScript "hitch.sh" ''
             mkdir -p /var/lib/hitch
 
             cat ${builtins.concatStringsSep " " tls.pemFiles} > \

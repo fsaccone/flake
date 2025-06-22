@@ -134,7 +134,7 @@
               let
                 inherit (config.fs.services.email) dkimDirectory;
               in
-              pkgs.writeShellScript "dkim" ''
+              pkgs.writeShellScript "dkim.sh" ''
                 mkdir -p ${dkimDirectory}
 
                 if [ ! -f "${dkimDirectory}/default.key" ]; then
@@ -224,7 +224,7 @@
               Group = "root";
               Restart = "on-failure";
               Type = "simple";
-              ExecStart = pkgs.writeShellScript "smtp" ''
+              ExecStart = pkgs.writeShellScript "smtp.sh" ''
                 ${pkgs.opensmtpd}/bin/smtpd -dvf ${configuration}
               '';
             };
