@@ -27,32 +27,28 @@
         enable = true;
         wantedBy = [ "multi-user.target" ];
         after = [ "acme.service" ];
-        serviceConfig =
-          let
-            script = pkgs.writeShellScriptBin "script" ''
-              mkdir -p /var/lib/hitch
+        serviceConfig = {
+          User = "root";
+          Group = "root";
+          Type = "simple";
+          Restart = "on-failure";
+          ExecStart = pkgs.writeShellScript "hitch" ''
+            mkdir -p /var/lib/hitch
 
-              cat ${builtins.concatStringsSep " " tls.pemFiles} > \
-                /var/lib/hitch/full.pem
+            cat ${builtins.concatStringsSep " " tls.pemFiles} > \
+              /var/lib/hitch/full.pem
 
-              ${pkgs.hitch}/bin/hitch \
-                --backend [localhost]:80 \
-                --frontend [*]:443 \
-                --backend-connect-timeout 30 \
-                --ssl-handshake-timeout 30 \
-                --ocsp-dir /var/lib/hitch \
-                --user nobody \
-                --group nogroup \
-                /var/lib/hitch/full.pem
-            '';
-          in
-          {
-            User = "root";
-            Group = "root";
-            Type = "simple";
-            Restart = "on-failure";
-            ExecStart = "${script}/bin/script";
-          };
+            ${pkgs.hitch}/bin/hitch \
+              --backend [localhost]:80 \
+              --frontend [*]:443 \
+              --backend-connect-timeout 30 \
+              --ssl-handshake-timeout 30 \
+              --ocsp-dir /var/lib/hitch \
+              --user nobody \
+              --group nogroup \
+              /var/lib/hitch/full.pem
+          '';
+        };
       };
 
       networking.firewall.allowedTCPPorts = [ 443 ];

@@ -49,8 +49,12 @@
             serviceConfig =
               let
                 domains = [ acme.domain ] ++ acme.extraDomains;
-
-                script = pkgs.writeShellScriptBin "script" ''
+              in
+              {
+                User = "root";
+                Group = "root";
+                Type = "oneshot";
+                ExecStart = pkgs.writeShellScript "acme" ''
                   if ${pkgs.certbot}/bin/certbot certificates \
                   | ${pkgs.gnugrep}/bin/grep -q "No certificates"; then
                     ${pkgs.certbot}/bin/certbot certonly --quiet --webroot \
@@ -61,12 +65,6 @@
                     ${pkgs.certbot}/bin/certbot renew --quiet
                   fi
                 '';
-              in
-              {
-                User = "root";
-                Group = "root";
-                Type = "oneshot";
-                ExecStart = "${script}/bin/script";
               };
           };
         };

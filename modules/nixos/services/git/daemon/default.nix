@@ -25,24 +25,20 @@
             enable = true;
             wantedBy = [ "multi-user.target" ];
             after = [ "network.target" ];
-            serviceConfig =
-              let
-                script = pkgs.writeShellScriptBin "script" ''
-                  ${pkgs.git}/bin/git daemon \
-                    --verbose \
-                    --syslog \
-                    --base-path=${config.fs.services.git.directory} \
-                    --port=9418 \
-                    --export-all \
-                    ${config.fs.services.git.directory}
-                '';
-              in
-              {
-                User = "git";
-                Group = "git";
-                Type = "simple";
-                ExecStart = "${script}/bin/script";
-              };
+            serviceConfig = {
+              User = "git";
+              Group = "git";
+              Type = "simple";
+              ExecStart = pkgs.writeShellScript "git-daemon" ''
+                ${pkgs.git}/bin/git daemon \
+                  --verbose \
+                  --syslog \
+                  --base-path=${config.fs.services.git.directory} \
+                  --port=9418 \
+                  --export-all \
+                  ${config.fs.services.git.directory}
+              '';
+            };
           };
         };
       };

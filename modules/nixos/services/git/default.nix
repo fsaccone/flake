@@ -55,17 +55,17 @@
             hooks = {
               preReceive = lib.mkOption {
                 description = "The pre-receive hook script.";
-                default = "${pkgs.writeShellScriptBin "script" ""}/bin/script";
+                default = pkgs.writeShellScript "pre-receive" "";
                 type = lib.types.uniq lib.types.path;
               };
               update = lib.mkOption {
                 description = "The update hook script.";
-                default = "${pkgs.writeShellScriptBin "script" ""}/bin/script";
+                default = pkgs.writeShellScript "update" "";
                 type = lib.types.uniq lib.types.path;
               };
               postReceive = lib.mkOption {
                 description = "The post-receive hook script.";
-                default = "${pkgs.writeShellScriptBin "script" ""}/bin/script";
+                default = pkgs.writeShellScript "post-receive" "";
                 type = lib.types.uniq lib.types.path;
               };
             };
@@ -105,7 +105,12 @@
           serviceConfig =
             let
               inherit (config.fs.services.git) repositories directory;
-              script =
+            in
+            {
+              User = config.fs.services.git.user;
+              Group = config.fs.services.git.group;
+              Type = "oneshot";
+              ExecStart =
                 repositories
                 |> builtins.mapAttrs (
                   name:
@@ -142,13 +147,7 @@
                 )
                 |> builtins.attrValues
                 |> builtins.concatStringsSep "\n"
-                |> pkgs.writeShellScriptBin "script";
-            in
-            {
-              User = config.fs.services.git.user;
-              Group = config.fs.services.git.group;
-              Type = "oneshot";
-              ExecStart = "${script}/bin/script";
+                |> pkgs.writeShellScript "git";
             };
         };
       };

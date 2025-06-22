@@ -153,8 +153,13 @@
 
                   ${if redirectWwwToNonWww.enable then redirectConfig else ""}
                 '';
-
-                script = pkgs.writeShellScriptBin "web" ''
+              in
+              {
+                User = "root";
+                Group = "root";
+                Restart = "on-failure";
+                Type = "simple";
+                ExecStart = pkgs.writeShellScript "web" ''
                   mkdir -p ${directory}
 
                   chown -R ${user}:${group} ${directory}
@@ -170,13 +175,6 @@
                     --page404 ${errorPages."404"} \
                     --page50x ${errorPages."5xx"}
                 '';
-              in
-              {
-                User = "root";
-                Group = "root";
-                Restart = "on-failure";
-                Type = "simple";
-                ExecStart = "${script}/bin/web";
               };
           };
       };
