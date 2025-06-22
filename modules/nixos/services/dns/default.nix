@@ -16,6 +16,24 @@
       description = "The domain to setup DNS for.";
       type = lib.types.uniq lib.types.str;
     };
+    isSecondary = lib.mkOption {
+      description = "Whether the server is a secondary name server.";
+      type = lib.types.uniq lib.types.bool;
+    };
+    primaryIp = lib.mkOption {
+      description = ''
+        The IP address of the primary name server. Only needed when isSecondary
+        is set to true.
+      '';
+      type = lib.types.uniq lib.types.str;
+    };
+    secondaryIp = lib.mkOption {
+      description = ''
+        The IP address of the secondary name server. Only used when isSecondary
+        is set to false.
+      '';
+      type = lib.types.nullOr lib.types.str;
+    };
     records = lib.mkOption {
       description = "The DNS records.";
       default = [ ];
@@ -61,7 +79,13 @@
           Restart = "on-failure";
           ExecStart =
             let
-              inherit (config.fs.services.dns) domain records;
+              inherit (config.fs.services.dns)
+                domain
+                isSecondary
+                primaryIp
+                records
+                secondaryIp
+                ;
 
               zone =
                 (
@@ -93,8 +117,22 @@
 
               configuration = builtins.toFile "named.conf" ''
                 zone "${domain}" {
-                  type master;
+                  type ${if isSecondary then "secondary" else "primary"};
                   file "${zone}";
+                  ${
+                    (
+                      if isSecondary then
+                        ''
+                          primaries { ${primaryIp}; };
+                        ''
+                      else if secondaryIp != null then
+                        ''
+                          allow-transfer { ${secondaryIp}; };
+                        ''
+                      else
+                        ""
+                    )
+                  }
                 };
               '';
             in
