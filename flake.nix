@@ -97,7 +97,7 @@
         "hephaestus" = lib.makeHost "hephaestus" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
         };
-        "mail-server" = lib.makeHost "mail-server" {
+        "hermes" = lib.makeHost "hermes" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
         };
         "odysseus" = lib.makeHost "odysseus" {

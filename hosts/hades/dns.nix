@@ -10,7 +10,7 @@ in
     git = import ../hephaestus/ip.nix;
     "www.git" = import ../hephaestus/ip.nix;
 
-    mail = import ../mail-server/ip.nix;
+    mail = import ../hermes/ip.nix;
 
     ns1 = import ./ip.nix;
     ns2 = import ../hephaestus/ip.nix;
