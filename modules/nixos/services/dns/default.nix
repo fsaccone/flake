@@ -49,37 +49,59 @@
   };
 
   config = lib.mkIf config.fs.services.dns.enable {
-    services.bind = {
-      enable = true;
-      package = pkgs.bind;
-
-      zones.${config.fs.services.dns.domain} = {
-        master = true;
-        file =
-          config.fs.services.dns.records
-          |> builtins.map (
-            {
-              name,
-              ttl,
-              class,
-              type,
-              data,
-            }:
+    systemd.services = {
+      dns = {
+        enable = true;
+        wantedBy = [ "multi-user.target" ];
+        after = [ "network.target" ];
+        serviceConfig = {
+          User = "root";
+          Group = "root";
+          Type = "simple";
+          Restart = "on-failure";
+          ExecStart =
             let
-              inherit (config.fs.services.dns) domain;
-              subdomain = if name != "@" then "${name}." else "";
+              inherit (config.fs.services.dns) domain records;
+
+              zone =
+                (
+                  config.fs.services.dns.records
+                  |> builtins.map (
+                    {
+                      name,
+                      ttl,
+                      class,
+                      type,
+                      data,
+                    }:
+                    let
+                      subdomain = if name != "@" then "${name}." else "";
+                    in
+                    [
+                      "${subdomain}${domain}."
+                      (builtins.toString ttl)
+                      class
+                      type
+                      data
+                    ]
+                    |> builtins.concatStringsSep " "
+                  )
+                  |> builtins.concatStringsSep "\n"
+                )
+                + "\n"
+                |> builtins.toFile domain;
+
+              configuration = builtins.toFile "named.conf" ''
+                zone "${domain}" {
+                  type master;
+                  file "${zone}";
+                };
+              '';
             in
-            [
-              "${subdomain}${domain}."
-              (builtins.toString ttl)
-              class
-              type
-              data
-            ]
-            |> builtins.concatStringsSep " "
-          )
-          |> builtins.concatStringsSep "\n"
-          |> pkgs.writeText "${config.fs.services.dns.domain}";
+            pkgs.writeShellScript "dns.sh" ''
+              ${pkgs.bind}/bin/named -fc ${configuration}
+            '';
+        };
       };
     };
 
