@@ -26,7 +26,10 @@
       systemd.services.hitch = {
         enable = true;
         wantedBy = [ "multi-user.target" ];
-        after = [ "acme.service" ];
+        after = [
+          "web.service"
+          "acme.service"
+        ];
         serviceConfig = {
           User = "root";
           Group = "root";
