@@ -91,9 +91,6 @@
       };
 
       nixosConfigurations = {
-        "laptop" = lib.makeHost "laptop" {
-          additionalModules = [ inputs.home-manager.nixosModules.home-manager ];
-        };
         "git-server" = lib.makeHost "git-server" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
         };
@@ -102,6 +99,9 @@
         };
         "main-server" = lib.makeHost "main-server" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
+        };
+        "odysseus" = lib.makeHost "odysseus" {
+          additionalModules = [ inputs.home-manager.nixosModules.home-manager ];
         };
       };
     };
