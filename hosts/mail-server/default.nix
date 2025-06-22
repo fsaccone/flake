@@ -49,6 +49,7 @@ in
           enable = true;
           email = "francesco@${rootDomain}";
           inherit domain;
+          extraDomains = [ "mta-sts.${rootDomain}" ];
         };
         tls = {
           enable = true;
