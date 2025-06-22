@@ -45,7 +45,7 @@ in
     class = "IN";
     type = "SOA";
     data = ''
-      ns1.${domain}. francesco.${domain}. (
+      ns1.${domain}. admin.${domain}. (
         2025061801
         7200
         1800
