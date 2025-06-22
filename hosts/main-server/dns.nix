@@ -111,4 +111,18 @@ in
       )
     '';
   }
+  {
+    name = "mta-sts";
+    inherit ttl;
+    class = "IN";
+    type = "CNAME";
+    data = "mail.${domain}.";
+  }
+  {
+    name = "_mta-sts";
+    inherit ttl;
+    class = "IN";
+    type = "TXT";
+    data = "\"v=STSv1; id=2025062201;\"";
+  }
 ]
