@@ -91,10 +91,10 @@
       };
 
       nixosConfigurations = {
-        "git-server" = lib.makeHost "git-server" {
+        "hades" = lib.makeHost "hades" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
         };
-        "hades" = lib.makeHost "hades" {
+        "hephaestus" = lib.makeHost "hephaestus" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
         };
         "mail-server" = lib.makeHost "mail-server" {

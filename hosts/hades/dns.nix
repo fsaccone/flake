@@ -7,13 +7,13 @@ in
     "@" = import ./ip.nix;
     www = import ./ip.nix;
 
-    git = import ../git-server/ip.nix;
-    "www.git" = import ../git-server/ip.nix;
+    git = import ../hephaestus/ip.nix;
+    "www.git" = import ../hephaestus/ip.nix;
 
     mail = import ../mail-server/ip.nix;
 
     ns1 = import ./ip.nix;
-    ns2 = import ../git-server/ip.nix;
+    ns2 = import ../hephaestus/ip.nix;
   }
   |> builtins.mapAttrs (
     name:
