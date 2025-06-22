@@ -42,9 +42,15 @@
 
   config = lib.mkIf config.fs.programs.aerc.enable {
     home = {
-      activation.createMaildir = ''
-        mkdir -p ~/mail/{cur,new,tmp}
-      '';
+      activation.createMaildirs =
+        config.fs.programs.aerc.accounts
+        |> builtins.map (
+          { address, ... }:
+          ''
+            mkdir -p ~/mail/${address}/Inbox/{cur,new,tmp}
+          ''
+        )
+        |> builtins.concatStringsSep "\n";
       packages = [ pkgs.aerc ];
       file = {
         ".config/aerc/aerc.conf".text = ''
