@@ -23,7 +23,7 @@
       inherit (config.fs.services.web) tls;
     in
     lib.mkIf (tls.enable && config.fs.services.web.enable) {
-      systemd.services.hitch = {
+      systemd.services.web-tls = {
         enable = true;
         wantedBy = [ "multi-user.target" ];
         after = [
@@ -35,7 +35,7 @@
           Group = "root";
           Type = "simple";
           Restart = "on-failure";
-          ExecStart = pkgs.writeShellScript "hitch.sh" ''
+          ExecStart = pkgs.writeShellScript "web-tls.sh" ''
             mkdir -p /var/lib/hitch
 
             cat ${builtins.concatStringsSep " " tls.pemFiles} > \
