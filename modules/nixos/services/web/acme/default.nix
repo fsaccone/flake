@@ -45,7 +45,7 @@
           acme = {
             enable = true;
             wantedBy = [ "multi-user.target" ];
-            after = [ "web.target" ];
+            after = [ "web.service" ];
             serviceConfig =
               let
                 domains = [ acme.domain ] ++ acme.extraDomains;
