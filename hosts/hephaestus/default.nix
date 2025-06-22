@@ -62,6 +62,8 @@ in
       dns = {
         enable = true;
         domain = rootDomain;
+        isSecondary = true;
+        primaryIp = (import ../hades/ip.nix).ipv6;
         records = import ../hades/dns.nix rootDomain;
       };
 

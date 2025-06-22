@@ -15,6 +15,8 @@ rec {
       dns = {
         enable = true;
         inherit (networking) domain;
+        isSecondary = false;
+        secondaryIp = (import ../hephaestus/ip.nix).ipv6;
         records = import ./dns.nix domain;
       };
       web = {
