@@ -75,13 +75,13 @@
               inherit (config.fs.programs) gpg;
 
               retrieve = pkgs.writeShellScript "retrieve" ''
-                mkdir -p ~/mail/Inbox
+                mkdir -p ~/mail/${address}/Inbox
 
                 ${pkgs.rsync}/bin/rsync -rz \
                   --remove-source-files \
                   --ignore-missing-args \
                   ${username}@${smtpHost}:~/* \
-                  ~/mail/Inbox
+                  ~/mail/${address}/Inbox
               '';
 
               sendmailCommandBase = builtins.concatStringsSep " " [
@@ -105,7 +105,7 @@
               check-mail = 10s
               check-mail-cmd = ${retrieve}
               check-mail-timeout = 30s
-              source = maildir://~/mail
+              source = maildir://~/mail/${address}
 
               outgoing = ${sendmailCommandBase}
             ''
