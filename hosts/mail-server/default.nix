@@ -50,6 +50,17 @@ in
           email = "francesco@${rootDomain}";
           inherit domain;
         };
+        tls = {
+          enable = true;
+          pemFiles =
+            let
+              inherit (config.fs.services.web.acme) directory;
+            in
+            [
+              "${directory}/${domain}/fullchain.pem"
+              "${directory}/${domain}/privkey.pem"
+            ];
+        };
       };
     };
 
