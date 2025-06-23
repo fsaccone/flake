@@ -18,14 +18,14 @@ NixOS modules
 -------------
 
 - default: Provides a collection of modules to enable various things I need in
-           my hosts: they are configurable through the provided 'modules'
+           my hosts: they are configurable through the provided 'fs'
            attribute set. See the configuration of one of my hosts to
            understand the concept better.
 
 - home-manager: Not an actual NixOS module: it should be imported from a
                 home-manager configuration. Like the 'default' NixOS module,
                 it provides a collection of modules which are configurable
-                through the 'modules' attribute set.
+                through the 'fs' attribute set.
 
 Installation
 ------------
