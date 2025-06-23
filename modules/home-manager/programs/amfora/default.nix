@@ -43,40 +43,44 @@
 
   config = lib.mkIf config.fs.programs.amfora.enable {
     home = {
-      packages = [ pkgs.amfora ];
-      shellAliases =
+      packages =
         let
           inherit (config.fs.programs) gpg;
           inherit (config.fs.programs.amfora) certificates;
-          certificatesIsEmpty = builtins.length certificates == 0;
         in
-        lib.mkIf (gpg.enable && !certificatesIsEmpty) {
-          "amfora" =
-            (
-              certificates
-              |> builtins.map (
-                {
-                  host,
-                  certificate,
-                  gpgEncryptedKey,
-                }:
-                let
-                  output = "~/.cache/amfora/keys/${host}";
-                in
-                ''
-                  set -e
+        if gpg.enable && builtins.length certificates != 0 then
+          [
+            (pkgs.writeShellScriptBin "amfora" ''
+              set -e
 
-                  mkdir -p ${builtins.dirOf output}
+              ${
+                (
+                  certificates
+                  |> builtins.map (
+                    {
+                      host,
+                      certificate,
+                      gpgEncryptedKey,
+                    }:
+                    let
+                      output = "~/.cache/amfora/keys/${host}";
+                    in
+                    ''
+                      mkdir -p ${builtins.dirOf output}
 
-                  ${pkgs.gnupg}/bin/gpg -r "${gpg.primaryKey.fingerprint}" \
-                  -d ${gpgEncryptedKey} > ${output}.pem
-                ''
-              )
-              |> builtins.concatStringsSep "\n"
-            )
-            + "${pkgs.amfora}/bin/amfora"
-            |> pkgs.writeShellScript "amfora-with-certificates.sh";
-        };
+                      ${pkgs.gnupg}/bin/gpg -r "${gpg.primaryKey.fingerprint}" \
+                      -d ${gpgEncryptedKey} > ${output}.pem
+                    ''
+                  )
+                  |> builtins.concatStringsSep "\n"
+                )
+              }
+
+              ${pkgs.amfora}/bin/amfora
+            '')
+          ]
+        else
+          [ pkgs.amfora ];
       file =
         let
           authSection =
