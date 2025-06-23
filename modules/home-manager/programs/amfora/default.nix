@@ -62,8 +62,7 @@
                     gpgEncryptedKey,
                   }:
                   let
-                    cacheDirectory = "${config.home.homeDirectory}/.cache";
-                    output = "${cacheDirectory}/amfora/keys/${host}";
+                    output = "~/.cache/amfora/keys/${host}";
                   in
                   ''
                     ${pkgs.sbase}/bin/mkdir -p ${builtins.dirOf output}
@@ -94,11 +93,8 @@
                 config.fs.programs.amfora.certificates
                 |> builtins.map (
                   { host, ... }:
-                  let
-                    cacheDirectory = "${config.home.homeDirectory}/.cache";
-                  in
                   ''
-                    "${host}" = '${cacheDirectory}/amfora/keys/${host}'
+                    "${host}" = '~/.cache/amfora/keys/${host}'
                   ''
                 )
                 |> builtins.concatStringsSep "\n";
@@ -134,7 +130,7 @@
             bullets = true
             show_link = false
             max_width = 80
-            downloads = '${config.home.homeDirectory}/downloads'
+            downloads = '~/downloads'
             page_max_size = 2097152 # 2 MiB
             page_max_time = 10 # seconds
             scrollbar = "auto"
