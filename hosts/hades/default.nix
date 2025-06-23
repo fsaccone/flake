@@ -19,6 +19,60 @@ rec {
         secondaryIp = (import ../hephaestus/ip.nix).ipv6;
         records = import ./dns.nix domain;
       };
+      gemini = {
+        enable = true;
+        tls =
+          let
+            inherit (config.fs.services.web.acme) directory;
+          in
+          {
+            certificate = "${directory}/${domain}/fullchain.pem";
+            key = "${directory}/${domain}/privkey.pem";
+          };
+        preStart = {
+          scripts =
+            let
+              inherit (config.fs.services.gemini) directory;
+
+              generateAtom = pkgs.writeShellScript "generate-atom.sh" ''
+                ${inputs.site}/scripts/generate-atom.sh \
+                  ${directory} \
+                  "Francesco Saccone's blog" \
+                  "gemini://${domain}"
+              '';
+              generateSitemap = pkgs.writeShellScript "generate-sitemap.sh" ''
+                ${inputs.site}/scripts/generate-sitemap.sh \
+                  ${directory} \
+                  "gemini://${domain}"
+              '';
+              generateGemini = pkgs.writeShellScript "generate-gemini.sh" ''
+                ${inputs.site}/scripts/generate-gemini.sh ${directory}
+              '';
+              createRobotsTxt = pkgs.writeShellScript "create-robots-txt.sh" ''
+                echo "User-agent: *" > ${directory}/robots.txt
+                echo "Disallow:" >> ${directory}/robots.txt
+              '';
+              copyStaticContent = pkgs.writeShellScript "copy-static-content.sh" ''
+                mkdir -p ${directory}/public
+
+                cp -fR ${inputs.site}/public/* ${directory}/public
+              '';
+            in
+            [
+              generateAtom
+              generateSitemap
+              generateGemini
+              createRobotsTxt
+              copyStaticContent
+            ];
+          packages = [
+            pkgs.coreutils
+            pkgs.findutils
+            pkgs.gnused
+            pkgs.lowdown
+          ];
+        };
+      };
       web = {
         enable = true;
         redirectWwwToNonWww = {
