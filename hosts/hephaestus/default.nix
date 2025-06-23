@@ -48,6 +48,8 @@ let
         -dist ${gemini.directory}/${name} \
         -url "git://${domain}/${name}" \
         -perms \
+        -refs \
+        -name "${name}" \
         -max-commits 128
 
       echo "Gmnigit page generated for ${name}: <gemini>/${name}."
