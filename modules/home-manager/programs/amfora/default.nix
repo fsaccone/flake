@@ -59,7 +59,7 @@
             (pkgs.writeShellScriptBin "amfora" ''
               set -e
 
-              mkdir -p ${keysDirectory}
+              mkdir -pm 700 ${keysDirectory}
 
               ${
                 (
