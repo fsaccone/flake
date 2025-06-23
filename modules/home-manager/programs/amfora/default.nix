@@ -16,7 +16,7 @@
       description = "The directory containing the certificate keys.";
       default = "~/.cache/amfora/keys";
       readOnly = true;
-      type = lib.types.uniq lib.types.path;
+      type = lib.types.uniq lib.types.str;
     };
     certificates = lib.mkOption {
       description = "The list of client certificates configurations per host.";
