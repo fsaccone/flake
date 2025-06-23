@@ -40,7 +40,7 @@ let
 
       echo "Gmnigit index file generated: <gemini>/index.gmi".
 
-      # Create repository page
+      # Create repository pages
       mkdir -p ${gemini.directory}/${name}
 
       ${pkgs.gmnigit}/bin/gmnigit \
