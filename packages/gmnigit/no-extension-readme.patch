@@ -1,0 +1,20 @@
+diff --git a/files.go b/files.go
+index dd14a59..a8bd652 100644
+--- a/files.go
++++ b/files.go
+@@ -130,12 +130,12 @@ func createIndexFile() {
+ 
+ 	indexFile.WriteString("=> " + treeSubPath + "/\n\n")
+ 
+-	// convert README.md to gemini and write it to index.gmi in repository root
+-	text, err := os.ReadFile(filepath.Join(distPath, treeSubPath, "README.md.txt"))
++	// convert README to gemini and write it to index.gmi in repository root
++	text, err := os.ReadFile(filepath.Join(distPath, treeSubPath, "README.txt"))
+ 
+ 	if err != nil {
+ 		if os.IsNotExist(err) {
+-			log.Println("README.md not found in your repository")
++			log.Println("README not found in your repository")
+ 
+ 			check(indexFile.Close())
+ 			return

@@ -14,6 +14,8 @@ buildGoModule rec {
 
   vendorHash = "sha256-/UIfgwPFZxdnSywA7ysyVIFQXTRud/nlkOdzGEESEbY=";
 
+  patches = [ ./no-extension-readme.patch ];
+
   meta = {
     description = "Static git gemini viewer written in golang.";
     license = lib.licenses.mit;
