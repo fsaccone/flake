@@ -52,29 +52,30 @@
         in
         lib.mkIf (gpg.enable && !certificatesIsEmpty) {
           "amfora" =
-            let
-              decryptKeys =
-                certificates
-                |> builtins.map (
-                  {
-                    host,
-                    certificate,
-                    gpgEncryptedKey,
-                  }:
-                  let
-                    output = "~/.cache/amfora/keys/${host}";
-                  in
-                  ''
-                    mkdir -p ${builtins.dirOf output}
+            (
+              certificates
+              |> builtins.map (
+                {
+                  host,
+                  certificate,
+                  gpgEncryptedKey,
+                }:
+                let
+                  output = "~/.cache/amfora/keys/${host}";
+                in
+                ''
+                  set -e
 
-                    ${pkgs.gnupg}/bin/gpg -r "${gpg.primaryKey.fingerprint}" \
-                    -d ${gpgEncryptedKey} > ${output}.pem
-                  ''
-                )
-                |> builtins.concatStringsSep "\n"
-                |> pkgs.writeShellScriptBin "decrypt-keys";
-            in
-            "${decryptKeys}/bin/decrypt-keys && ${pkgs.amfora}/bin/amfora";
+                  mkdir -p ${builtins.dirOf output}
+
+                  ${pkgs.gnupg}/bin/gpg -r "${gpg.primaryKey.fingerprint}" \
+                  -d ${gpgEncryptedKey} > ${output}.pem
+                ''
+              )
+              |> builtins.concatStringsSep "\n"
+            )
+            + "${pkgs.amfora}/bin/amfora"
+            |> pkgs.writeShellScript "amfora-with-certificates.sh";
         };
       file =
         let
