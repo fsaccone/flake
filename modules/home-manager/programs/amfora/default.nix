@@ -86,10 +86,12 @@
           [ pkgs.amfora ];
       file =
         let
+          inherit (config.fs.programs.amfora) certificates keysDirectory;
+
           authSection =
             let
               certs =
-                config.fs.programs.amfora.certificates
+                certificates
                 |> builtins.map (
                   { host, certificate, ... }:
                   ''
@@ -98,11 +100,11 @@
                 )
                 |> builtins.concatStringsSep "\n";
               keys =
-                config.fs.programs.amfora.certificates
+                certificates
                 |> builtins.map (
                   { host, ... }:
                   ''
-                    "${host}" = '${config.fs.programs.amfora.keysDirectory}/${host}.pem'
+                    "${host}" = '${keysDirectory}/${host}.pem'
                   ''
                 )
                 |> builtins.concatStringsSep "\n";
