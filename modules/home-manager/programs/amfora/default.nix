@@ -12,6 +12,12 @@
       default = false;
       type = lib.types.bool;
     };
+    keysDirectory = lib.mkOption {
+      description = "The directory containing the certificate keys.";
+      default = "~/.cache/amfora/keys";
+      readOnly = true;
+      type = lib.types.uniq lib.types.path;
+    };
     certificates = lib.mkOption {
       description = "The list of client certificates configurations per host.";
       default = [ ];
@@ -46,12 +52,14 @@
       packages =
         let
           inherit (config.fs.programs) gpg;
-          inherit (config.fs.programs.amfora) certificates;
+          inherit (config.fs.programs.amfora) certificates keysDirectory;
         in
         if gpg.enable && builtins.length certificates != 0 then
           [
             (pkgs.writeShellScriptBin "amfora" ''
               set -e
+
+              mkdir -p ${keysDirectory}
 
               ${
                 (
@@ -62,14 +70,9 @@
                       certificate,
                       gpgEncryptedKey,
                     }:
-                    let
-                      output = "~/.cache/amfora/keys/${host}";
-                    in
                     ''
-                      mkdir -p ${builtins.dirOf output}
-
                       ${pkgs.gnupg}/bin/gpg -r "${gpg.primaryKey.fingerprint}" \
-                      -d ${gpgEncryptedKey} > ${output}.pem
+                      -d ${gpgEncryptedKey} > ${keysDirectory}/${host}.pem
                     ''
                   )
                   |> builtins.concatStringsSep "\n"
@@ -99,7 +102,7 @@
                 |> builtins.map (
                   { host, ... }:
                   ''
-                    "${host}" = '~/.cache/amfora/keys/${host}.pem'
+                    "${host}" = '${config.fs.programs.amfora.keysDirectory}/${host}.pem'
                   ''
                 )
                 |> builtins.concatStringsSep "\n";
