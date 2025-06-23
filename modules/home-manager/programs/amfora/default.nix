@@ -14,7 +14,7 @@
     };
     keysDirectory = lib.mkOption {
       description = "The directory containing the certificate keys.";
-      default = "~/.cache/amfora/keys";
+      default = "${config.home.homeDirectory}/.cache/amfora/keys";
       readOnly = true;
       type = lib.types.uniq lib.types.str;
     };
@@ -140,7 +140,7 @@
             bullets = true
             show_link = false
             max_width = 80
-            downloads = '~/downloads'
+            downloads = '${config.home.homeDirectory}/downloads'
             page_max_size = 2097152 # 2 MiB
             page_max_time = 10 # seconds
             scrollbar = "auto"
