@@ -6,11 +6,13 @@ Francesco Saccone's Nix flake.
 NixOS configurations
 --------------------
 
-- laptop: Designed for my laptop.
+- odysseus: My laptop.
 
-- main-server: Designed for my main server.
+- hades: My main server, available at francescosaccone.com.
 
-- git-server: Designed for my Git server.
+- hephaestus: My Git server, available at git.francescosaccone.com.
+
+- hermes: My mail server, available at mail.francescosaccone.com.
 
 NixOS modules
 -------------
