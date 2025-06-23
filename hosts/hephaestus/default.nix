@@ -8,6 +8,51 @@ let
   rootDomain = import ../hades/domain.nix;
   domain = "git.${rootDomain}";
 
+  generateGmnigitRepository =
+    let
+      inherit (config.fs.services) gemini git;
+
+      indexGmi = builtins.toFile "index.gmi" ''
+        # Repositories
+
+        ${
+          (
+            git.repositories
+            |> builtins.mapAttrs (
+              name:
+              { additionalFiles, ... }:
+              ''
+                => ${name} [${name}] ${additionalFiles.description}
+              ''
+            )
+            |> builtins.attrValues
+            |> builtins.concatStringsSep "\n"
+          )
+        }
+      '';
+    in
+    name:
+    pkgs.writeShellScript "generate-gmnigit.sh" ''
+      set -e
+
+      # Create index.gmi
+      cp ${indexGmi} ${gemini.directory}/index.gmi
+
+      echo "Gmnigit index file generated: <gemini>/index.gmi".
+
+      # Create repository page
+      mkdir -p ${gemini.directory}/${name}
+
+      ${pkgs.gmnigit}/bin/gmnigit \
+        -repo ${git.directory}/${name} \
+        -dist ${gemini.directory}/${name} \
+        -url "git://${domain}/${name}" \
+        -perms \
+        -max-commits 128
+
+      echo "Gmnigit page generated for ${name}: <gemini>/${name}."
+    '';
+
   generateStagitRepository =
     let
       inherit (config.fs.services) web git;
@@ -67,6 +112,35 @@ in
         records = import ../hades/dns.nix rootDomain;
       };
 
+      gemini = {
+        enable = true;
+        inherit (config.fs.services.git) user group;
+        tls =
+          let
+            inherit (config.fs.services.web.acme) directory;
+          in
+          {
+            certificate = "${directory}/${domain}/fullchain.pem";
+            key = "${directory}/${domain}/privkey.pem";
+          };
+        preStart = {
+          scripts =
+            let
+              inherit (config.fs.services.gemini) directory;
+            in
+            [
+              (pkgs.writeShellScript "create-robots-txt.sh" ''
+                echo "User-agent: *" > ${directory}/robots.txt
+                echo "Disallow: /" >> ${directory}/robots.txt
+              '')
+            ]
+            ++ builtins.map generateGmnigitRepository (
+              builtins.attrNames config.fs.services.git.repositories
+            );
+          packages = [ pkgs.git ];
+        };
+      };
+
       git = {
         enable = true;
         repositories =
@@ -92,7 +166,7 @@ in
               };
               hooks.postReceive =
                 let
-                  inherit (config.fs.services) web git;
+                  inherit (config.fs.services) gemini web git;
                 in
                 pkgs.writeShellScript "post-receive.sh" ''
                   set -e
@@ -116,9 +190,11 @@ in
                   # If is_force is 1, delete HTML commits
                   if test $is_force = 1; then
                     rm -rf ${web.directory}/${name}/commit
+                    rm -rf ${gemini.directory}/${name}/commit
                   fi
 
                   ${generateStagitRepository name}
+                  ${generateGmnigitRepository name}
                 '';
             }
           );
