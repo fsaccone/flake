@@ -190,7 +190,7 @@ in
                   # If is_force is 1, delete HTML commits
                   if test $is_force = 1; then
                     rm -rf ${web.directory}/${name}/commit
-                    rm -rf ${gemini.directory}/${name}/commit
+                    rm -rf ${gemini.directory}/${name}/commits
                   fi
 
                   ${generateStagitRepository name}
