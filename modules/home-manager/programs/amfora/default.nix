@@ -68,7 +68,7 @@
                     mkdir -p ${builtins.dirOf output}
 
                     ${pkgs.gnupg}/bin/gpg -r "${gpg.primaryKey.fingerprint}" \
-                    -d ${gpgEncryptedKey} > ${output}
+                    -d ${gpgEncryptedKey} > ${output}.pem
                   ''
                 )
                 |> builtins.concatStringsSep "\n"
@@ -94,7 +94,7 @@
                 |> builtins.map (
                   { host, ... }:
                   ''
-                    "${host}" = '~/.cache/amfora/keys/${host}'
+                    "${host}" = '~/.cache/amfora/keys/${host}.pem'
                   ''
                 )
                 |> builtins.concatStringsSep "\n";
