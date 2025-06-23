@@ -79,9 +79,8 @@
       users = {
         web = {
           hashedPassword = "!";
-          isNormalUser = true;
+          isSystemUser = true;
           group = "web";
-          createHome = false;
         };
       };
       groups = {
