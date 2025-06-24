@@ -94,9 +94,6 @@
                 "${pkgs.openssh}/bin/ssh"
                 "${username}@${smtpHost}"
                 "sendmail"
-                "-v"
-                "-F \"${realName}\""
-                "-f ${address}"
               ];
             in
             ''
