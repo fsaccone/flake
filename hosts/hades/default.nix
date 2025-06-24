@@ -69,7 +69,7 @@ rec {
             pkgs.coreutils
             pkgs.findutils
             pkgs.gnused
-            pkgs.lowdown
+            pkgs.gmnhg
           ];
         };
       };
