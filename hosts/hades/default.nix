@@ -86,14 +86,14 @@ rec {
                 name = "404-page";
                 buildInputs = [ pkgs.lowdown ];
                 buildCommand = ''
-                  ${inputs.site}/scripts/generate-404.sh $out
+                  ${inputs.site}/scripts/generate-404-html.sh $out
                 '';
               };
               "5xx" = pkgs.stdenv.mkDerivation {
                 name = "5xx-page";
                 buildInputs = [ pkgs.lowdown ];
                 buildCommand = ''
-                  ${inputs.site}/scripts/generate-5xx.sh $out
+                  ${inputs.site}/scripts/generate-5xx-html.sh $out
                 '';
               };
             };
