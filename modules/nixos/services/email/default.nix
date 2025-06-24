@@ -81,10 +81,7 @@
               group = "smtpq";
               createHome = true;
               home = "/home/${user}";
-              packages = [
-                pkgs.rsync
-                pkgs.system-sendmail
-              ];
+              packages = [ pkgs.rsync ];
             }
           )
         )
