@@ -81,7 +81,8 @@
               inherit (config.fs.programs) gpg;
 
               retrieve = pkgs.writeShellScript "retrieve.sh" ''
-                mkdir -p ~/mail/${address}/Inbox
+                mkdir -p \
+                  ~/mail/${address}/{Archive,Drafts,Inbox,Sent}/{cur,new,tmp}
 
                 ${pkgs.rsync}/bin/rsync -rz \
                   --remove-source-files \
