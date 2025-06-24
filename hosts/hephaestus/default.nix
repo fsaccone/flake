@@ -22,7 +22,8 @@ let
               name:
               { additionalFiles, ... }:
               ''
-                => ${name} [${name}] ${additionalFiles.description}
+                => ${name} [${name}]
+                ${additionalFiles.description}
               ''
             )
             |> builtins.attrValues
