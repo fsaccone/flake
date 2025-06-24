@@ -131,7 +131,7 @@
             [a-general]
             home = "gemini://geminiprotocol.net"
             auto_redirect = false
-            http = [ '${pkgs.ladybird}/bin/Ladybird' ]
+            http = [ '${pkgs.xdg-utils}/bin/xdg-open' ]
             search = "gemini://tlgs.one/search"
             color = true
             ansi = true
