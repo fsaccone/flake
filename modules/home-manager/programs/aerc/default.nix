@@ -42,7 +42,46 @@
 
   config = lib.mkIf config.fs.programs.aerc.enable {
     home = {
-      packages = [ pkgs.aerc ];
+      packages =
+        let
+          inherit (config.fs.programs) gpg;
+        in
+        [
+          (
+            if gpg.enable then
+              pkgs.writeShellScriptBin "aerc" ''
+                set -e
+
+                no_gpg=0
+
+                while getopts "n" opt; do
+                  case $opt in
+                    n)
+                      no_gpg=1
+                      ;;
+                    *)
+                      echo "Usage: $0 [-n]"
+                      echo "    -n"
+                      echo "      Do not prompt to unlock the GPG key."
+                      exit 1
+                      ;;
+                  esac
+                done
+
+                if [ $no_gpg -eq 0 ]; then
+                  export GPG_TTY=$(tty)
+
+                  echo "Successfully unlocked the GPG key." \
+                  | ${pkgs.gnupg}/bin/gpg -qer ${gpg.primaryKey.fingerprint} \
+                  | ${pkgs.gnupg}/bin/gpg -qd
+                fi
+
+                ${pkgs.aerc}/bin/aerc
+              ''
+            else
+              pkgs.aerc
+          )
+        ];
       file = {
         ".config/aerc/aerc.conf".text = ''
           [compose]
