@@ -41,6 +41,10 @@
         description = "The package providing the cursor theme.";
         type = lib.types.uniq lib.types.package;
       };
+      name = lib.mkOption {
+        description = "The name of the cursor within the package.";
+        type = lib.types.uniq lib.types.str;
+      };
       size = lib.mkOption {
         description = "The size of the cursor.";
         type = lib.types.uniq lib.types.int;
@@ -93,8 +97,7 @@
       ];
       pointerCursor = {
         gtk.enable = true;
-        name = "cursor-theme";
-        inherit (config.fs.programs.sway.cursor) package size;
+        inherit (config.fs.programs.sway.cursor) name package size;
       };
     };
 
