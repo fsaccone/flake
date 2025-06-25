@@ -178,6 +178,7 @@ in
       pkgs.bisq2
       pkgs.ffmpeg
       pkgs.dig
+      pkgs.exiftool
       pkgs.gimp
       pkgs.helvum
       pkgs.imv
