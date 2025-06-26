@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchgit,
+  pass,
 }:
 stdenv.mkDerivation rec {
   name = "pass";
@@ -11,6 +12,11 @@ stdenv.mkDerivation rec {
     rev = "a4307edc2cfff354d448d4a7df538aee0c3e55d7";
     sha256 = "sha256-2AocSyHfjfinloder1hb254wS3bly6MNtHMzShxTenA=";
   };
+
+  buildInputs = [
+    (pass.withExtensions (exts: [ exts.pass-otp ]))
+    xclip
+  ];
 
   installPhase = ''
     mkdir -p $out/bin

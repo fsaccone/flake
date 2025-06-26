@@ -44,7 +44,7 @@ let
       # Create repository pages
       mkdir -p ${gemini.directory}/${name}
 
-      ${pkgs.gmnigit}/bin/gmnigit \
+      ${pkgs.fs.gmnigit}/bin/gmnigit \
         -repo ${git.directory}/${name} \
         -dist ${gemini.directory}/${name} \
         -url "git://${domain}/${name}" \

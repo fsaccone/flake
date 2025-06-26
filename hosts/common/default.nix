@@ -39,7 +39,7 @@
 
   environment = {
     defaultPackages = lib.mkForce [ ];
-    systemPackages = [ (lib.meta.hiPrio pkgs.sbase) ];
+    systemPackages = [ (lib.meta.hiPrio pkgs.fs.sbase) ];
   };
 
   i18n.defaultLocale = "en_GB.UTF-8";
