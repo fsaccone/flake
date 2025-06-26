@@ -3,6 +3,7 @@
   stdenv,
   fetchgit,
   pass,
+  xclip,
 }:
 stdenv.mkDerivation rec {
   name = "pass";
