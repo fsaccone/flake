@@ -151,7 +151,7 @@ in
             flake = {
               description = "Francesco Saccone's Nix flake.";
             };
-            password-store = {
+            pass = {
               description = "Francesco Saccone's password store.";
             };
             site = {
