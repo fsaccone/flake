@@ -62,10 +62,6 @@ in
         file = inputs.openpgp-key;
       };
     };
-    pass = {
-      enable = true;
-      passwordStoreDirectory = inputs.password-store;
-    };
     newsraft = {
       enable = true;
       feeds = {
