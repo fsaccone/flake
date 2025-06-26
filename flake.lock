@@ -69,29 +69,12 @@
         "url": "https://francescosaccone.com/public/francescosaccone.asc"
       }
     },
-    "password-store": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1750523447,
-        "narHash": "sha256-952zuxhMcN7+0P5DEuyAW1BZh9sg9ktsi11DTZoXdZU=",
-        "ref": "refs/heads/master",
-        "rev": "de293827b5d0977dbb1a0888e695815767d051ba",
-        "revCount": 21,
-        "type": "git",
-        "url": "git://git.francescosaccone.com/password-store"
-      },
-      "original": {
-        "type": "git",
-        "url": "git://git.francescosaccone.com/password-store"
-      }
-    },
     "root": {
       "inputs": {
         "disko": "disko",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "openpgp-key": "openpgp-key",
-        "password-store": "password-store",
         "site": "site",
         "treefmt-nix": "treefmt-nix"
       }

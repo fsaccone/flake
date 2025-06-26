@@ -21,10 +21,6 @@
       url = "https://francescosaccone.com/public/francescosaccone.asc";
       flake = false;
     };
-    password-store = {
-      url = "git://git.francescosaccone.com/password-store";
-      flake = false;
-    };
     site = {
       url = "git://git.francescosaccone.com/site";
       flake = false;
