@@ -191,6 +191,7 @@ in
       pkgs.nnn
       pkgs.prismlauncher
       pkgs.qrcode
+      pkgs.pass
       pkgs.sent
       pkgs.shotcut
       pkgs.timidity
