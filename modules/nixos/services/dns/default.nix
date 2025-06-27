@@ -182,7 +182,9 @@
               chmod -R 700 ${directory}
               chown -R nsd:nsd ${directory}
 
-              ${pkgs.nsd}/bin/nsd -dc ${directory}/nsd.conf
+              ${pkgs.nsd}/bin/nsd \
+                -dc ${directory}/nsd.conf \
+                -P ${directory}/nsd.pid
             '';
         };
       };
