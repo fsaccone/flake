@@ -45,11 +45,6 @@
         description = "The name of the cursor within the package.";
         type = lib.types.uniq lib.types.str;
       };
-      size = lib.mkOption {
-        description = "The size of the cursor.";
-        type = lib.types.uniq lib.types.int;
-        default = 20;
-      };
     };
     colors = lib.mkOption {
       description = "The hex colors, in '#rrggbb[aa]' format.";
@@ -97,7 +92,8 @@
       ];
       pointerCursor = {
         gtk.enable = true;
-        inherit (config.fs.programs.sway.cursor) name package size;
+        inherit (config.fs.programs.sway.cursor) name package;
+        size = 20 * config.fs.programs.sway.sizeMultiplier;
       };
     };
 
