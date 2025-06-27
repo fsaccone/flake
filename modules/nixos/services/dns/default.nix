@@ -113,6 +113,7 @@
             let
               inherit (config.fs.services.dns)
                 directory
+                dnssec
                 domain
                 isSecondary
                 primaryIp
@@ -159,12 +160,14 @@
                   username: nsd
               '';
 
+              signedExtension = if dnssec.enable then ".signed" else "";
+
               primaryConfiguration = builtins.toFile "nsd.conf" ''
                 ${commonConfiguration}
 
                 zone:
                   name: ${domain}
-                  zonefile: ${directory}/zones/${domain}.zone
+                  zonefile: ${directory}/zones/${domain}.zone${signedExtension}
                   notify: ${secondaryIp} NOKEY
                   provide-xfr: ${secondaryIp} NOKEY
               '';
@@ -178,9 +181,38 @@
                   allow-notify: ${primaryIp} NOKEY
                   request-xfr: ${primaryIp} NOKEY
               '';
+
+              configureDnssec = pkgs.writeShellScript "configure-dnssec.sh" ''
+                if [ -f "${dnssec.keysDirectory}/*.private" ]; then
+                  exit 0
+                fi
+
+                rm -fr ${dnssec.keysDirectory}/*
+
+                ${pkgs.bind}/bin/dnssec-keygen \
+                  -a ECDSAP256SHA256 \
+                  -K ${dnssec.keysDirectory} \
+                  ${domain}
+
+                ${pkgs.bind}/bin/dnssec-keygen \
+                  -a ECDSAP256SHA256 \
+                  -K ${dnssec.keysDirectory} \
+                  -f KSK \
+                  ${domain}
+
+                ${pkgs.bind}/bin/dnssec-signzone \
+                  -t \
+                  -N INCREMENT \
+                  -o ${domain} \
+                  -f ${directory}/zones/${domain}.zone.signed \
+                  <(cat \
+                    ${directory}/zones/${domain}.zone \
+                    ${dnssec.keysDirectory}/*.key) \
+                  ${dnssec.keysDirectory}/*.private
+              '';
             in
             pkgs.writeShellScript "dns.sh" ''
-              mkdir -p ${directory}/{zones,tmp}
+              mkdir -p ${directory}/{keys,zones,tmp}
 
               ${
                 (
@@ -195,6 +227,8 @@
                     ''
                 )
               }
+
+              ${if dnssec.enable && !isSecondary then configureDnssec else ""}
 
               chmod -R 700 ${directory}
               chown -R nsd:nsd ${directory}
