@@ -140,6 +140,7 @@
                   port: 53
                   chroot: ${directory}
                   zonesdir: ${directory}/zones
+                  xfrdfile: ${directory}/xfrd.state
                   username: nsd
               '';
 
