@@ -46,6 +46,12 @@
         default = false;
         type = lib.types.uniq lib.types.bool;
       };
+      keysDirectory = lib.mkOption {
+        description = "The directory which will contain the generated keys.";
+        default = "/etc/nsd/keys";
+        readOnly = true;
+        type = lib.types.uniq lib.types.path;
+      };
     };
     records = lib.mkOption {
       description = "The DNS records.";
