@@ -158,6 +158,10 @@
             in
             pkgs.writeShellScript "dns.sh" ''
               mkdir -p ${directory}
+
+              cd ${directory}
+              cp ${configuration} named.conf
+
               chmod -R 700 ${directory}
               chown -R bind:bind ${directory}
 
@@ -165,7 +169,7 @@
                 -u bind \
                 -t ${directory} \
                 -f \
-                -c ${configuration}
+                -c named.conf
             '';
         };
       };
