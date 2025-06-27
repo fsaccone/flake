@@ -139,6 +139,7 @@
                 server:
                   port: 53
                   chroot: ${directory}
+                  zonesdir: ${directory}/zones
                   username: nsd
               '';
 
@@ -147,7 +148,7 @@
 
                 zone:
                   name: ${domain}
-                  zonefile: ${directory}/${domain}.zone
+                  zonefile: ${directory}/zones/${domain}.zone
                   notify: ${secondaryIp} NOKEY
                   provide-xfr: ${secondaryIp} NOKEY
               '';
@@ -157,13 +158,13 @@
 
                 zone:
                   name: ${domain}
-                  zonefile: ${directory}/${domain}.zone
+                  zonefile: ${directory}/zones/${domain}.zone
                   allow-notify: ${primaryIp} NOKEY
                   request-xfr: ${primaryIp} NOKEY
               '';
             in
             pkgs.writeShellScript "dns.sh" ''
-              mkdir -p ${directory}
+              mkdir -p ${directory}/zones
 
               ${
                 (
@@ -174,7 +175,7 @@
                   else
                     ''
                       cp ${primaryConfiguration} ${directory}/nsd.conf
-                      cp ${zone} ${directory}/${domain}.zone
+                      cp ${zone} ${directory}/zones/${domain}.zone
                     ''
                 )
               }
