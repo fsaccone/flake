@@ -193,12 +193,12 @@
                 rm -fr ${dnssec.keysDirectory}/*
 
                 ${pkgs.bind}/bin/dnssec-keygen \
-                  -a ECDSAP256SHA256 \
+                  -a ED25519 \
                   -K ${dnssec.keysDirectory} \
                   ${domain}
 
                 ${pkgs.bind}/bin/dnssec-keygen \
-                  -a ECDSAP256SHA256 \
+                  -a ED25519 \
                   -K ${dnssec.keysDirectory} \
                   -f KSK \
                   ${domain}
