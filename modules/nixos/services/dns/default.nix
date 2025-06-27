@@ -141,6 +141,7 @@
                   chroot: ${directory}
                   zonesdir: ${directory}/zones
                   xfrdfile: ${directory}/xfrd.state
+                  zonelistfile: ${directory}/zone.list
                   username: nsd
               '';
 
