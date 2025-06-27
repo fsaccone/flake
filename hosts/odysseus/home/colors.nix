@@ -1,6 +1,6 @@
 {
-  background = "#111111";
-  foreground = "#e4e4e4";
+  background = "#00112b";
+  foreground = "#d5e5ff";
 
   darkRed = "#c85151";
   green = "#80ff80";
