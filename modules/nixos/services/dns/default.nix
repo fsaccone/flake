@@ -138,7 +138,7 @@
               configuration = builtins.toFile "named.conf" ''
                 zone "${domain}" {
                   type ${if isSecondary then "secondary" else "primary"};
-                  file "${zone}";
+                  file "db.${domain}";
                   ${
                     (
                       if isSecondary then
@@ -160,6 +160,7 @@
               mkdir -p ${directory}
 
               cd ${directory}
+              cp ${zone} db.${domain}
               cp ${configuration} named.conf
 
               chmod -R 700 ${directory}
