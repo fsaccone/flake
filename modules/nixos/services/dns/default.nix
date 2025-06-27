@@ -89,7 +89,7 @@
 
               zone =
                 (
-                  config.fs.services.dns.records
+                  records
                   |> builtins.map (
                     {
                       name,
