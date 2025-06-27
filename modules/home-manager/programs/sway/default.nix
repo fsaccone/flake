@@ -90,11 +90,21 @@
         pkgs.swaybg
         pkgs.wl-clipboard-rs
       ];
-      pointerCursor = {
-        gtk.enable = true;
-        inherit (config.fs.programs.sway.cursor) name package;
-        size = 20 * config.fs.programs.sway.sizeMultiplier;
-      };
+      pointerCursor =
+        let
+          round =
+            f:
+            let
+              floor = builtins.floor f;
+              ceil = builtins.ceil f;
+            in
+            if floor < 0.5 then floor else ceil;
+        in
+        {
+          gtk.enable = true;
+          inherit (config.fs.programs.sway.cursor) name package;
+          size = round (20 * config.fs.programs.sway.sizeMultiplier);
+        };
     };
 
     gtk.gtk4.extraConfig = lib.mkIf config.fs.programs.sway.preferDarkTheme {
