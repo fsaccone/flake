@@ -204,16 +204,6 @@
                   -K ${dnssec.keysDirectory} \
                   -f KSK \
                   ${domain}
-
-                ${pkgs.bind}/bin/dnssec-signzone \
-                  -t \
-                  -N INCREMENT \
-                  -o ${domain} \
-                  -f ${directory}/zones/${domain}.zone.signed \
-                  <(cat \
-                    ${directory}/zones/${domain}.zone \
-                    ${dnssec.keysDirectory}/*.key) \
-                  ${dnssec.keysDirectory}/*.private
               '';
             in
             pkgs.writeShellScript "dns.sh" ''
@@ -233,7 +223,23 @@
                 )
               }
 
-              ${if dnssec.enable && !isSecondary then configureDnssec else ""}
+              ${
+                if dnssec.enable && !isSecondary then
+                  ''
+                    ${configureDnssec}
+                    ${pkgs.bind}/bin/dnssec-signzone \
+                      -t \
+                      -N INCREMENT \
+                      -o ${domain} \
+                      -f ${directory}/zones/${domain}.zone.signed \
+                      <(cat \
+                        ${directory}/zones/${domain}.zone \
+                        ${dnssec.keysDirectory}/*.key) \
+                      ${dnssec.keysDirectory}/*.private
+                  ''
+                else
+                  ""
+              }
 
               chmod -R 700 ${directory}
               chown -R nsd:nsd ${directory}
