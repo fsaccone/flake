@@ -186,7 +186,9 @@
               '';
 
               configureDnssec = pkgs.writeShellScript "configure-dnssec.sh" ''
-                if [ -f "${dnssec.keysDirectory}/*.private" ]; then
+                if find ${dnssec.keysDirectory} \
+                   -maxdepth 1 \
+                   -name '*.private' | grep -q .; then
                   exit 0
                 fi
 
