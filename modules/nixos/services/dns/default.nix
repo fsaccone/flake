@@ -141,6 +141,7 @@
                   chroot: ${directory}
                   zonesdir: ${directory}/zones
                   xfrdfile: ${directory}/xfrd.state
+                  xfrdir: ${directory}/tmp
                   zonelistfile: ${directory}/zone.list
                   username: nsd
               '';
@@ -166,7 +167,7 @@
               '';
             in
             pkgs.writeShellScript "dns.sh" ''
-              mkdir -p ${directory}/zones
+              mkdir -p ${directory}/{zones,tmp}
 
               ${
                 (
