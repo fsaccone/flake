@@ -160,7 +160,7 @@
               mkdir -p ${directory}
 
               cd ${directory}
-              cp ${zone} db.${domain}
+              ${if !isSecondary then "cp ${zone} db.${domain}" else ""}
               cp ${configuration} named.conf
 
               chmod -R 700 ${directory}
