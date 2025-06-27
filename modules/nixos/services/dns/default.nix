@@ -86,6 +86,7 @@
           ExecStart =
             let
               inherit (config.fs.services.dns)
+                directory
                 domain
                 isSecondary
                 primaryIp
@@ -143,7 +144,7 @@
               '';
             in
             pkgs.writeShellScript "dns.sh" ''
-              ${pkgs.bind}/bin/named -fc ${configuration}
+              ${pkgs.bind}/bin/named -t ${directory} -fc ${configuration}
             '';
         };
       };
