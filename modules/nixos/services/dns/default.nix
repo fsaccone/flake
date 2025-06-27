@@ -135,18 +135,29 @@
                 + "\n"
                 |> builtins.toFile domain;
 
+              commonConfiguration = ''
+                server:
+                  port: 53
+                  chroot: ${directory}
+                  username: nsd
+              '';
+
               primaryConfiguration = builtins.toFile "nsd.conf" ''
+                ${commonConfiguration}
+
                 zone:
                   name: ${domain}
-                  zonefile: ${domain}.zone
+                  zonefile: ${directory}/${domain}.zone
                   notify: ${secondaryIp} NOKEY
                   provide-xfr: ${secondaryIp} NOKEY
               '';
 
               secondaryConfiguration = builtins.toFile "nsd.conf" ''
+                ${commonConfiguration}
+
                 zone:
                   name: ${domain}
-                  zonefile: ${domain}.zone
+                  zonefile: ${directory}/${domain}.zone
                   allow-notify: ${primaryIp} NOKEY
                   request-xfr: ${primaryIp} NOKEY
               '';
@@ -154,17 +165,16 @@
             pkgs.writeShellScript "dns.sh" ''
               mkdir -p ${directory}
 
-              cd ${directory}
               ${
                 (
                   if isSecondary then
                     ''
-                      cp ${secondaryConfiguration} nsd.conf
+                      cp ${secondaryConfiguration} ${directory}/nsd.conf
                     ''
                   else
                     ''
-                      cp ${primaryConfiguration} nsd.conf
-                      cp ${zone} ${domain}.zone
+                      cp ${primaryConfiguration} ${directory}/nsd.conf
+                      cp ${zone} ${directory}/${domain}.zone
                     ''
                 )
               }
@@ -172,12 +182,7 @@
               chmod -R 700 ${directory}
               chown -R nsd:nsd ${directory}
 
-              ${pkgs.nsd}/bin/nsd \
-                -d \
-                -c nsd.conf \
-                -p 53 \
-                -t ${directory} \
-                -u nsd \
+              ${pkgs.nsd}/bin/nsd -dc ${directory}/nsd.conf
             '';
         };
       };
