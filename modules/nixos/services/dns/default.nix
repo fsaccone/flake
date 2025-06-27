@@ -161,7 +161,11 @@
               chmod -R 700 ${directory}
               chown -R bind:bind ${directory}
 
-              ${pkgs.bind}/bin/named -t ${directory} -fc ${configuration}
+              ${pkgs.bind}/bin/named \
+                -u bind \
+                -t ${directory} \
+                -f \
+                -c ${configuration}
             '';
         };
       };
