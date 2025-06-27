@@ -143,7 +143,7 @@ in
       preferDarkTheme = true;
       backgroundImage = ./background.png;
       cursor = {
-        name = "graphite-dark";
+        name = "graphite-dark-nord";
         package = pkgs.graphite-cursors;
       };
       colors =
