@@ -46,7 +46,7 @@ in
     type = "SOA";
     data = ''
       ns1.${domain}. admin.${domain}. (
-        2025062701
+        2025062709
         7200
         1800
         1209600
