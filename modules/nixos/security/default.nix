@@ -1,4 +1,4 @@
 { ... }:
 {
-  imports = [ ./openssh ];
+  imports = [ ./ssh ];
 }

@@ -17,7 +17,7 @@
     };
 
     security = {
-      openssh.agent = {
+      ssh.agent = {
         enable = true;
       };
     };

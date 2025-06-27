@@ -6,17 +6,17 @@
   ...
 }:
 {
-  options.fs.security.openssh = {
+  options.fs.security.ssh = {
     agent = {
       enable = lib.mkOption {
-        description = "Whether to enable the OpenSSH agent.";
+        description = "Whether to enable the SSH agent with OpenSSH.";
         default = false;
         type = lib.types.bool;
       };
     };
     listen = {
       enable = lib.mkOption {
-        description = "Where to listen for SSH connection requests.";
+        description = "Where to enable the SSH server with OpenSSH.";
         default = false;
         type = lib.types.bool;
       };
@@ -32,7 +32,7 @@
 
   config =
     let
-      inherit (config.fs.security.openssh) agent listen;
+      inherit (config.fs.security.ssh) agent listen;
     in
     {
       programs.ssh = lib.mkIf agent.enable {

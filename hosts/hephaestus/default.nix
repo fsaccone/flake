@@ -248,7 +248,7 @@ in
       };
     };
 
-    security.openssh.listen = {
+    security.ssh.listen = {
       enable = true;
       authorizedKeyFiles = rec {
         root = [ ../hades/ssh/francescosaccone.pub ];

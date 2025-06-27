@@ -103,7 +103,7 @@
       };
     };
 
-    fs.security.openssh.listen = {
+    fs.security.ssh.listen = {
       enable = true;
       authorizedKeyFiles =
         config.fs.services.email.users
