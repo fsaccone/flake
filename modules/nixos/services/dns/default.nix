@@ -8,13 +8,13 @@
 {
   options.fs.services.dns = {
     enable = lib.mkOption {
-      description = "Whether to enable BIND DNS server.";
+      description = "Whether to enable NSD DNS server.";
       default = false;
       type = lib.types.bool;
     };
     directory = lib.mkOption {
-      description = "BIND's working directory.";
-      default = "/etc/bind";
+      description = "NSD's working directory.";
+      default = "/etc/nsd";
       readOnly = true;
       type = lib.types.uniq lib.types.path;
     };
@@ -75,14 +75,14 @@
   config = lib.mkIf config.fs.services.dns.enable {
     users = {
       users = {
-        bind = {
+        nsd = {
           hashedPassword = "!";
           isSystemUser = true;
-          group = "bind";
+          group = "nsd";
         };
       };
       groups = {
-        bind = { };
+        nsd = { };
       };
     };
 
@@ -135,42 +135,49 @@
                 + "\n"
                 |> builtins.toFile domain;
 
-              configuration = builtins.toFile "named.conf" ''
-                zone "${domain}" {
-                  type ${if isSecondary then "secondary" else "primary"};
-                  file "db.${domain}";
-                  ${
-                    (
-                      if isSecondary then
-                        ''
-                          primaries { ${primaryIp}; };
-                        ''
-                      else if secondaryIp != null then
-                        ''
-                          allow-transfer { ${secondaryIp}; };
-                        ''
-                      else
-                        ""
-                    )
-                  }
-                };
+              primaryConfiguration = builtins.toFile "nsd.conf" ''
+                zone:
+                  name: ${domain}
+                  zonefile: ${domain}.zone
+                  notify: ${secondaryIp} NOKEY
+                  provide-xfr: ${secondaryIp} NOKEY
+              '';
+
+              secondaryConfiguration = builtins.toFile "nsd.conf" ''
+                zone:
+                  name: ${domain}
+                  zonefile: ${domain}.zone
+                  allow-notify: ${primaryIp} NOKEY
+                  request-xfr: ${primaryIp} NOKEY
               '';
             in
             pkgs.writeShellScript "dns.sh" ''
               mkdir -p ${directory}
 
               cd ${directory}
-              ${if !isSecondary then "cp ${zone} db.${domain}" else ""}
-              cp ${configuration} named.conf
+              ${
+                (
+                  if isSecondary then
+                    ''
+                      cp ${secondaryConfiguration} nsd.conf
+                    ''
+                  else
+                    ''
+                      cp ${primaryConfiguration} nsd.conf
+                      cp ${zone} ${domain}.zone
+                    ''
+                )
+              }
 
               chmod -R 700 ${directory}
-              chown -R bind:bind ${directory}
+              chown -R nsd:nsd ${directory}
 
-              ${pkgs.bind}/bin/named \
-                -u bind \
+              ${pkgs.nsd}/bin/nsd \
+                -d \
+                -c nsd.conf \
+                -p 53 \
                 -t ${directory} \
-                -f \
-                -c named.conf
+                -u nsd \
             '';
         };
       };
