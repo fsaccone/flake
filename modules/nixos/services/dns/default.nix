@@ -12,6 +12,12 @@
       default = false;
       type = lib.types.bool;
     };
+    directory = lib.mkOption {
+      description = "BIND's working directory.";
+      default = "/etc/bind";
+      readOnly = true;
+      type = lib.types.uniq lib.types.path;
+    };
     domain = lib.mkOption {
       description = "The domain to setup DNS for.";
       type = lib.types.uniq lib.types.str;
