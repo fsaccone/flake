@@ -40,6 +40,13 @@
       '';
       type = lib.types.nullOr lib.types.str;
     };
+    dnssec = {
+      enable = lib.mkOption {
+        description = "Whether to enable DNSSEC signing.";
+        default = false;
+        type = lib.types.uniq lib.types.bool;
+      };
+    };
     records = lib.mkOption {
       description = "The DNS records.";
       default = [ ];
