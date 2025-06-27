@@ -42,7 +42,10 @@
     };
     dnssec = {
       enable = lib.mkOption {
-        description = "Whether to enable DNSSEC signing.";
+        description = ''
+          Whether to enable DNSSEC signing. Only has effect when isSecondary
+          is set to false.
+        '';
         default = false;
         type = lib.types.uniq lib.types.bool;
       };
