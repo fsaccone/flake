@@ -47,7 +47,7 @@ in
         enable = true;
         acme = {
           enable = true;
-          email = "francesco@${rootDomain}";
+          email = "admin@${rootDomain}";
           inherit domain;
           extraDomains = [ "mta-sts.${rootDomain}" ];
         };

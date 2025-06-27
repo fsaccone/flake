@@ -230,7 +230,7 @@ in
         };
         acme = {
           enable = true;
-          email = "francesco@${rootDomain}";
+          email = "admin@${rootDomain}";
           inherit domain;
           extraDomains = [ "www.${domain}" ];
         };
