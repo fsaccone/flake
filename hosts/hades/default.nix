@@ -14,6 +14,7 @@ rec {
     services = {
       dns = {
         enable = true;
+        dnssec.enable = true;
         inherit (networking) domain;
         isSecondary = false;
         secondaryIp = (import ../hephaestus/ip.nix).ipv6;
