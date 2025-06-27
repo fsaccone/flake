@@ -159,6 +159,7 @@
             pkgs.writeShellScript "dns.sh" ''
               mkdir -p ${directory}
               chmod -R 700 ${directory}
+              chown -R bind:bind ${directory}
 
               ${pkgs.bind}/bin/named -t ${directory} -fc ${configuration}
             '';
