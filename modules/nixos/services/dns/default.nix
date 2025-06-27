@@ -73,6 +73,19 @@
   };
 
   config = lib.mkIf config.fs.services.dns.enable {
+    users = {
+      users = {
+        bind = {
+          hashedPassword = "!";
+          isSystemUser = true;
+          group = "bind";
+        };
+      };
+      groups = {
+        bind = { };
+      };
+    };
+
     systemd.services = {
       dns = {
         enable = true;
