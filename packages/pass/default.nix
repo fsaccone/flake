@@ -13,8 +13,8 @@ stdenv.mkDerivation rec {
 
   src = fetchgit {
     url = "git://git.francescosaccone.com/pass";
-    rev = "f3f84ac8e15819b5248fdde98d20cb210cd273f7";
-    sha256 = "sha256-su/z/c3TJxRc5hCHiu47U8LZ9IqUeFZxfvxX+qlaFvA=";
+    rev = "ef570ec804cf0fa45d96088680e4af174e021bbc";
+    sha256 = "sha256-o97cAGDZUUz0vtXmTjtZF4yO5qn+6buupZbmBK9ZiqU=";
   };
 
   buildInputs = [
