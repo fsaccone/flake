@@ -111,6 +111,36 @@
       gtk-application-prefer-dark-theme = true;
     };
 
+    systemd.user.services = {
+      waylock = {
+        Service = {
+          Type = "simple";
+          ExecStart =
+            let
+              inherit (config.fs.programs.sway) colors;
+
+              # Remove the leading '#' character.
+              parseColor = builtins.substring 1 7;
+
+              background = parseColor colors.background;
+              green = parseColor colors.green;
+              red = parseColor colors.red;
+            in
+            pkgs.writeShellScript "waylock.sh" ''
+              ${pkgs.waylock}/bin/waylock \
+                -log-level warning \
+                -ignore-empty-password \
+                -init-color 0x${background} \
+                -input-color 0x${green} \
+                -fail-color 0x${red}
+            '';
+        };
+        Install = {
+          WantedBy = [ "sleep.target" ];
+        };
+      };
+    };
+
     wayland.windowManager.sway =
       let
         inherit (config.fs.programs.sway) backgroundImage colors;

@@ -28,6 +28,9 @@
     services.logind = {
       powerKey = "ignore";
       powerKeyLongPress = "poweroff";
+      lidSwitch = "sleep";
     };
+
+    security.pam.services.waylock = { };
   };
 }
