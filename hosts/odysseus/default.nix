@@ -38,11 +38,6 @@
   hardware.bluetooth.powerOnBoot = lib.mkForce false;
   environment.systemPackages = [ pkgs.bluetui ];
 
-  services.logind = {
-    powerKey = "ignore";
-    powerKeyLongPress = "poweroff";
-  };
-
   services.pipewire = {
     enable = true;
     jack.enable = true;

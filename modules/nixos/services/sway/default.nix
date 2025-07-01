@@ -24,5 +24,10 @@
       package = pkgs.sway;
       extraPackages = lib.mkForce [ ];
     };
+
+    services.logind = {
+      powerKey = "ignore";
+      powerKeyLongPress = "poweroff";
+    };
   };
 }
