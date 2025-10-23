@@ -180,6 +180,7 @@ in
       pkgs.helvum
       pkgs.imv
       pkgs.jre8
+      pkgs.keepassxc
       pkgs.libressl
       pkgs.librewolf
       pkgs.lilypond
@@ -191,7 +192,6 @@ in
       pkgs.nnn
       pkgs.prismlauncher
       pkgs.qrcode
-      pkgs.fs.pass
       pkgs.sent
       pkgs.shotcut
       pkgs.timidity
