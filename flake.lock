@@ -60,7 +60,7 @@
     "openpgp-key": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-Oz+cHPKOt3PAzxxZQUkmOmRkKmwTAMn9NIu4RdbGX+8=",
+        "narHash": "sha256-RAzlsf7gL03ruldDG6tZqF6/H7FsFH7zbx+sxS9hjjE=",
         "type": "file",
         "url": "https://francescosaccone.com/public/francescosaccone.asc"
       },
@@ -82,17 +82,17 @@
     "site": {
       "flake": false,
       "locked": {
-        "lastModified": 1750766027,
-        "narHash": "sha256-TcMjeK2E/K8mltLMKUW0zRHm/RcyVOvJwD2wSreUc5g=",
-        "ref": "refs/heads/master",
-        "rev": "90e73b9eeb0fcff45460470a346f1eff7096a887",
-        "revCount": 99,
-        "type": "git",
-        "url": "git://git.francescosaccone.com/site"
+        "lastModified": 1761146293,
+        "narHash": "sha256-REZl5JK5WeLtypw+U74jBeZf+7YCtrNsFuO8wKznaDw=",
+        "owner": "fsaccone",
+        "repo": "site",
+        "rev": "65a1fa2427553dde1df33fc8d5f0032e6f853ed3",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "git://git.francescosaccone.com/site"
+        "owner": "fsaccone",
+        "repo": "site",
+        "type": "github"
       }
     },
     "treefmt-nix": {
