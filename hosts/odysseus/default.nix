@@ -23,6 +23,8 @@
     };
   };
 
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   security.doas = {
     enable = true;
     wheelNeedsPassword = true;
