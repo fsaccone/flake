@@ -40,16 +40,6 @@ in
             })
           ];
     };
-    amfora = {
-      enable = true;
-      certificates = [
-        {
-          host = "bbs.geminispace.org";
-          certificate = ./gemini/cert.pem;
-          gpgEncryptedKey = ./gemini/key.pem.gpg;
-        }
-      ];
-    };
     git = {
       enable = true;
       name = "Francesco Saccone";

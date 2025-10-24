@@ -7,54 +7,6 @@
 let
   domain = import ./domain.nix;
 
-  generateGmnigitRepository =
-    let
-      inherit (config.fs.services) gemini git;
-
-      indexGmi = builtins.toFile "index.gmi" ''
-        # Repositories
-
-        ${
-          (
-            git.repositories
-            |> builtins.mapAttrs (
-              name:
-              { additionalFiles, ... }:
-              ''
-                => ${name} [${name}]
-                ${additionalFiles.description}
-              ''
-            )
-            |> builtins.attrValues
-            |> builtins.concatStringsSep "\n"
-          )
-        }
-      '';
-    in
-    name:
-    pkgs.writeShellScript "generate-gmnigit.sh" ''
-      set -e
-
-      # Create index.gmi
-      cp ${indexGmi} ${gemini.directory}/git/index.gmi
-
-      echo "Gmnigit index file generated: <gemini>/git/index.gmi".
-
-      # Create repository pages
-      mkdir -p ${gemini.directory}/git/${name}
-
-      ${pkgs.fs.gmnigit}/bin/gmnigit \
-        -repo ${git.directory}/${name} \
-        -dist ${gemini.directory}/git/${name} \
-        -url "git://${domain}/git/${name}" \
-        -perms \
-        -refs \
-        -name "${name}" \
-        -max-commits 128
-
-      echo "Gmnigit page generated for ${name}: <gemini>/git/${name}."
-    '';
-
   generateStagitRepository =
     let
       inherit (config.fs.services) web git;
@@ -114,64 +66,6 @@ rec {
         secondaryIp = (import ../hermes/ip.nix).ipv6;
         records = import ./dns.nix domain;
       };
-      gemini = {
-        enable = true;
-        tls =
-          let
-            inherit (config.fs.services.web.acme) directory;
-          in
-          {
-            certificate = "${directory}/${domain}/fullchain.pem";
-            key = "${directory}/${domain}/privkey.pem";
-          };
-        preStart = {
-          scripts =
-            let
-              inherit (config.fs.services.gemini) directory;
-
-              generateAtom = pkgs.writeShellScript "generate-atom.sh" ''
-                ${inputs.site}/scripts/generate-atom.sh \
-                  ${directory} \
-                  "Francesco Saccone's blog" \
-                  "gemini://${domain}"
-              '';
-              generateSitemap = pkgs.writeShellScript "generate-sitemap.sh" ''
-                ${inputs.site}/scripts/generate-sitemap.sh \
-                  ${directory} \
-                  "gemini://${domain}"
-              '';
-              generateGemini = pkgs.writeShellScript "generate-gemini.sh" ''
-                ${inputs.site}/scripts/generate-gemini.sh ${directory}
-              '';
-              createRobotsTxt = pkgs.writeShellScript "create-robots-txt.sh" ''
-                echo "User-agent: *" > ${directory}/robots.txt
-                echo "Disallow:" >> ${directory}/robots.txt
-              '';
-              copyStaticContent = pkgs.writeShellScript "copy-static-content.sh" ''
-                mkdir -p ${directory}/public
-
-                cp -fR ${inputs.site}/public/* ${directory}/public
-              '';
-            in
-            [
-              generateAtom
-              generateSitemap
-              generateGemini
-              createRobotsTxt
-              copyStaticContent
-            ]
-            ++ builtins.map generateGmnigitRepository (
-              builtins.attrNames config.fs.services.git.repositories
-            );
-          packages = [
-            pkgs.coreutils
-            pkgs.findutils
-            pkgs.git
-            pkgs.gnused
-            pkgs.fs.gmnhg
-          ];
-        };
-      };
       git = {
         enable = true;
         repositories =
@@ -197,7 +91,7 @@ rec {
               };
               hooks.postReceive =
                 let
-                  inherit (config.fs.services) gemini web git;
+                  inherit (config.fs.services) web git;
                 in
                 pkgs.writeShellScript "post-receive.sh" ''
                   set -e
@@ -221,11 +115,9 @@ rec {
                   # If is_force is 1, delete HTML commits
                   if test $is_force = 1; then
                     rm -rf ${web.directory}/${name}/commit
-                    rm -rf ${gemini.directory}/${name}/commits
                   fi
 
                   ${generateStagitRepository name}
-                  ${generateGmnigitRepository name}
                 '';
             }
           );
