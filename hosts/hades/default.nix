@@ -127,6 +127,7 @@ rec {
       };
       web = {
         enable = true;
+        inherit (config.fs.services.git) user group;
         redirectWwwToNonWww = {
           enable = true;
           inherit domain;
