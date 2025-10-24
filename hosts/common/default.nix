@@ -5,7 +5,7 @@
   ...
 }:
 {
-  system.stateVersion = "23.11";
+  system.stateVersion = "25.05";
 
   services.fwupd.enable = true;
 
