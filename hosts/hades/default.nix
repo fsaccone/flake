@@ -71,13 +71,16 @@ rec {
         repositories =
           {
             flake = {
-              description = "Francesco Saccone's Nix flake.";
+              description = "Personal Nix flake.";
             };
-            pass = {
-              description = "Francesco Saccone's password store.";
+            pr = {
+              description = "Simple package manager for POSIX systems.";
             };
             site = {
-              description = "Francesco Saccone's site content.";
+              description = "Personal site.";
+            };
+            zion = {
+              description = "Operating system.";
             };
           }
           |> builtins.mapAttrs (
