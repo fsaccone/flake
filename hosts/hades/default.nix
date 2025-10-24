@@ -6,6 +6,100 @@
 }:
 let
   domain = import ./domain.nix;
+
+  generateGmnigitRepository =
+    let
+      inherit (config.fs.services) gemini git;
+
+      indexGmi = builtins.toFile "index.gmi" ''
+        # Repositories
+
+        ${
+          (
+            git.repositories
+            |> builtins.mapAttrs (
+              name:
+              { additionalFiles, ... }:
+              ''
+                => ${name} [${name}]
+                ${additionalFiles.description}
+              ''
+            )
+            |> builtins.attrValues
+            |> builtins.concatStringsSep "\n"
+          )
+        }
+      '';
+    in
+    name:
+    pkgs.writeShellScript "generate-gmnigit.sh" ''
+      set -e
+
+      # Create index.gmi
+      cp ${indexGmi} ${gemini.directory}/git/index.gmi
+
+      echo "Gmnigit index file generated: <gemini>/git/index.gmi".
+
+      # Create repository pages
+      mkdir -p ${gemini.directory}/git/${name}
+
+      ${pkgs.fs.gmnigit}/bin/gmnigit \
+        -repo ${git.directory}/${name} \
+        -dist ${gemini.directory}/git/${name} \
+        -url "git://${domain}/git/${name}" \
+        -perms \
+        -refs \
+        -name "${name}" \
+        -max-commits 128
+
+      echo "Gmnigit page generated for ${name}: <gemini>/git/${name}."
+    '';
+
+  generateStagitRepository =
+    let
+      inherit (config.fs.services) web git;
+    in
+    name:
+    pkgs.writeShellScript "generate-stagit.sh" ''
+      set -e
+
+      # Create index.html
+      mkdir -p ${web.directory}/git
+      cd ${web.directory}/git
+
+      ${pkgs.stagit}/bin/stagit-index ${git.directory}/*/ > index.html
+
+      # Copy favicon.png, logo.png, style.css from site repository
+      cp ${inputs.site}/public/icon/32.png favicon.png
+      cp favicon.png logo.png
+      cp ${inputs.site}/public/stagit.css style.css
+
+      # This is needed because when the script is run one time after
+      # the other the copying of the static files brings a "Permission denied"
+      # error, since they only have read permission at creation.
+      chmod -R u+w .
+
+      echo "Stagit index file generated: <www>/git/index.html".
+
+      # Create repository pages
+      mkdir -p ${web.directory}/git/${name}
+      cd ${web.directory}/git/${name}
+
+      ${pkgs.stagit}/bin/stagit \
+        -l 128 \
+        -u https://${domain} \
+        ${git.directory}/${name}
+
+      # Make log.html the default page
+      cp log.html index.html
+
+      # Copy the static files from the index page
+      cp ../favicon.png favicon.png
+      cp ../logo.png logo.png
+      cp ../style.css style.css
+
+      echo "Stagit page generated for ${name}: <www>/git/${name}."
+    '';
 in
 rec {
   imports = [ ./disk-config.nix ];
@@ -17,7 +111,7 @@ rec {
         dnssec.enable = true;
         inherit (networking) domain;
         isSecondary = false;
-        secondaryIp = (import ../hephaestus/ip.nix).ipv6;
+        secondaryIp = (import ../hermes/ip.nix).ipv6;
         records = import ./dns.nix domain;
       };
       gemini = {
@@ -65,13 +159,78 @@ rec {
               generateGemini
               createRobotsTxt
               copyStaticContent
+              (builtins.map generateGmnigitRepository (
+                builtins.attrNames config.fs.services.git.repositories
+              ))
             ];
           packages = [
             pkgs.coreutils
             pkgs.findutils
+            pkgs.git
             pkgs.gnused
             pkgs.fs.gmnhg
           ];
+        };
+      };
+      git = {
+        enable = true;
+        repositories =
+          {
+            flake = {
+              description = "Francesco Saccone's Nix flake.";
+            };
+            pass = {
+              description = "Francesco Saccone's password store.";
+            };
+            site = {
+              description = "Francesco Saccone's site content.";
+            };
+          }
+          |> builtins.mapAttrs (
+            name:
+            { description }:
+            {
+              additionalFiles = {
+                inherit description;
+                owner = "Francesco Saccone";
+                url = "git://${domain}/${name}";
+              };
+              hooks.postReceive =
+                let
+                  inherit (config.fs.services) gemini web git;
+                in
+                pkgs.writeShellScript "post-receive.sh" ''
+                  set -e
+
+                  # Define is_force=1 if 'git push -f' was used
+                  null_ref="0000000000000000000000000000000000000000"
+                  is_force=0
+                  while read -r old new red; do
+                    test "$old" = $null_ref && continue
+                    test "$new" = $null_ref && continue
+
+                    has_revs=$(${pkgs.git}/bin/git rev-list "$old" "^$new" | \
+                               sed 1q)
+
+                    if test -n "$has_revs"; then
+                      is_force=1
+                      break
+                    fi
+                  done
+
+                  # If is_force is 1, delete HTML commits
+                  if test $is_force = 1; then
+                    rm -rf ${web.directory}/${name}/commit
+                    rm -rf ${gemini.directory}/${name}/commits
+                  fi
+
+                  ${generateStagitRepository name}
+                  ${generateGmnigitRepository name}
+                '';
+            }
+          );
+        daemon = {
+          enable = true;
         };
       };
       web = {
@@ -140,6 +299,9 @@ rec {
               generateHtml
               createRobotsTxt
               copyStaticContent
+              (builtins.map generateStagitRepository (
+                builtins.attrNames config.fs.services.git.repositories
+              ))
             ];
           packages = [
             pkgs.coreutils
@@ -172,6 +334,7 @@ rec {
       enable = true;
       authorizedKeyFiles = rec {
         root = [ ./ssh/francescosaccone.pub ];
+        git = root;
       };
     };
   };

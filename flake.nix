@@ -90,9 +90,6 @@
         "hades" = lib.makeHost "hades" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
         };
-        "hephaestus" = lib.makeHost "hephaestus" {
-          additionalModules = [ inputs.disko.nixosModules.disko ];
-        };
         "hermes" = lib.makeHost "hermes" {
           additionalModules = [ inputs.disko.nixosModules.disko ];
         };

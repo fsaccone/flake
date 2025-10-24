@@ -10,8 +10,6 @@ NixOS configurations
 
 - hades: My main server, available at francescosaccone.com.
 
-- hephaestus: My Git server, available at git.francescosaccone.com.
-
 - hermes: My mail server, available at mail.francescosaccone.com.
 
 NixOS modules
