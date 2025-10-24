@@ -159,10 +159,10 @@ rec {
               generateGemini
               createRobotsTxt
               copyStaticContent
-              (builtins.map generateGmnigitRepository (
-                builtins.attrNames config.fs.services.git.repositories
-              ))
-            ];
+            ]
+            ++ builtins.map generateGmnigitRepository (
+              builtins.attrNames config.fs.services.git.repositories
+            );
           packages = [
             pkgs.coreutils
             pkgs.findutils
@@ -299,10 +299,10 @@ rec {
               generateHtml
               createRobotsTxt
               copyStaticContent
-              (builtins.map generateStagitRepository (
-                builtins.attrNames config.fs.services.git.repositories
-              ))
-            ];
+            ]
+            ++ builtins.map generateStagitRepository (
+              builtins.attrNames config.fs.services.git.repositories
+            );
           packages = [
             pkgs.coreutils
             pkgs.findutils
