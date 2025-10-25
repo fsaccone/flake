@@ -19,6 +19,7 @@ in
               inherit username realName;
               address = "${username}@${emailDomain}";
               smtpHost = "mail.${emailDomain}";
+              useSsh = true;
             }
           )
           [

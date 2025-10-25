@@ -26,6 +26,13 @@
               description = "The name used as recipient.";
               type = lib.types.uniq lib.types.str;
             };
+            imapHost = lib.mkOption {
+              description = ''
+                The IMAP server name. This is not used if useSsh is set to
+                true.
+              '';
+              type = lib.types.uniq lib.types.str;
+            };
             smtpHost = lib.mkOption {
               description = "The SMTP server name.";
               type = lib.types.uniq lib.types.str;
@@ -33,6 +40,27 @@
             username = lib.mkOption {
               description = "The username used to login to the email account.";
               type = lib.types.uniq lib.types.str;
+            };
+            gpgEncryptedImapPassword = lib.mkOption {
+              description = ''
+                The GPG encrypted password to access IMAP. This is not used if
+                useSsh is set to true.
+              '';
+              type = lib.types.uniq lib.types.path;
+            };
+            gpgEncryptedSmtpPassword = lib.mkOption {
+              description = ''
+                The GPG encrypted password to access SMTP. This is not used if
+                useSsh is set to true.
+              '';
+              type = lib.types.uniq lib.types.path;
+            };
+            useSsh = lib.mkOption {
+              description = ''
+                Whether SSH is used as the operation method without the use
+                of IMAP, using sendmail on the mail server instead.
+              '';
+              type = lib.types.uniq lib.types.bool;
             };
           };
         }
@@ -104,8 +132,12 @@
             {
               address,
               realName,
+              imapHost,
               smtpHost,
               username,
+              gpgEncryptedImapPassword,
+              gpgEncryptedSmtpPassword,
+              useSsh,
             }:
             let
               inherit (config.fs.programs) gpg;
@@ -135,14 +167,32 @@
               copy-to = Sent
               default = Inbox
               postpone = Drafts
-
-              check-mail = 10s
-              check-mail-cmd = ${retrieve}
-              check-mail-timeout = 30s
-              source = maildir://~/mail/${address}
-
-              outgoing = ${sendmailCommandBase}
             ''
+            + (
+              if useSsh then
+                ''
+                  check-mail = 10s
+                  check-mail-cmd = ${retrieve}
+                  check-mail-timeout = 30s
+                  source = maildir://~/mail/${address}
+
+                  outgoing = ${sendmailCommandBase}
+                ''
+              else if gpg.enable then
+                ''
+                  source = imaps://${username}@${imapHost}
+                  source-cred-cmd = ${pkgs.gnupg}/bin/gpg \
+                                    -r ${gpg.primaryKey.fingerprint} \
+                                    -d ${gpgEncryptedImapPassword}
+
+                  outgoing = smtps://${username}@${smtpHost}
+                  outgoing-cred-cmd = ${pkgs.gnupg}/bin/gpg \
+                                      -r ${gpg.primaryKey.fingerprint} \
+                                      -d ${gpgEncryptedSmtpPassword}
+                ''
+              else
+                ""
+            )
             + (
               if gpg.enable then
                 ''
