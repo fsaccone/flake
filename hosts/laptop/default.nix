@@ -49,6 +49,8 @@
 
   fonts.packages = [ pkgs.ibm-plex ];
 
+  nixpkgs.config.allowUnfree = true;
+
   users.users."francesco" = {
     description = "Francesco Saccone";
     hashedPassword = builtins.concatStringsSep "" [
