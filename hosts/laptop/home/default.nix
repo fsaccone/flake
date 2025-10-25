@@ -168,6 +168,7 @@ in
       pkgs.helvum
       pkgs.imv
       pkgs.keepassxc
+      pkgs.kmon
       pkgs.libressl
       pkgs.librewolf
       pkgs.lilypond
