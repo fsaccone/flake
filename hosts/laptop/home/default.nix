@@ -12,7 +12,19 @@ in
     aerc = {
       enable = true;
       accounts =
-        builtins.map
+        [
+          {
+            realName = "Francesco Saccone";
+            address = "fsaccone@pec.it";
+            imapHost = "imaps.pec.aruba.it";
+            smtpHost = "smtps.pec.aruba.it";
+            username = "fsaccone%40pec.it";
+            gpgEncryptedImapPassword = ./pec.gpg;
+            gpgEncryptedSmtpPassword = ./pec.gpg;
+            useSsh = false;
+          }
+        ]
+        ++ builtins.map
           (
             { username, realName }:
             {
