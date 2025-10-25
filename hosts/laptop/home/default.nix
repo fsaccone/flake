@@ -161,6 +161,7 @@ in
     '';
     packages = [
       pkgs.alsa-utils
+      pkgs.discord
       pkgs.ffmpeg
       pkgs.dig
       pkgs.exiftool
