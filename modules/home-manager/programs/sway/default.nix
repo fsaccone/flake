@@ -235,8 +235,8 @@
             );
 
           gaps = {
-            inner = 14;
-            outer = 18;
+            inner = 18;
+            outer = 24;
           };
 
           window = {
