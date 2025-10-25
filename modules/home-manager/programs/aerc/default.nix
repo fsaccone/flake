@@ -62,6 +62,28 @@
               '';
               type = lib.types.uniq lib.types.bool;
             };
+            folders = {
+              archive = lib.mkOption {
+                description = "The archive folder. The default is 'Archive'.";
+                default = "Archive";
+                type = lib.types.uniq lib.types.str;
+              };
+              sent = lib.mkOption {
+                description = "The sent folder. The default is 'Sent'.";
+                default = "Sent";
+                type = lib.types.uniq lib.types.str;
+              };
+              inbox = lib.mkOption {
+                description = "The inbox folder. The default is 'Inbox'.";
+                default = "Inbox";
+                type = lib.types.uniq lib.types.str;
+              };
+              drafts = lib.mkOption {
+                description = "The drafts folder. The default is 'Drafts'.";
+                default = "Drafts";
+                type = lib.types.uniq lib.types.str;
+              };
+            };
           };
         }
         |> lib.types.listOf;
@@ -138,13 +160,24 @@
               gpgEncryptedImapPassword,
               gpgEncryptedSmtpPassword,
               useSsh,
+              folders,
             }:
             let
               inherit (config.fs.programs) gpg;
 
               retrieve = pkgs.writeShellScript "retrieve.sh" ''
-                mkdir -p \
-                  ~/mail/${address}/{Archive,Drafts,Inbox,Sent}/{cur,new,tmp}
+                mkdir -p ~/mail/${address}/${folders.archive}/cur
+                mkdir -p ~/mail/${address}/${folders.archive}/new
+                mkdir -p ~/mail/${address}/${folders.archive}/tmp
+                mkdir -p ~/mail/${address}/${folders.drafts}/cur
+                mkdir -p ~/mail/${address}/${folders.drafts}/new
+                mkdir -p ~/mail/${address}/${folders.drafts}/tmp
+                mkdir -p ~/mail/${address}/${folders.inbox}/cur
+                mkdir -p ~/mail/${address}/${folders.inbox}/new
+                mkdir -p ~/mail/${address}/${folders.inbox}/tmp
+                mkdir -p ~/mail/${address}/${folders.sent}/cur
+                mkdir -p ~/mail/${address}/${folders.sent}/new
+                mkdir -p ~/mail/${address}/${folders.sent}/tmp
 
                 ${pkgs.rsync}/bin/rsync -rz \
                   --remove-source-files \
@@ -163,10 +196,10 @@
               [${address}]
               from = ${realName} <${address}>
 
-              archive = Archive
-              copy-to = Sent
-              default = Inbox
-              postpone = Drafts
+              archive = ${folders.archive}
+              copy-to = ${folders.sent}
+              default = ${folders.inbox}
+              postpone = ${folders.drafts}
             ''
             + (
               if useSsh then
