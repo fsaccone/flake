@@ -78,22 +78,8 @@ in
             url = "https://www.fanpage.it/feed";
           }
           {
-            name = "Libero Quotidiano";
-            url = "https://www.liberoquotidiano.it/rss.xml";
-          }
-          {
             name = "Repubblica.it";
             url = "https://www.repubblica.it/rss/homepage/rss2.0.xml";
-          }
-        ];
-        "Technology" = [
-          {
-            name = "Dark Reading";
-            url = "https://www.darkreading.com/rss.xml";
-          }
-          {
-            name = "The Hacker News";
-            url = "https://feeds.feedburner.com/TheHackersNews";
           }
         ];
         "World" = [
@@ -109,20 +95,8 @@ in
         "YouTube" =
           [
             {
-              name = "Mental Outlaw";
-              id = "UC7YOGHUfC1Tb6E4pudI9STA";
-            }
-            {
-              name = "Linus Tech Tips";
-              id = "UCXuqSBlHAE6Xw-yeJA0Tunw";
-            }
-            {
-              name = "The Game Theorists";
-              id = "UCo_IB5145EVNcf8hw1Kku7w";
-            }
-            {
-              name = "Veritasium";
-              id = "UCHnyfMqiRRG1u-2MsSQLbXA";
+              name = "Kurzgesagt";
+              id = "UCsXVk37bltHxD1rDPwtNM8Q";
             }
           ]
           |> builtins.map (
