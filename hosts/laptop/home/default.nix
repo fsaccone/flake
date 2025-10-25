@@ -22,6 +22,11 @@ in
             gpgEncryptedImapPassword = ./pec.gpg;
             gpgEncryptedSmtpPassword = ./pec.gpg;
             useSsh = false;
+            folders = {
+              sent = "INBOX.Inviata";
+              inbox = "INBOX";
+              drafts = "INBOX.Bozze";
+            };
           }
         ]
         ++ builtins.map
