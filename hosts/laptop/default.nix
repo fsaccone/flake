@@ -64,7 +64,7 @@
     ];
     createHome = true;
     home = "/home/francesco";
-    shell = "${pkgs.mksh}/bin/mksh";
+    useDefaultShell = true;
   };
 
   home-manager = {
