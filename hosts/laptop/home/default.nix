@@ -161,15 +161,12 @@ in
     '';
     packages = [
       pkgs.alsa-utils
-      pkgs.ardour
-      pkgs.bisq2
       pkgs.ffmpeg
       pkgs.dig
       pkgs.exiftool
       pkgs.gimp
       pkgs.helvum
       pkgs.imv
-      pkgs.jre8
       pkgs.keepassxc
       pkgs.libressl
       pkgs.librewolf
@@ -180,7 +177,6 @@ in
       pkgs.nixos-anywhere
       pkgs.nmap
       pkgs.nnn
-      pkgs.prismlauncher
       pkgs.qrcode
       pkgs.sent
       pkgs.shotcut
