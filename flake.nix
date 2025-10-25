@@ -87,14 +87,14 @@
       };
 
       nixosConfigurations = {
-        "hades" = lib.makeHost "hades" {
-          additionalModules = [ inputs.disko.nixosModules.disko ];
-        };
-        "hermes" = lib.makeHost "hermes" {
-          additionalModules = [ inputs.disko.nixosModules.disko ];
-        };
-        "odysseus" = lib.makeHost "odysseus" {
+        "laptop" = lib.makeHost "laptop" {
           additionalModules = [ inputs.home-manager.nixosModules.home-manager ];
+        };
+        "mail" = lib.makeHost "mail" {
+          additionalModules = [ inputs.disko.nixosModules.disko ];
+        };
+        "root" = lib.makeHost "root" {
+          additionalModules = [ inputs.disko.nixosModules.disko ];
         };
       };
     };

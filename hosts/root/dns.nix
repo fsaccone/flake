@@ -7,10 +7,10 @@ in
     "@" = import ./ip.nix;
     www = import ./ip.nix;
 
-    mail = import ../hermes/ip.nix;
+    mail = import ../mail/ip.nix;
 
     ns1 = import ./ip.nix;
-    ns2 = import ../hermes/ip.nix;
+    ns2 = import ../mail/ip.nix;
   }
   |> builtins.mapAttrs (
     name:

@@ -63,7 +63,7 @@ rec {
         dnssec.enable = true;
         inherit (networking) domain;
         isSecondary = false;
-        secondaryIp = (import ../hermes/ip.nix).ipv6;
+        secondaryIp = (import ../mail/ip.nix).ipv6;
         records = import ./dns.nix domain;
       };
       git = {

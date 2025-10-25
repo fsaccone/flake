@@ -5,7 +5,7 @@
   ...
 }:
 let
-  emailDomain = import ../../hades/domain.nix;
+  emailDomain = import ../../root/domain.nix;
 in
 {
   fs.programs = rec {
