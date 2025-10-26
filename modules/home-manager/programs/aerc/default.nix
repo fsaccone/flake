@@ -135,7 +135,7 @@
       file = {
         ".config/aerc/aerc.conf".text = ''
           [compose]
-          editor = ${pkgs.nano}/bin/nano
+          editor = ${pkgs.busybox}/bin/vi
 
           [filters]
           text/html = ${pkgs.html2text}/bin/html2text -utf8 -links
