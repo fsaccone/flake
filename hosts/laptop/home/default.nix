@@ -106,7 +106,7 @@ in
     };
     sway = {
       enable = true;
-      sizeMultiplier = 1.38;
+      sizeMultiplier = 1.5;
       bar = {
         enable = true;
       };
