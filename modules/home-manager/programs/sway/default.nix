@@ -87,7 +87,6 @@
   config = lib.mkIf config.fs.programs.sway.enable {
     home = {
       packages = [
-        pkgs.swaybg
         pkgs.wl-clipboard-rs
       ];
       pointerCursor =
