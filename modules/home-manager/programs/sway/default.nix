@@ -82,6 +82,23 @@
         };
       };
     };
+    gammastep = {
+      enable = lib.mkOption {
+        description = "Whether to enable Gammastep using GeoClue 2.";
+        default = false;
+        type = lib.types.uniq lib.types.bool;
+      };
+      temperature = {
+        day = lib.mkOption {
+          description = "The color temperature to use during the day.";
+          type = lib.types.uniq lib.types.int;
+        };
+        night = lib.mkOption {
+          description = "The color temperature to use during the night.";
+          type = lib.types.uniq lib.types.int;
+        };
+      };
+    };
   };
 
   config = lib.mkIf config.fs.programs.sway.enable {
@@ -350,6 +367,15 @@
             }
           ];
         };
+      };
+
+    services.gammastep =
+      let
+        inherit (config.fs.programs.sway.gammastep) enable temperature;
+      in
+      lib.mkIf enable {
+        inherit temperature;
+        provider = "geoclue2";
       };
   };
 }
