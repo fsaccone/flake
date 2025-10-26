@@ -35,7 +35,6 @@
                   --syslog \
                   --base-path=${config.fs.services.git.directory} \
                   --port=9418 \
-                  --export-all \
                   ${config.fs.services.git.directory}
               '';
             };

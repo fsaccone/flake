@@ -72,56 +72,67 @@ rec {
           {
             flake = {
               description = "Personal Nix flake.";
+              isPrivate = false;
             };
             pr = {
               description = "Simple package manager for POSIX systems.";
+              isPrivate = false;
             };
             site = {
               description = "Personal site.";
+              isPrivate = false;
             };
             zion = {
               description = "Operating system.";
+              isPrivate = false;
             };
           }
           |> builtins.mapAttrs (
             name:
-            { description }:
+            { description, isPrivate }:
             {
+              inherit isPrivate;
               additionalFiles = {
                 inherit description;
                 owner = "Francesco Saccone";
                 url = "git://${domain}/${name}";
               };
-              hooks.postReceive =
-                let
-                  inherit (config.fs.services) web git;
-                in
-                pkgs.writeShellScript "post-receive.sh" ''
-                  set -e
+              hooks =
+                if isPrivate then
+                  { }
+                else
+                  {
+                    postReceive =
+                      let
+                        inherit (config.fs.services) web git;
+                      in
+                      pkgs.writeShellScript "post-receive.sh" ''
+                        set -e
 
-                  # Define is_force=1 if 'git push -f' was used
-                  null_ref="0000000000000000000000000000000000000000"
-                  is_force=0
-                  while read -r old new red; do
-                    test "$old" = $null_ref && continue
-                    test "$new" = $null_ref && continue
+                        # Define is_force=1 if 'git push -f' was used
+                        null_ref="0000000000000000000000000000000000000000"
+                        is_force=0
+                        while read -r old new red; do
+                          test "$old" = $null_ref && continue
+                          test "$new" = $null_ref && continue
 
-                    has_revs=$(${pkgs.git}/bin/git rev-list "$old" "^$new" | \
-                               sed 1q)
+                          has_revs=$(${pkgs.git}/bin/git rev-list "$old" "^$new" | \
+                                     sed 1q)
 
-                    if test -n "$has_revs"; then
-                      is_force=1
-                      break
-                    fi
-                  done
+                          if test -n "$has_revs"; then
+                            is_force=1
+                            break
+                          fi
+                        done
 
-                  # If is_force is 1, delete HTML commits
-                  if test $is_force = 1; then
-                    rm -rf ${web.directory}/${name}/commit
-                  fi
+                        # If is_force is 1, delete HTML commits
+                        if test $is_force = 1; then
+                          rm -rf ${web.directory}/${name}/commit
+                        fi
 
-                  ${generateStagitRepository name}
-                '';
+                        ${generateStagitRepository name}
+                      '';
+                  };
             }
           );
         daemon = {
@@ -196,8 +207,18 @@ rec {
               createRobotsTxt
               copyStaticContent
             ]
-            ++ builtins.map generateStagitRepository (
-              builtins.attrNames config.fs.services.git.repositories
+            ++ (
+              config.fs.services.git.repositories
+              |> builtins.mapAttrs (
+                name:
+                { isPrivate, ... }:
+                {
+                  inherit name isPrivate;
+                }
+              )
+              |> builtins.attrValues
+              |> builtins.filter ({ isPrivate, ... }: !isPrivate)
+              |> builtins.map ({ name, ... }: generateStagitRepository name)
             );
           packages = [
             pkgs.coreutils

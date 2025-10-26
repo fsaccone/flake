@@ -44,6 +44,13 @@
       type =
         lib.types.submodule {
           options = {
+            isPrivate = lib.mkOption {
+              description = ''
+                Whether the repository is private: if this is false, a
+                git-daemon-export-ok file is created in its directory.
+              '';
+              type = lib.types.uniq lib.types.bool;
+            };
             additionalFiles = lib.mkOption {
               description = ''
                 For each additional file to add to the repository directory,
@@ -114,10 +121,25 @@
                 repositories
                 |> builtins.mapAttrs (
                   name:
-                  { additionalFiles, hooks }:
+                  {
+                    isPrivate,
+                    additionalFiles,
+                    hooks,
+                  }:
                   ''
                     ${pkgs.git}/bin/git init -q --bare -b master \
                     ${directory}/${name}
+
+                    ${
+                      (
+                        if !isPrivate then
+                          ''
+                            touch ${directory}/${name}/git-daemon-export-ok
+                          ''
+                        else
+                          ""
+                      )
+                    }
 
                     ${
                       (
