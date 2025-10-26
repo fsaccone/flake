@@ -71,28 +71,21 @@ in
     newsraft = {
       enable = true;
       feeds = {
-        "Italy" = [
+        "Italian politics" = [
           {
-            name = "ANSA";
-            url = "https://www.ansa.it/sito/ansait_rss.xml";
+            name = "Corriere della Sera";
+            url = builtins.concatStringsSep "" [
+              "https://www.corriere.it/dynamic-feed/rss/section"
+              "/Politica.xml"
+            ];
           }
           {
-            name = "Fanpage";
-            url = "https://www.fanpage.it/feed";
+            name = "Il Giornale";
+            url = "https://www.ilgiornale.it/taxonomy/term/40821/feed";
           }
           {
-            name = "Repubblica.it";
-            url = "https://www.repubblica.it/rss/homepage/rss2.0.xml";
-          }
-        ];
-        "World" = [
-          {
-            name = "CNN International";
-            url = "http://rss.cnn.com/rss/edition.rss";
-          }
-          {
-            name = "The Washington Post World";
-            url = "https://feeds.washingtonpost.com/rss/world";
+            name = "La Repubblica";
+            url = "https://www.repubblica.it/rss/politica/rss2.0.xml";
           }
         ];
         "YouTube" =
