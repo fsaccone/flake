@@ -40,6 +40,8 @@
   hardware.bluetooth.powerOnBoot = lib.mkForce false;
   environment.systemPackages = [ pkgs.bluetui ];
 
+  services.geoclue2.enable = true;
+
   services.pipewire = {
     enable = true;
     jack.enable = true;
