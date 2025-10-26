@@ -132,6 +132,13 @@ in
             red
             ;
         };
+        gammastep = {
+          enable = true;
+          temperature = {
+            day = 5500;
+            night = 3500;
+          };
+        };
     };
     vis = {
       enable = true;
