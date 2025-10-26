@@ -374,6 +374,7 @@
         inherit (config.fs.programs.sway.gammastep) enable temperature;
       in
       lib.mkIf enable {
+        enable = true;
         inherit temperature;
         provider = "geoclue2";
       };
