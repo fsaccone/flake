@@ -152,6 +152,7 @@ in
       pkgs.helvum
       pkgs.imv
       pkgs.keepassxc
+      pkgs.kjv
       pkgs.libressl
       pkgs.librewolf
       pkgs.lilypond
