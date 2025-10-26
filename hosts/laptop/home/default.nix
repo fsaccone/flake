@@ -125,8 +125,8 @@ in
       preferDarkTheme = true;
       backgroundImage = ./background.png;
       cursor = {
-        name = "graphite-dark";
-        package = pkgs.graphite-cursors;
+        name = "Simp1e-Dark";
+        package = pkgs.simp1e-cursors;
       };
       colors =
         let
