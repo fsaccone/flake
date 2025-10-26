@@ -80,8 +80,8 @@ in
             ];
           }
           {
-            name = "Il Giornale";
-            url = "https://www.ilgiornale.it/taxonomy/term/40821/feed";
+            name = "Il Giornale d'Italia";
+            url = "https://www.ilgiornaleditalia.it/rss.jsp";
           }
           {
             name = "La Repubblica";
