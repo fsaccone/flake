@@ -12,7 +12,21 @@ in
     aerc = {
       enable = true;
       accounts =
+        let
+          sshAccount =
+            { username, realName }:
+            {
+              inherit username realName;
+              address = "${username}@${emailDomain}";
+              smtpHost = "mail.${emailDomain}";
+              useSsh = true;
+            };
+        in
         [
+          (sshAccount {
+            realName = "Francesco Saccone";
+            username = "francesco";
+          })
           {
             realName = "Francesco Saccone";
             address = "fsaccone@pec.it";
@@ -28,35 +42,19 @@ in
               drafts = "INBOX.Bozze";
             };
           }
-        ]
-        ++ builtins.map
-          (
-            { username, realName }:
-            {
-              inherit username realName;
-              address = "${username}@${emailDomain}";
-              smtpHost = "mail.${emailDomain}";
-              useSsh = true;
-            }
-          )
-          [
-            ({
-              realName = "Abuse Report";
-              username = "abuse";
-            })
-            ({
-              realName = "Admin";
-              username = "admin";
-            })
-            ({
-              realName = "Francesco Saccone";
-              username = "francesco";
-            })
-            ({
-              realName = "Postmaster";
-              username = "postmaster";
-            })
-          ];
+          (sshAccount {
+            realName = "Admin";
+            username = "admin";
+          })
+          (sshAccount {
+            realName = "Abuse Report";
+            username = "abuse";
+          })
+          (sshAccount {
+            realName = "Postmaster";
+            username = "postmaster";
+          })
+        ];
     };
     git = {
       enable = true;
