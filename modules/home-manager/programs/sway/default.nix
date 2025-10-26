@@ -164,7 +164,7 @@
                 beam-thickness=1.5
 
                 [colors]
-                alpha=0.8
+                alpha=0.7
                 background=${background}
                 foreground=${foreground}
 
