@@ -22,7 +22,7 @@
       flake = false;
     };
     site = {
-      url = "github:fsaccone/site";
+      url = "git://francescosaccone.com/site";
       flake = false;
     };
   };

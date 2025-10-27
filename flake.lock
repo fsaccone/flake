@@ -84,15 +84,15 @@
       "locked": {
         "lastModified": 1761594658,
         "narHash": "sha256-mzsVOW3yX1+oVkNaLTBW0jzazOgLUHdTvQGdeBjVo5s=",
-        "owner": "fsaccone",
-        "repo": "site",
+        "ref": "refs/heads/master",
         "rev": "b57f0f74955354b71a60be91d8eb34230c3fcae6",
-        "type": "github"
+        "revCount": 112,
+        "type": "git",
+        "url": "git://francescosaccone.com/site"
       },
       "original": {
-        "owner": "fsaccone",
-        "repo": "site",
-        "type": "github"
+        "type": "git",
+        "url": "git://francescosaccone.com/site"
       }
     },
     "treefmt-nix": {
