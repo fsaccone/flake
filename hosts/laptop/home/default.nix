@@ -157,7 +157,6 @@ in
       pkgs.keepassxc
       pkgs.kjv
       pkgs.libressl
-      pkgs.librewolf
       pkgs.lilypond
       pkgs.man-pages-posix
       pkgs.md2pdf
@@ -166,6 +165,7 @@ in
       pkgs.nmap
       pkgs.nnn
       pkgs.qrcode
+      pkgs.qutebrowser
       pkgs.sent
       pkgs.shotcut
       pkgs.timidity
