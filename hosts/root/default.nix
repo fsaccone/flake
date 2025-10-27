@@ -7,6 +7,27 @@
 let
   domain = import ./domain.nix;
 
+  site = pkgs.stdenv.mkDerivation {
+    name = "site";
+    src = inputs.site;
+
+    buildInputs = [ pkgs.lowdown ];
+
+    preBuild = ''
+      makeFlagsArray+=(
+        "TITLE=\"Francesco Saccone\""
+        "BASEURL=https://${domain}"
+      )
+    '';
+
+    postInstall = ''
+      mkdir -p $out/errors
+      cp -f 404.html 5xx.html $out/errors
+    '';
+
+    installFlags = [ "PREFIX=$(out)/root" ];
+  };
+
   generateStagitRepository =
     let
       inherit (config.fs.services) web git;
@@ -146,66 +167,23 @@ rec {
           enable = true;
           inherit domain;
         };
-        errorPages =
-          let
-            pages = {
-              "404" = pkgs.stdenv.mkDerivation {
-                name = "404-page";
-                buildInputs = [ pkgs.lowdown ];
-                buildCommand = ''
-                  ${inputs.site}/scripts/generate-404-html.sh $out
-                '';
-              };
-              "5xx" = pkgs.stdenv.mkDerivation {
-                name = "5xx-page";
-                buildInputs = [ pkgs.lowdown ];
-                buildCommand = ''
-                  ${inputs.site}/scripts/generate-5xx-html.sh $out
-                '';
-              };
-            };
-          in
-          {
-            "404" = pages."404";
-            "5xx" = pages."5xx";
-          };
+        errorPages = {
+          "404" = "${site}/errors/404.html";
+          "5xx" = "${site}/errors/5xx.html";
+        };
         preStart = {
           scripts =
             let
               inherit (config.fs.services.web) directory;
-
-              generateAtom = pkgs.writeShellScript "generate-atom.sh" ''
-                ${inputs.site}/scripts/generate-atom.sh \
-                  ${directory} \
-                  "Francesco Saccone's blog" \
-                  "https://${domain}"
-              '';
-              generateSitemap = pkgs.writeShellScript "generate-sitemap.sh" ''
-                ${inputs.site}/scripts/generate-sitemap.sh \
-                  ${directory} \
-                  "https://${domain}"
-              '';
-              generateHtml = pkgs.writeShellScript "generate-html.sh" ''
-                ${inputs.site}/scripts/generate-html.sh ${directory}
-              '';
-              createRobotsTxt = pkgs.writeShellScript "create-robots-txt.sh" ''
-                echo "User-agent: *" > ${directory}/robots.txt
-                echo "Disallow:" >> ${directory}/robots.txt
-              '';
-              copyStaticContent = pkgs.writeShellScript "copy-static-content.sh" ''
-                mkdir -p ${directory}/public
-
-                cp -fR ${inputs.site}/public/* ${directory}/public
-
-                cp ${inputs.site}/favicon.ico ${directory}
-              '';
             in
             [
-              generateAtom
-              generateSitemap
-              generateHtml
-              createRobotsTxt
-              copyStaticContent
+              (pkgs.writeShellScript "create-robots-txt.sh" ''
+                echo "User-agent: *" > ${directory}/robots.txt
+                echo "Disallow:" >> ${directory}/robots.txt
+              '')
+              (pkgs.writeShellScript "copy-site.sh" ''
+                cp -rf ${site}/root/* ${directory}
+              '')
             ]
             ++ (
               config.fs.services.git.repositories
