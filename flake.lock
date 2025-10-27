@@ -82,11 +82,11 @@
     "site": {
       "flake": false,
       "locked": {
-        "lastModified": 1761589368,
-        "narHash": "sha256-nRxVvw+UTeL9B3/bo/V77FWs1VEwkKH7TlHWEJu8FPk=",
+        "lastModified": 1761594658,
+        "narHash": "sha256-mzsVOW3yX1+oVkNaLTBW0jzazOgLUHdTvQGdeBjVo5s=",
         "owner": "fsaccone",
         "repo": "site",
-        "rev": "25a8aa4db5d6eb90d499f21049fd6dec8ca09801",
+        "rev": "b57f0f74955354b71a60be91d8eb34230c3fcae6",
         "type": "github"
       },
       "original": {
