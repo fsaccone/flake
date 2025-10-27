@@ -15,7 +15,7 @@ let
 
     preBuild = ''
       makeFlagsArray+=(
-        "TITLE=\"Francesco Saccone\""
+        "TITLE=Francesco Saccone"
         "BASEURL=https://${domain}"
       )
     '';
