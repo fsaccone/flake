@@ -80,10 +80,6 @@ in
             ];
           }
           {
-            name = "Il Giornale d'Italia";
-            url = "https://www.ilgiornaleditalia.it/rss.jsp";
-          }
-          {
             name = "La Repubblica";
             url = "https://www.repubblica.it/rss/politica/rss2.0.xml";
           }
