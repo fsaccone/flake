@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1750040002,
-        "narHash": "sha256-KrC9iOVYIn6ukpVlHbqSA4hYCZ6oDyJKrcLqv4c5v84=",
+        "lastModified": 1760701190,
+        "narHash": "sha256-y7UhnWlER8r776JsySqsbTUh2Txf7K30smfHlqdaIQw=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "7f1857b31522062a6a00f88cbccf86b43acceed1",
+        "rev": "3a9450b26e69dcb6f8de6e2b07b3fc1c288d85f5",
         "type": "github"
       },
       "original": {
@@ -27,11 +27,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1749154018,
-        "narHash": "sha256-gjN3j7joRvT3a8Zgcylnd4NFsnXeDBumqiu4HmY1RIg=",
+        "lastModified": 1758463745,
+        "narHash": "sha256-uhzsV0Q0I9j2y/rfweWeGif5AWe0MGrgZ/3TjpDYdGA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "7aae0ee71a17b19708b93b3ed448a1a0952bf111",
+        "rev": "3b955f5f0a942f9f60cdc9cacb7844335d0f21c3",
         "type": "github"
       },
       "original": {
@@ -43,11 +43,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1750413471,
-        "narHash": "sha256-6odo50i2od64Y/Gs4DwxgYP1jFK0JsjPiOMz2qY/hYo=",
+        "lastModified": 1761740522,
+        "narHash": "sha256-HyMseUgEHXO+o/kDBwTkJmZhM7EA9o5t4QYQm/Hquek=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "006d0a902f8bd3cf4d0a00ca4a29164381d8e2e0",
+        "rev": "22c80c6334442244dcfcf387b8724c7878f058be",
         "type": "github"
       },
       "original": {
@@ -82,11 +82,11 @@
     "site": {
       "flake": false,
       "locked": {
-        "lastModified": 1761596794,
-        "narHash": "sha256-GmSMkszj5Wao23n0JOmNcHl3gOKmu3VmkQwIiskYqU0=",
+        "lastModified": 1761745768,
+        "narHash": "sha256-qOkltcve85X2+D3ELpevnCtseSKCRB+/jERe5djIPdY=",
         "ref": "refs/heads/master",
-        "rev": "5a26b534f5c3e76cb399070d785ea5dfdfc2d4d5",
-        "revCount": 114,
+        "rev": "fb74d9a57ea2b16d60b89d4b67a73b722ad1a1bb",
+        "revCount": 115,
         "type": "git",
         "url": "git://francescosaccone.com/site"
       },
@@ -102,11 +102,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1749194973,
-        "narHash": "sha256-eEy8cuS0mZ2j/r/FE0/LYBSBcIs/MKOIVakwHVuqTfk=",
+        "lastModified": 1761311587,
+        "narHash": "sha256-Msq86cR5SjozQGCnC6H8C+0cD4rnx91BPltZ9KK613Y=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "a05be418a1af1198ca0f63facb13c985db4cb3c5",
+        "rev": "2eddae033e4e74bf581c2d1dfa101f9033dbd2dc",
         "type": "github"
       },
       "original": {
