@@ -20,5 +20,6 @@ nixpkgs.lib.nixosSystem {
         ];
       }
     )
-  ] ++ additionalModules;
+  ]
+  ++ additionalModules;
 }
