@@ -13,13 +13,6 @@ let
 
     buildInputs = [ pkgs.lowdown ];
 
-    preBuild = ''
-      makeFlagsArray+=(
-        "TITLE=Francesco Saccone"
-        "BASEURL=https://${domain}"
-      )
-    '';
-
     postInstall = ''
       mkdir -p $out/errors
       cp -f 404.html 5xx.html $out/errors
