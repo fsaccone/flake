@@ -21,7 +21,7 @@
     };
     directory = lib.mkOption {
       description = "The root directory to statically host.";
-      default = "/var/www";
+      default = "/srv/http";
       readOnly = true;
       type = lib.types.uniq lib.types.path;
     };
