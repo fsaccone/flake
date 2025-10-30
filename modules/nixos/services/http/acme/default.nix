@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.fs.services.web.acme = {
+  options.fs.services.http.acme = {
     enable = lib.mkOption {
       description = "Whether to enable the Certbot ACME client.";
       default = false;
@@ -37,15 +37,15 @@
 
   config =
     let
-      inherit (config.fs.services.web) acme;
+      inherit (config.fs.services.http) acme;
     in
-    lib.mkIf (acme.enable && config.fs.services.web.enable) {
+    lib.mkIf (acme.enable && config.fs.services.http.enable) {
       systemd = {
         services = {
           acme = {
             enable = true;
             wantedBy = [ "multi-user.target" ];
-            after = [ "web.service" ];
+            after = [ "http.service" ];
             serviceConfig =
               let
                 domains = [ acme.domain ] ++ acme.extraDomains;
@@ -59,7 +59,7 @@
                   | ${pkgs.gnugrep}/bin/grep -q "No certificates"; then
                     ${pkgs.certbot}/bin/certbot certonly --quiet --webroot \
                     --agree-tos --email ${acme.email} \
-                    -w ${config.fs.services.web.directory} \
+                    -w ${config.fs.services.http.directory} \
                     -d ${builtins.concatStringsSep "," domains}
                   else
                     ${pkgs.certbot}/bin/certbot renew --quiet

@@ -29,7 +29,7 @@ in
         domain = rootDomain;
         tls =
           let
-            inherit (config.fs.services.web.acme) directory;
+            inherit (config.fs.services.http.acme) directory;
           in
           {
             certificate = "${directory}/${domain}/fullchain.pem";
@@ -50,7 +50,7 @@ in
           };
         };
       };
-      web = {
+      http = {
         enable = true;
         acme = {
           enable = true;
@@ -62,7 +62,7 @@ in
           enable = true;
           pemFiles =
             let
-              inherit (config.fs.services.web.acme) directory;
+              inherit (config.fs.services.http.acme) directory;
             in
             [
               "${directory}/${domain}/fullchain.pem"
@@ -71,7 +71,7 @@ in
         };
         preStart.scripts =
           let
-            inherit (config.fs.services.web) directory;
+            inherit (config.fs.services.http) directory;
             mtaStsTxt = builtins.toFile "mta-sts.txt" ''
               version: STSv1
               mode: enforce

@@ -11,9 +11,11 @@
     ./tls
   ];
 
-  options.fs.services.web = {
+  options.fs.services.http = {
     enable = lib.mkOption {
-      description = "Whether to enable the web server with Static Web Server.";
+      description = ''
+        Whether to enable the HTTP server with Static Web Server.
+      '';
       default = false;
       type = lib.types.bool;
     };
@@ -25,12 +27,12 @@
     };
     user = lib.mkOption {
       description = "The user who owns the directory.";
-      default = "web";
+      default = "http";
       type = lib.types.uniq lib.types.str;
     };
     group = lib.mkOption {
       description = "The group who owns the directory.";
-      default = "web";
+      default = "http";
       type = lib.types.uniq lib.types.str;
     };
     redirectWwwToNonWww = {
@@ -74,25 +76,25 @@
     };
   };
 
-  config = lib.mkIf config.fs.services.web.enable {
+  config = lib.mkIf config.fs.services.http.enable {
     users = {
       users = {
-        web = {
+        http = {
           hashedPassword = "!";
           isSystemUser = true;
-          group = "web";
+          group = "http";
         };
       };
       groups = {
-        web = { };
+        http = { };
       };
     };
 
     systemd = {
       services = {
-        web =
+        http =
           let
-            inherit (config.fs.services.web) preStart;
+            inherit (config.fs.services.http) preStart;
           in
           rec {
             enable = true;
@@ -101,7 +103,7 @@
             path = preStart.packages;
             serviceConfig =
               let
-                inherit (config.fs.services.web)
+                inherit (config.fs.services.http)
                   directory
                   errorPages
                   group
@@ -158,7 +160,7 @@
                 Group = "root";
                 Restart = "on-failure";
                 Type = "simple";
-                ExecStart = pkgs.writeShellScript "web.sh" ''
+                ExecStart = pkgs.writeShellScript "http.sh" ''
                   mkdir -p ${directory}
 
                   chown -R ${user}:${group} ${directory}
@@ -178,11 +180,11 @@
           };
       };
       paths = {
-        web = {
+        http = {
           enable = true;
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
-            PathModified = [ config.fs.services.web.directory ];
+            PathModified = [ config.fs.services.http.directory ];
           };
         };
       };

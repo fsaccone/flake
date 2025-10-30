@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.fs.services.web.tls = {
+  options.fs.services.http.tls = {
     enable = lib.mkOption {
       description = "Whether to enable the Hitch reverse proxy.";
       default = false;
@@ -20,14 +20,14 @@
 
   config =
     let
-      inherit (config.fs.services.web) tls;
+      inherit (config.fs.services.http) tls;
     in
-    lib.mkIf (tls.enable && config.fs.services.web.enable) {
-      systemd.services.web-tls = {
+    lib.mkIf (tls.enable && config.fs.services.http.enable) {
+      systemd.services.http-tls = {
         enable = true;
         wantedBy = [ "multi-user.target" ];
         after = [
-          "web.service"
+          "http.service"
           "acme.service"
         ];
         serviceConfig = {
@@ -35,7 +35,7 @@
           Group = "root";
           Type = "simple";
           Restart = "on-failure";
-          ExecStart = pkgs.writeShellScript "web-tls.sh" ''
+          ExecStart = pkgs.writeShellScript "http-tls.sh" ''
             mkdir -p /var/lib/hitch
 
             cat ${builtins.concatStringsSep " " tls.pemFiles} > \

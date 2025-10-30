@@ -23,15 +23,15 @@ let
 
   generateStagitRepository =
     let
-      inherit (config.fs.services) web git;
+      inherit (config.fs.services) http git;
     in
     name:
     pkgs.writeShellScript "generate-stagit.sh" ''
       set -e
 
       # Create index.html
-      mkdir -p ${web.directory}/git
-      cd ${web.directory}/git
+      mkdir -p ${http.directory}/git
+      cd ${http.directory}/git
 
       ${pkgs.stagit}/bin/stagit-index ${git.directory}/*/ > index.html
 
@@ -48,8 +48,8 @@ let
       echo "Stagit index file generated: <www>/git/index.html".
 
       # Create repository pages
-      mkdir -p ${web.directory}/git/${name}
-      cd ${web.directory}/git/${name}
+      mkdir -p ${http.directory}/git/${name}
+      cd ${http.directory}/git/${name}
 
       ${pkgs.stagit}/bin/stagit \
         -l 128 \
@@ -118,7 +118,7 @@ rec {
                   {
                     postReceive =
                       let
-                        inherit (config.fs.services) web git;
+                        inherit (config.fs.services) http git;
                       in
                       pkgs.writeShellScript "post-receive.sh" ''
                         set -e
@@ -141,7 +141,7 @@ rec {
 
                         # If is_force is 1, delete HTML commits
                         if test $is_force = 1; then
-                          rm -rf ${web.directory}/${name}/commit
+                          rm -rf ${http.directory}/${name}/commit
                         fi
 
                         ${generateStagitRepository name}
@@ -153,7 +153,7 @@ rec {
           enable = true;
         };
       };
-      web = {
+      http = {
         enable = true;
         inherit (config.fs.services.git) user group;
         redirectWwwToNonWww = {
@@ -167,7 +167,7 @@ rec {
         preStart = {
           scripts =
             let
-              inherit (config.fs.services.web) directory;
+              inherit (config.fs.services.http) directory;
             in
             [
               (pkgs.writeShellScript "create-robots-txt.sh" ''
@@ -208,7 +208,7 @@ rec {
           enable = true;
           pemFiles =
             let
-              inherit (config.fs.services.web.acme) directory;
+              inherit (config.fs.services.http.acme) directory;
             in
             [
               "${directory}/${domain}/fullchain.pem"
