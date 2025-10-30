@@ -2,7 +2,7 @@
   background = "#f5f5ed";
   foreground = "#000000";
 
-  darkRed = "#c85151";
-  green = "#80ff80";
-  red = "#da8b8b";
+  darkRed = "#dd0b0b";
+  green = "#7cb342";
+  red = "#e7523c";
 }
