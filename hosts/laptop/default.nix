@@ -36,16 +36,18 @@
     ethernet.macAddress = "random";
   };
 
+  services.pipewire.enable = lib.mkForce false;
+  services.pulseaudio = {
+    enable = true;
+    support32Bit = true;
+  };
+  nixpkgs.config.pulseaudio = true;
+
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = lib.mkForce false;
   environment.systemPackages = [ pkgs.bluetui ];
 
   services.geoclue2.enable = true;
-
-  services.pipewire = {
-    enable = true;
-    jack.enable = true;
-  };
 
   services.tlp.enable = true;
 

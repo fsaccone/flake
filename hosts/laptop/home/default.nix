@@ -152,7 +152,6 @@ in
       pkgs.dig
       pkgs.exiftool
       pkgs.gimp
-      pkgs.helvum
       pkgs.imv
       pkgs.keepassxc
       pkgs.kjv
@@ -161,6 +160,7 @@ in
       pkgs.man-pages-posix
       pkgs.md2pdf
       pkgs.mpv
+      pkgs.ncpamixer
       pkgs.nixos-anywhere
       pkgs.nmap
       pkgs.nnn
