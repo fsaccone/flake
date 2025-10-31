@@ -170,10 +170,6 @@ rec {
               inherit (config.fs.services.http) directory;
             in
             [
-              (pkgs.writeShellScript "create-robots-txt.sh" ''
-                echo "User-agent: *" > ${directory}/robots.txt
-                echo "Disallow:" >> ${directory}/robots.txt
-              '')
               (pkgs.writeShellScript "copy-site.sh" ''
                 cp -rf ${site}/root/* ${directory}
               '')
