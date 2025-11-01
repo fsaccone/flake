@@ -11,7 +11,11 @@ let
     name = "site";
     src = inputs.site;
 
-    buildInputs = [ pkgs.lowdown ];
+    buildInputs = [
+      pkgs.imagemagick
+      pkgs.inkscape
+      pkgs.lowdown
+    ];
 
     postInstall = ''
       mkdir -p $out/errors
@@ -35,10 +39,10 @@ let
 
       ${pkgs.stagit}/bin/stagit-index ${git.directory}/*/ > index.html
 
-      # Copy favicon.png, logo.png, style.css from site repository
-      cp ${inputs.site}/public/icon/32.png favicon.png
-      cp favicon.png logo.png
-      cp ${inputs.site}/public/stagit.css style.css
+      # Symlink favicon.png, logo.png and style.css
+      ln -sf ../public/icon32.png favicon.png
+      ln -sf ../public/icon32.png logo.png
+      ln -sf ../public/stagit.css style.css
 
       # This is needed because when the script is run one time after
       # the other the copying of the static files brings a "Permission denied"
@@ -187,12 +191,6 @@ rec {
               |> builtins.filter ({ isPrivate, ... }: !isPrivate)
               |> builtins.map ({ name, ... }: generateStagitRepository name)
             );
-          packages = [
-            pkgs.coreutils
-            pkgs.findutils
-            pkgs.gnused
-            pkgs.lowdown
-          ];
         };
         acme = {
           enable = true;
