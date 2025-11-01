@@ -153,6 +153,7 @@ in
       pkgs.exiftool
       pkgs.gimp
       pkgs.imv
+      pkgs.inkscape
       pkgs.keepassxc
       pkgs.kjv
       pkgs.libressl
