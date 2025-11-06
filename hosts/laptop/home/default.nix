@@ -164,6 +164,7 @@ in
       pkgs.kjv
       pkgs.libressl
       pkgs.lilypond
+      pkgs.lmms
       pkgs.man-pages-posix
       pkgs.md2pdf
       pkgs.mpv
