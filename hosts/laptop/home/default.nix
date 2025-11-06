@@ -71,6 +71,12 @@ in
     newsraft = {
       enable = true;
       feeds = {
+        "Individuals" = [
+          {
+            name = "Francesco Saccone";
+            url = "https://francescosaccone.com/articles/rss.xml";
+          }
+        ];
         "Italian politics" = [
           {
             name = "Corriere della Sera";
