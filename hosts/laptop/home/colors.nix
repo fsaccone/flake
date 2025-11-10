@@ -1,8 +1,8 @@
 {
-  background = "#f5f5ed";
-  foreground = "#000000";
+  background = "#000000";
+  foreground = "#ffffff";
 
-  darkRed = "#dd0b0b";
-  green = "#7cb342";
-  red = "#e7523c";
+  darkRed = "#8b0000";
+  green = "#50c878";
+  red = "#ff0000";
 }
