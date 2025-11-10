@@ -42,37 +42,20 @@ rec {
       };
       git = {
         enable = true;
-        repositories =
-          {
-            flake = {
-              description = "Personal Nix flake.";
-              isPrivate = false;
-            };
-            pr = {
-              description = "Simple package manager for POSIX systems.";
-              isPrivate = false;
-            };
-            site = {
-              description = "Personal site.";
-              isPrivate = false;
-            };
-            zion = {
-              description = "Operating system.";
-              isPrivate = false;
-            };
-          }
-          |> builtins.mapAttrs (
-            name:
-            { description, isPrivate }:
-            {
-              inherit isPrivate;
-              additionalFiles = {
-                inherit description;
-                owner = "Francesco Saccone";
-                url = "git://${domain}/${name}";
-              };
-            }
-          );
+        repositories = {
+          flake = {
+            isPrivate = false;
+          };
+          pr = {
+            isPrivate = false;
+          };
+          site = {
+            isPrivate = false;
+          };
+          zion = {
+            isPrivate = false;
+          };
+        };
         daemon = {
           enable = true;
         };
