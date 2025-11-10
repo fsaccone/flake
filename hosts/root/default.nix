@@ -22,6 +22,8 @@ let
       cp -f 404.html 5xx.html $out/errors
     '';
 
+    makeFlags = [ "HOST=${domain}" ];
+
     installFlags = [ "PREFIX=$(out)/root" ];
   };
 
